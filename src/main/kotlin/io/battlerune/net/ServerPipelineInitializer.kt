@@ -4,7 +4,7 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 import io.netty.handler.timeout.IdleStateHandler
 
-class NetworkPipeline : ChannelInitializer<SocketChannel>() {
+class ServerPipelineInitializer : ChannelInitializer<SocketChannel>() {
 
     override fun initChannel(ch: SocketChannel) {
         val pl = ch.pipeline()

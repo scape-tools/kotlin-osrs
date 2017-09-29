@@ -1,9 +1,11 @@
 package io.battlerune.core
 
-import io.battlerune.net.NetworkPipeline
+import io.battlerune.net.ServerPipelineInitializer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
+import io.netty.handler.logging.LogLevel
+import io.netty.handler.logging.LoggingHandler
 
 class Server {
 
@@ -15,7 +17,8 @@ class Server {
 
             sb.group(bossGroup, loopGroup)
                     .channel(NioServerSocketChannel().javaClass)
-                    .childHandler(NetworkPipeline())
+                    .handler(LoggingHandler(LogLevel.INFO))
+                    .childHandler(ServerPipelineInitializer())
 
             val f = sb.bind(port).syncUninterruptibly()
 
