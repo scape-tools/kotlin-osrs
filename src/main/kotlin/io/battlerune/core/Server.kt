@@ -6,6 +6,8 @@ import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
+import net.openrs.cache.Cache
+import net.openrs.cache.FileStore
 
 class Server {
 
@@ -33,6 +35,10 @@ class Server {
             loopGroup.shutdownGracefully()
         }
 
+    }
+
+    companion object {
+        val cache = Cache(FileStore.open("./data/cache/"))
     }
 
 }

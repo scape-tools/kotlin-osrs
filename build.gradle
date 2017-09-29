@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    compile files('lib/OpenRS.jar')
+
     // https://mvnrepository.com/artifact/io.netty/netty-all
     compile group: 'io.netty', name: 'netty-all', version: '4.1.15.Final'
 
