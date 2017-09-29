@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/battlerune.iml" filepath="$PROJECT_DIR$/.idea/modules/battlerune.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/battlerune_main.iml" filepath="$PROJECT_DIR$/.idea/modules/battlerune_main.iml" group="battlerune" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/battlerune_test.iml" filepath="$PROJECT_DIR$/.idea/modules/battlerune_test.iml" group="battlerune" />
+    </modules>
+  </component>
+</project>
