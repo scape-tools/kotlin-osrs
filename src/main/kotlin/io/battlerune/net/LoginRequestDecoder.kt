@@ -13,18 +13,12 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
             return
         }
 
-        println("readable ${incoming.readableBytes()}")
-
         val connectionType = incoming.readUnsignedByte().toInt()
-
-        println("connectionType $connectionType")
 
         if (connectionType == 14) {
 
         } else if (connectionType == 15) {
             val revision = incoming.readInt()
-
-            println("revision $revision")
 
             if (revision == 149) {
                 ctx.writeAndFlush(ctx.alloc().buffer(1).writeByte(0), ctx.voidPromise())

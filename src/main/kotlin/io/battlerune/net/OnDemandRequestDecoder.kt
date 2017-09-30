@@ -5,60 +5,39 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class OnDemandRequestDecoder() : ByteToMessageDecoder() {
+class OnDemandRequestDecoder : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, incoming: ByteBuf, outgoing: MutableList<Any>) {
 
         if (incoming.readableBytes() >= 4) {
             val type = incoming.readUnsignedByte().toInt()
 
-            when (type) {
+            when(type) {
 
                 0, 1 -> {
-
-                    val fileStore = incoming.readUnsignedByte().toInt()
+                    val filestore = incoming.readUnsignedByte().toInt()
                     val file = incoming.readUnsignedByte().toInt()
 
+                    val buf = Server.cache.store.read(filestore, file)
+
+                    val compression = buf.get().toInt() and 0xFF
+                    val length = buf.int
+
                     val response = ctx.alloc().buffer()
-                    response.writeByte(fileStore)
-                            .writeShort(file)
 
-                    if (fileStore == 0xFF && file == 0xFF) {
+                    response.writeByte(filestore)
+                            .writeInt(file)
+                            .writeByte(compression)
+                            .writeInt(length)
 
-                    } else {
 
-                        val buffer = Server.cache.store.read(fileStore, file)
+                    val bytes = ByteArray(length + 4)
 
-                        val compression = buffer.get().toInt() and 0xFF
-                        val length = buffer.int
 
-                        response.writeByte(compression)
-                        response.writeInt(length)
-
-                        val payload = ByteArray((if (compression != 0) length - 4 else length))
-
-                        System.arraycopy(buffer.array(), 5, payload, 0, payload.size)
-
-                        var offset = 8
-
-                        for (value in payload) {
-                            if (offset == 512) {
-                                response.writeByte(0xFF)
-                                offset = 1
-                            }
-                            response.writeByte(value.toInt())
-                            offset++
-                        }
-
-                    }
-
-                    ctx.writeAndFlush(response, ctx.voidPromise())
-
-                    println("fileStore $fileStore file $file")
-
+                    println("filestore $filestore file $file compression $compression length $length")
                 }
 
-                2, 3, 4 -> {
+                2, 3 -> {
                     incoming.skipBytes(3)
                 }
 
