@@ -26,7 +26,7 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
                 ctx.writeAndFlush(ctx.alloc().buffer(1).writeByte(6)).addListener { ChannelFutureListener.CLOSE }
             }
 
-            ctx.pipeline().replace("decoder", "decoder", OnDemandRequestDecoder())
+            ctx.pipeline().replace("decoder", "decoder", JS5Decoder())
 
         }
 
