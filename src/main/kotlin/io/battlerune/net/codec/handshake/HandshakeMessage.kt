@@ -3,8 +3,8 @@ package io.battlerune.net.codec.handshake
 class HandshakeMessage(val value : Int) {
 
     companion object {
-        val CONTINUE = 0
-        val EXPIRED = 6
+        val VERSION_CURRENT = 0
+        val VERSION_EXPIRED = 6
     }
 
 }

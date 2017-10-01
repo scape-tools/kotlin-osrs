@@ -37,9 +37,9 @@ class HandshakeDecoder : ByteToMessageDecoder() {
                 println("revision $revision")
 
                 if (revision == 149) {
-                    outgoing.add(HandshakeMessage(HandshakeMessage.CONTINUE))
+                    outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_CURRENT))
                 } else {
-                    outgoing.add(HandshakeMessage(HandshakeMessage.EXPIRED))
+                    outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_EXPIRED))
                 }
 
                 ctx.pipeline().replace(HandshakeDecoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
