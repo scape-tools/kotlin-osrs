@@ -39,6 +39,7 @@ class Server {
 
     companion object {
         val cache = Cache(FileStore.open("./data/cache/"))
+        val checksumTable = Server.cache.createChecksumTable().encode()
     }
 
 }
