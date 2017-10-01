@@ -7,6 +7,10 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
 
+        if (msg is HandshakeMessage) {
+            ctx.writeAndFlush(msg)
+        }
+
     }
 
 }

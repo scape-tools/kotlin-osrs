@@ -12,6 +12,7 @@ class ServerPipelineInitializer : ChannelInitializer<SocketChannel>() {
     override fun initChannel(ch: SocketChannel) {
         ch.pipeline()
                 .addLast(HandshakeDecoder::class.simpleName, HandshakeDecoder())
+                .addLast(HandshakeEncoder::class.simpleName, HandshakeEncoder())
                 .addLast(UpstreamChannelHandler::class.simpleName, channelHandler)
     }
 

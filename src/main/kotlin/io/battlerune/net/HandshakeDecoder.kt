@@ -32,15 +32,11 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
                 println("revision $revision")
 
-                val buf = ctx.alloc().buffer(1)
-
                 if (revision == 149) {
-                    buf.writeByte(HandshakeMessage.CONTINUE)
+                    outgoing.add(HandshakeMessage(HandshakeMessage.CONTINUE))
                 } else {
-                    buf.writeByte(HandshakeMessage.EXPIRED)
+                    outgoing.add(HandshakeMessage(HandshakeMessage.EXPIRED))
                 }
-
-                ctx.writeAndFlush(buf)
 
                 ctx.pipeline().replace(HandshakeDecoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
                 ctx.pipeline().addAfter(JS5Decoder::class.simpleName, JS5Encoder::class.simpleName, JS5Encoder())
