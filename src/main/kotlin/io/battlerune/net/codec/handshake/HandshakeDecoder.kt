@@ -1,7 +1,8 @@
-package io.battlerune.net
+package io.battlerune.net.codec.handshake
 
+import io.battlerune.net.codec.js5.JS5Decoder
+import io.battlerune.net.codec.js5.JS5Encoder
 import io.netty.buffer.ByteBuf
-import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 

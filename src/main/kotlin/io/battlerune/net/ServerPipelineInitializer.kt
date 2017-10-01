@@ -1,5 +1,7 @@
 package io.battlerune.net
 
+import io.battlerune.net.codec.handshake.HandshakeDecoder
+import io.battlerune.net.codec.handshake.HandshakeEncoder
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
 

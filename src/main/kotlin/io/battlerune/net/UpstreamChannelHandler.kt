@@ -1,5 +1,7 @@
 package io.battlerune.net
 
+import io.battlerune.net.codec.js5.JS5FileRequest
+import io.battlerune.net.codec.handshake.HandshakeMessage
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 

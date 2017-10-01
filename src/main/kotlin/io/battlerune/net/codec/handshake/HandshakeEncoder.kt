@@ -1,4 +1,4 @@
-package io.battlerune.net
+package io.battlerune.net.codec.handshake
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext

@@ -1,4 +1,4 @@
-package io.battlerune.net
+package io.battlerune.net.codec.handshake
 
 class HandshakeMessage(val value : Int) {
 
