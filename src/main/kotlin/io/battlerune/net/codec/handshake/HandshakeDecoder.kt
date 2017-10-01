@@ -2,6 +2,8 @@ package io.battlerune.net.codec.handshake
 
 import io.battlerune.net.codec.js5.JS5Decoder
 import io.battlerune.net.codec.js5.JS5Encoder
+import io.battlerune.net.login.LoginDecoder
+import io.battlerune.net.login.LoginEncoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -15,7 +17,7 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, incoming: ByteBuf, outgoing: MutableList<Any>) {
 
-        if (incoming.readableBytes() < 5) {
+        if (!incoming.isReadable) {
             return
         }
 
@@ -25,7 +27,8 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
         when(handshake) {
             LOGIN -> {
-
+                ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
+                ctx.pipeline().addAfter(LoginDecoder::class.simpleName, LoginEncoder::class.simpleName, LoginEncoder())
             }
 
             JS5_HANDSHAKE -> {
