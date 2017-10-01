@@ -9,6 +9,8 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
 
         if (msg is HandshakeMessage) {
             ctx.writeAndFlush(msg)
+        } else if (msg is JS5FileRequest) {
+            ctx.writeAndFlush(msg)
         }
 
     }
