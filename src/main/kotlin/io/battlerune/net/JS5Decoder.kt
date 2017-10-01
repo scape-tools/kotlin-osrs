@@ -8,6 +8,8 @@ class JS5Decoder : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, incoming: ByteBuf, outgoing: MutableList<Any>) {
 
+        println("reached js5 decoder")
+
         if (incoming.readableBytes() >= 4) {
             val type = incoming.readUnsignedByte().toInt()
 
@@ -19,9 +21,9 @@ class JS5Decoder : ByteToMessageDecoder() {
 
                     val fileType = incoming.readUnsignedByte().toInt()
                     val fileId = incoming.readUnsignedShort()
+                    val priority = type == 0
 
-
-
+                    outgoing.add(JS5FileRequest(fileType, fileId, priority))
                 }
 
                 2, 3, 4 -> {
