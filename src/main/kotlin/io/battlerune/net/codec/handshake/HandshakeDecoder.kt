@@ -28,8 +28,10 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
         when(handshake) {
             LOGIN_HANDSHAKE -> {
-                ctx.pipeline().addAfter(HandshakeDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
-                ctx.pipeline().addAfter(LoginDecoder::class.simpleName, LoginEncoder::class.simpleName, LoginEncoder())
+                outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_CURRENT))
+
+                ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
+                ctx.pipeline().addAfter(HandshakeDecoder::class.simpleName, LoginEncoder::class.simpleName, LoginEncoder())
             }
 
             JS5_HANDSHAKE -> {
