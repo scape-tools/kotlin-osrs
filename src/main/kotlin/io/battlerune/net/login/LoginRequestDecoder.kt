@@ -22,7 +22,13 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
 
         val version = inc.readInt()
 
-        out.add(LoginRequest(loginType, version))
+        if (version != 149) {
+            return
+        }
+
+        ctx.pipeline().replace(LoginRequestDecoder::class.simpleName, LoginStateDecoder::class.simpleName, LoginStateDecoder())
+        ctx.pipeline().addAfter(LoginStateDecoder::class.simpleName, LoginStateEncoder::class.simpleName, LoginStateEncoder())
+
     }
 
 }

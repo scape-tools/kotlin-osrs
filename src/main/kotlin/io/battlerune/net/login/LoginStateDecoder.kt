@@ -1,6 +1,8 @@
 package io.battlerune.net.login
 
 import io.battlerune.util.ByteBufUtil
+import io.battlerune.util.IsaacRandom
+import io.battlerune.util.IsaacRandomPair
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
@@ -55,9 +57,9 @@ class LoginStateDecoder : ByteToMessageDecoder() {
 
         val resizableAndMemory = xteaBuf.readByte()
 
-        val resizable = (resizableAndMemory.toInt() shr 1)
+        val resizable = (resizableAndMemory.toInt() shr 1) == 1
 
-        val lowMem = resizableAndMemory.toInt() and 1
+        val lowMem = (resizableAndMemory.toInt() and 1) == 1
 
         val width = xteaBuf.readShort()
 
@@ -117,9 +119,9 @@ class LoginStateDecoder : ByteToMessageDecoder() {
             serverKeys[i] = clientKeys[i] + 50
         }
 
-        println("bytes left ${xteaBuf.readableBytes()}")
+        val isaacPair = IsaacRandomPair(IsaacRandom(serverKeys), IsaacRandom(clientKeys))
 
-
+        out.add(LoginResponse(username, password, resizable, lowMem, isaacPair))
 
     }
 
