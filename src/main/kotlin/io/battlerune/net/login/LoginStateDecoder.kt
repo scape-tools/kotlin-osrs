@@ -105,7 +105,7 @@ class LoginStateDecoder : ByteToMessageDecoder() {
         xteaBuf.readByte()
         xteaBuf.readInt() // crc opcode 0
 
-        val crc = IntArray(16)
+        val crc = IntArray(17)
 
         for (i in 0 until crc.size) {
             crc[i] = xteaBuf.readInt()
