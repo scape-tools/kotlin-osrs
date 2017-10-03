@@ -1,8 +1,7 @@
 package io.battlerune.net.login
 
-import io.battlerune.game.widget.DisplayType
+import io.battlerune.util.ByteBufUtil
 import io.netty.buffer.ByteBuf
-import io.netty.buffer.ByteBufUtil
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -40,23 +39,86 @@ class LoginStateDecoder : ByteToMessageDecoder() {
 
         val authType = AuthorizationType.lookup(rsaBuf.readByte().toInt())
 
-        val keys = IntArray(4)
+        val clientKeys = IntArray(4)
 
-        for (i in 0 until keys.size) {
-            keys[i] = rsaBuf.readInt()
+        for (i in 0 until clientKeys.size) {
+            clientKeys[i] = rsaBuf.readInt()
         }
 
         authType.read(rsaBuf)
 
         val password = io.battlerune.util.ByteBufUtil.readString(rsaBuf)
 
-        val xteaBuf = io.battlerune.util.ByteBufUtil.decryptXTEA(inc, keys)
+        val xteaBuf = io.battlerune.util.ByteBufUtil.decryptXTEA(inc, clientKeys)
 
         val username = io.battlerune.util.ByteBufUtil.readString(xteaBuf)
 
-        val displayType = DisplayType.lookup(xteaBuf.readByte().toInt())
+        val resizableAndMemory = xteaBuf.readByte()
 
-        println("displayType $displayType")
+        val resizable = (resizableAndMemory.toInt() shr 1)
+
+        val lowMem = resizableAndMemory.toInt() and 1
+
+        val width = xteaBuf.readShort()
+
+        val height = xteaBuf.readShort()
+
+        // some bytes for cache
+        xteaBuf.skipBytes(24)
+
+        val token = io.battlerune.util.ByteBufUtil.readString(xteaBuf)
+
+        xteaBuf.readInt()
+
+        // machine info
+        xteaBuf.readByte() // machine info opcode 6
+        xteaBuf.readByte() // os type
+        xteaBuf.readByte() // 64 bit
+        xteaBuf.readByte() // os version
+        xteaBuf.readByte() // vendor
+        xteaBuf.readByte() // major
+        xteaBuf.readByte() // minor
+        xteaBuf.readByte() // patch
+        xteaBuf.readByte() // some flag
+        xteaBuf.readShort() // max memory
+        xteaBuf.readByte()
+        xteaBuf.readMedium()
+        xteaBuf.readShort()
+        ByteBufUtil.readJagString(xteaBuf)
+        ByteBufUtil.readJagString(xteaBuf)
+        ByteBufUtil.readJagString(xteaBuf)
+        ByteBufUtil.readJagString(xteaBuf)
+        xteaBuf.readByte()
+        xteaBuf.readShort()
+        ByteBufUtil.readJagString(xteaBuf)
+        ByteBufUtil.readJagString(xteaBuf)
+        xteaBuf.readByte()
+        xteaBuf.readByte()
+
+        xteaBuf.readInt()
+        xteaBuf.readInt()
+        xteaBuf.readInt()
+        xteaBuf.readInt()
+
+        // end of machine info
+
+        xteaBuf.readByte()
+        xteaBuf.readInt() // crc opcode 0
+
+        val crc = IntArray(16)
+
+        for (i in 0 until crc.size) {
+            crc[i] = xteaBuf.readInt()
+        }
+
+        val serverKeys = IntArray(4)
+
+        for (i in 0 until serverKeys.size) {
+            serverKeys[i] = clientKeys[i] + 50
+        }
+
+        println("bytes left ${xteaBuf.readableBytes()}")
+
 
 
     }

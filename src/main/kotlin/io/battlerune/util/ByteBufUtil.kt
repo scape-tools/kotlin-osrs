@@ -49,4 +49,21 @@ object ByteBufUtil {
         }
     }
 
+    fun readJagString(buffer: ByteBuf): String {
+        val sb = StringBuilder()
+        var b: Byte
+        buffer.readByte()
+        while (buffer.isReadable) {
+
+            b = buffer.readByte()
+
+            if (b.toInt() == 0) {
+                break
+            }
+
+            sb.append(b.toChar())
+        }
+        return sb.toString()
+    }
+
 }
