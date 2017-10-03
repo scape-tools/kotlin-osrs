@@ -6,6 +6,11 @@ import io.netty.handler.codec.ByteToMessageDecoder
 
 class JS5Decoder : ByteToMessageDecoder() {
 
+    companion object {
+        val NORMAL_FILE_REQUEST = 0
+        val PRIORITY_FILE_REQUEST = 1
+    }
+
     override fun decode(ctx: ChannelHandlerContext, incoming: ByteBuf, outgoing: MutableList<Any>) {
 
         if (incoming.readableBytes() >= 4) {
@@ -15,11 +20,11 @@ class JS5Decoder : ByteToMessageDecoder() {
 
             when(type) {
 
-                0, 1 -> {
+                NORMAL_FILE_REQUEST, PRIORITY_FILE_REQUEST -> {
 
                     val index = incoming.readUnsignedByte().toInt()
                     val file = incoming.readUnsignedShort()
-                    val priority = type == 0
+                    val priority = type == 1
 
                     println("index $index file $file priority $priority")
 

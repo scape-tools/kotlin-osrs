@@ -1,6 +1,8 @@
 package io.battlerune.net.codec.js5
 
 import io.battlerune.core.Server
+import io.battlerune.net.codec.handshake.HandshakeDecoder
+import io.battlerune.net.codec.handshake.HandshakeEncoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -30,6 +32,8 @@ class JS5Encoder : MessageToByteEncoder<JS5FileRequest>() {
         }
 
         ctx.writeAndFlush(response)
+
+        println("encoded js5")
 
     }
 
