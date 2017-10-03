@@ -4,9 +4,8 @@ import io.battlerune.net.codec.js5.JS5Decoder
 import io.battlerune.net.codec.js5.JS5Encoder
 import io.battlerune.net.codec.js5.JS5HandshakeMessage
 import io.battlerune.net.codec.js5.XOREncryptionEncoder
-import io.battlerune.net.login.LoginDecoder
-import io.battlerune.net.login.LoginEncoder
-import io.battlerune.net.login.LoginHandshakeMessage
+import io.battlerune.net.login.LoginRequestDecoder
+import io.battlerune.net.login.LoginRequestEncoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -14,6 +13,7 @@ import io.netty.handler.codec.MessageToByteEncoder
 class HandshakeEncoder : MessageToByteEncoder<HandshakeMessage>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: HandshakeMessage, out: ByteBuf) {
+        // get past login stage 3
         out.writeByte(msg.response)
 
         if (msg is JS5HandshakeMessage) {
@@ -23,9 +23,13 @@ class HandshakeEncoder : MessageToByteEncoder<HandshakeMessage>() {
                 ctx.pipeline().addAfter(JS5Decoder::class.simpleName, JS5Encoder::class.simpleName, JS5Encoder())
             }
         } else {
-            ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
-            ctx.pipeline().addAfter(LoginDecoder::class.simpleName, LoginEncoder::class.simpleName, LoginEncoder())
+
+            // get past login stage 4
+            out.writeLong((Math.random() * Long.MAX_VALUE).toLong())
+            ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginRequestDecoder::class.simpleName, LoginRequestDecoder())
+            ctx.pipeline().addAfter(LoginRequestDecoder::class.simpleName, LoginRequestEncoder::class.simpleName, LoginRequestEncoder())
         }
+
         ctx.pipeline().remove(this)
     }
 
