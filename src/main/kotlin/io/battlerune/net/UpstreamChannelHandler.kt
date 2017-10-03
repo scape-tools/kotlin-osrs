@@ -11,7 +11,6 @@ import io.netty.channel.SimpleChannelInboundHandler
 class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
-
         if (msg is HandshakeMessage) {
             ctx.writeAndFlush(msg)
         } else if (msg is XOREncryptionResponse) {
@@ -19,7 +18,6 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
         } else if (msg is JS5FileRequest) {
             ctx.writeAndFlush(msg)
         }
-
     }
 
 }

@@ -1,10 +1,7 @@
 package io.battlerune.net.codec.handshake
 
-import io.battlerune.net.codec.js5.JS5Decoder
-import io.battlerune.net.codec.js5.JS5Encoder
-import io.battlerune.net.codec.js5.XOREncryptionEncoder
-import io.battlerune.net.login.LoginDecoder
-import io.battlerune.net.login.LoginEncoder
+import io.battlerune.net.codec.js5.JS5HandshakeMessage
+import io.battlerune.net.login.LoginHandshakeMessage
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -22,16 +19,13 @@ class HandshakeDecoder : ByteToMessageDecoder() {
             return
         }
 
-        val handshake = incoming.readUnsignedByte().toInt()
+        val handshakeType = incoming.readUnsignedByte().toInt()
 
-        println("handshake $handshake")
+        println("handshake $handshakeType")
 
-        when(handshake) {
+        when(handshakeType) {
             LOGIN_HANDSHAKE -> {
-                outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_CURRENT))
-
-                ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
-                ctx.pipeline().addAfter(HandshakeDecoder::class.simpleName, LoginEncoder::class.simpleName, LoginEncoder())
+                outgoing.add(LoginHandshakeMessage(handshakeType, HandshakeMessage.VERSION_CURRENT))
             }
 
             JS5_HANDSHAKE -> {
@@ -39,15 +33,7 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
                 println("revision $revision")
 
-                if (revision == 149) {
-                    outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_CURRENT))
-                    ctx.pipeline().replace(HandshakeDecoder::class.simpleName, XOREncryptionEncoder::class.simpleName, XOREncryptionEncoder())
-                    ctx.pipeline().addAfter(XOREncryptionEncoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
-                    ctx.pipeline().addAfter(JS5Decoder::class.simpleName, JS5Encoder::class.simpleName, JS5Encoder())
-                } else {
-                    outgoing.add(HandshakeMessage(HandshakeMessage.VERSION_EXPIRED))
-                }
-
+                outgoing.add(JS5HandshakeMessage(handshakeType, HandshakeMessage.VERSION_CURRENT, revision))
             }
         }
 
