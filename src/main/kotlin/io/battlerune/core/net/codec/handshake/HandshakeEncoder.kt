@@ -3,7 +3,6 @@ package io.battlerune.core.net.codec.handshake
 import io.battlerune.core.net.codec.js5.JS5Decoder
 import io.battlerune.core.net.codec.js5.JS5Encoder
 import io.battlerune.core.net.codec.js5.JS5HandshakeMessage
-import io.battlerune.core.net.codec.js5.XOREncryptionEncoder
 import io.battlerune.core.net.login.LoginRequestDecoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -17,8 +16,7 @@ class HandshakeEncoder : MessageToByteEncoder<HandshakeMessage>() {
 
         if (msg is JS5HandshakeMessage) {
             if (msg.version == 149) {
-                ctx.pipeline().replace(HandshakeDecoder::class.simpleName, XOREncryptionEncoder::class.simpleName, XOREncryptionEncoder())
-                ctx.pipeline().addAfter(XOREncryptionEncoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
+                 ctx.pipeline().replace(HandshakeDecoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
                 ctx.pipeline().addAfter(JS5Decoder::class.simpleName, JS5Encoder::class.simpleName, JS5Encoder())
             }
         } else {

@@ -3,7 +3,6 @@ package io.battlerune.core.net
 import io.battlerune.core.net.codec.game.GamePacket
 import io.battlerune.core.net.codec.js5.JS5FileRequest
 import io.battlerune.core.net.codec.handshake.HandshakeMessage
-import io.battlerune.core.net.codec.js5.XOREncryptionResponse
 import io.battlerune.core.net.login.LoginResponse
 import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelHandlerContext
@@ -14,8 +13,6 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
         if (msg is HandshakeMessage) {
-            ctx.writeAndFlush(msg)
-        } else if (msg is XOREncryptionResponse) {
             ctx.writeAndFlush(msg)
         } else if (msg is JS5FileRequest) {
             ctx.writeAndFlush(msg)
