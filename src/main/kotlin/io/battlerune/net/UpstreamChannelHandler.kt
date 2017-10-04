@@ -1,6 +1,6 @@
 package io.battlerune.net
 
-import io.battlerune.net.codec.game.GamePacket
+import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.codec.js5.JS5FileRequest
 import io.battlerune.net.codec.handshake.HandshakeMessage
 import io.battlerune.net.codec.login.LoginResponse

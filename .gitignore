@@ -1,5 +1,4 @@
-
-# Created by https://www.gitignore.io/api/java,gradle,eclipse,intellij
+./data/cache/
 
 ### Eclipse ###
 

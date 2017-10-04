@@ -1,6 +1,6 @@
 package io.battlerune.net.channel
 
-import io.battlerune.net.codec.game.GamePacket
+import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.packet.PacketHandlerRepository
 import io.battlerune.game.world.actor.Player
 import io.netty.channel.Channel

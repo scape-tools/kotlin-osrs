@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
+import io.battlerune.net.packet.PacketType
 
 class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
 
