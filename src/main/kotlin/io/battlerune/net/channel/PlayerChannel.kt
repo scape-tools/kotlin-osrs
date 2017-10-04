@@ -1,10 +1,10 @@
-package io.battlerune.core.net.channel
+package io.battlerune.net.channel
 
-import io.battlerune.core.net.protocol.codec.game.GamePacket
-import io.battlerune.core.net.packet.PacketHandlerRepository
+import io.battlerune.net.codec.game.GamePacket
+import io.battlerune.net.packet.PacketHandlerRepository
 import io.battlerune.game.world.actor.Player
 import io.netty.channel.Channel
-import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.SocketChannel
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 

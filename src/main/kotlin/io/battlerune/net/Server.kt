@@ -1,6 +1,5 @@
-package io.battlerune.core
+package io.battlerune.net
 
-import io.battlerune.core.net.ServerPipelineInitializer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
@@ -39,7 +38,7 @@ class Server {
 
     companion object {
         val cache = Cache(FileStore.open("./data/cache/"))
-        val checksumTable = Server.cache.createChecksumTable().encode()
+        val checksumTable = cache.createChecksumTable().encode()
     }
 
 }

@@ -1,6 +1,5 @@
 package io.battlerune.game.world.actor
 
-import io.battlerune.core.net.channel.PlayerChannel
+import io.battlerune.net.channel.PlayerChannel
 
-class Player(channel: PlayerChannel) : Pawn() {
-}
+class Player(channel: PlayerChannel) : Pawn()

@@ -1,4 +1,4 @@
-package io.battlerune.core.net.packet
+package io.battlerune.net.packet
 
 object PacketHandlerRepository {
 

@@ -1,9 +1,9 @@
-package io.battlerune.core.net
+package io.battlerune.net
 
-import io.battlerune.core.net.protocol.codec.game.GamePacket
-import io.battlerune.core.net.protocol.codec.js5.JS5FileRequest
-import io.battlerune.core.net.protocol.codec.handshake.HandshakeMessage
-import io.battlerune.core.net.protocol.codec.login.LoginResponse
+import io.battlerune.net.codec.game.GamePacket
+import io.battlerune.net.codec.js5.JS5FileRequest
+import io.battlerune.net.codec.handshake.HandshakeMessage
+import io.battlerune.net.codec.login.LoginResponse
 import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler

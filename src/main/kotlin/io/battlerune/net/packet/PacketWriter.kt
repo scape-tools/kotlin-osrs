@@ -1,6 +1,6 @@
-package io.battlerune.core.net.packet
+package io.battlerune.net.packet
 
-import io.battlerune.core.net.protocol.codec.game.GamePacket
+import io.battlerune.net.codec.game.GamePacket
 import io.battlerune.game.world.actor.Player
 import java.util.*
 

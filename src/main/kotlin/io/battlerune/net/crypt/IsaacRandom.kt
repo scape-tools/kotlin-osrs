@@ -1,4 +1,4 @@
-package io.battlerune.core.net.protocol.crypt
+package io.battlerune.net.crypt
 
 /**
  *
