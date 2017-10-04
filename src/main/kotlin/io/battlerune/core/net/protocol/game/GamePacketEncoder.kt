@@ -9,11 +9,10 @@ class GamePacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<Gam
 
     override fun encode(ctx: ChannelHandlerContext, msg: GamePacket, out: ByteBuf) {
 
-        val opcode = msg.opcode
         val type = msg.type
         val payload = msg.payload
 
-        out.writeByte(opcode + isaacRandom.nextInt())
+        out.writeByte(msg.opcode + isaacRandom.nextInt())
 
         if (type == PacketType.VARIABLE_BYTE) {
             out.writeByte(payload.writerIndex())
