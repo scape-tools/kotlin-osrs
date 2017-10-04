@@ -1,4 +1,4 @@
-package io.battlerune.net.codec.game
+package io.battlerune.core.net.codec.game
 
 enum class PacketType {
 

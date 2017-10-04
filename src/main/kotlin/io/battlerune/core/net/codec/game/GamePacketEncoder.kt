@@ -1,4 +1,4 @@
-package io.battlerune.net.codec.game
+package io.battlerune.core.net.codec.game
 
 import io.battlerune.util.IsaacRandom
 import io.netty.buffer.ByteBuf

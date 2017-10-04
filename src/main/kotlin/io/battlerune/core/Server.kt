@@ -1,6 +1,6 @@
 package io.battlerune.core
 
-import io.battlerune.net.ServerPipelineInitializer
+import io.battlerune.core.net.ServerPipelineInitializer
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel

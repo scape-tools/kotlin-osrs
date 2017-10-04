@@ -1,4 +1,4 @@
-package io.battlerune.net.login
+package io.battlerune.core.net.login
 
 import io.battlerune.util.IsaacRandomPair
 
