@@ -1,5 +1,6 @@
 package io.battlerune.net
 
+import io.battlerune.net.codec.game.GamePacket
 import io.battlerune.net.codec.js5.JS5FileRequest
 import io.battlerune.net.codec.handshake.HandshakeMessage
 import io.battlerune.net.codec.js5.XOREncryptionResponse
@@ -19,6 +20,8 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
         } else if (msg is JS5FileRequest) {
             ctx.writeAndFlush(msg)
         } else if (msg is LoginResponse) {
+            ctx.writeAndFlush(msg)
+        } else if (msg is GamePacket) {
             ctx.writeAndFlush(msg)
         }
     }
