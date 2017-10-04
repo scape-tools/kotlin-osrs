@@ -60,7 +60,8 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
             return
         }
 
-        opcode = inc.readByte().toInt() and 0xFF
+        opcode = (inc.readByte().toInt() - isaacRandom.nextInt()) and 0xFF
+
         size = packetSizes[opcode]
 
         println("opcode $opcode size $size")
