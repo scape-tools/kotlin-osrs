@@ -1,4 +1,4 @@
-package io.battlerune.core.net.protocol.js5
+package io.battlerune.core.net.protocol.codec.js5
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext

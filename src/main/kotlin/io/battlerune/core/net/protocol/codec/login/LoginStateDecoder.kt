@@ -1,8 +1,8 @@
-package io.battlerune.core.net.protocol.login
+package io.battlerune.core.net.protocol.codec.login
 
 import io.battlerune.util.ByteBufUtil
-import io.battlerune.util.IsaacRandom
-import io.battlerune.util.IsaacRandomPair
+import io.battlerune.core.net.protocol.crypt.IsaacRandom
+import io.battlerune.core.net.protocol.crypt.IsaacRandomPair
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext

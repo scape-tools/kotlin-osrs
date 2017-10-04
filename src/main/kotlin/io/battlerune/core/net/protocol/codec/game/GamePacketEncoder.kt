@@ -1,6 +1,6 @@
-package io.battlerune.core.net.protocol.game
+package io.battlerune.core.net.protocol.codec.game
 
-import io.battlerune.util.IsaacRandom
+import io.battlerune.core.net.protocol.crypt.IsaacRandom
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder

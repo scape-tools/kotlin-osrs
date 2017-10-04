@@ -1,4 +1,4 @@
-package io.battlerune.core.net.protocol.handshake
+package io.battlerune.core.net.protocol.codec.handshake
 
 interface HandshakeMessage {
 
