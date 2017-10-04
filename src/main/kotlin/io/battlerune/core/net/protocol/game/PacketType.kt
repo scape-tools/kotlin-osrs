@@ -5,7 +5,6 @@ enum class PacketType {
     RAW,
     FIXED,
     VARIABLE_BYTE,
-    VARIABLE_SHORT,
-    UNIDENTIFIED
+    VARIABLE_SHORT
 
 }

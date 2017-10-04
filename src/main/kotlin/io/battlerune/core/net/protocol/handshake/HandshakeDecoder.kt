@@ -31,8 +31,6 @@ class HandshakeDecoder : ByteToMessageDecoder() {
             JS5_HANDSHAKE -> {
                 val revision = incoming.readInt()
 
-                println("revision $revision")
-
                 outgoing.add(JS5HandshakeMessage(handshakeType, HandshakeMessage.VERSION_CURRENT, revision))
             }
         }

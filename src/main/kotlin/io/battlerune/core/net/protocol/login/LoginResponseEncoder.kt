@@ -12,12 +12,12 @@ class LoginResponseEncoder : MessageToByteEncoder<LoginResponse>() {
         // successful
         out.writeByte(2)
 
-        out.writeBoolean(false) // preference flag
-        out.writeInt(0)
-        out.writeByte(2) // rights
-        out.writeBoolean(true) // members
-        out.writeShort(1) // index
-        out.writeByte(1)
+        out.writeBoolean(false) // preference flag 1
+        out.writeInt(0) // 5
+        out.writeByte(2) // rights 6
+        out.writeBoolean(true) // members 7
+        out.writeShort(1) // index 9
+        out.writeByte(1) // 10
 
         ctx.pipeline().replace(LoginStateDecoder::class.simpleName, GamePacketDecoder::class.simpleName, GamePacketDecoder(msg.isaacPair.decoder))
         ctx.pipeline().replace(LoginResponseEncoder::class.simpleName, GamePacketEncoder::class.simpleName, GamePacketEncoder(msg.isaacPair.encoder))
