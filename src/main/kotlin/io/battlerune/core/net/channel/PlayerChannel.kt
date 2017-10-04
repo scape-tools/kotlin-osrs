@@ -1,6 +1,6 @@
 package io.battlerune.core.net.channel
 
-import io.battlerune.game.widget.world.actor.Player
+import io.battlerune.game.world.actor.Player
 import io.netty.channel.Channel
 import io.netty.channel.socket.SocketChannel;
 
