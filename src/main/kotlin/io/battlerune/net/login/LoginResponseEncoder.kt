@@ -15,7 +15,7 @@ class LoginResponseEncoder : MessageToByteEncoder<LoginResponse>() {
         out.writeBoolean(false) // preference flag
         out.writeInt(0)
         out.writeByte(2) // rights
-        out.writeBoolean(false) // flag
+        out.writeBoolean(true) // members
         out.writeShort(1) // index
         out.writeByte(1)
 
