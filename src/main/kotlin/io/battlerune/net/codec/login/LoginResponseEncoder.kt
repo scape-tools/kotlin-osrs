@@ -19,7 +19,7 @@ class LoginResponseEncoder : MessageToByteEncoder<LoginResponse>() {
         out.writeShort(1) // index 9
         out.writeByte(1) // 10
 
-        ctx.pipeline().replace(LoginStateDecoder::class.simpleName, GamePacketDecoder::class.simpleName, GamePacketDecoder(msg.isaacPair.decoder))
+        ctx.pipeline().replace(LoginDecoder::class.simpleName, GamePacketDecoder::class.simpleName, GamePacketDecoder(msg.isaacPair.decoder))
         ctx.pipeline().replace(LoginResponseEncoder::class.simpleName, GamePacketEncoder::class.simpleName, GamePacketEncoder(msg.isaacPair.encoder))
     }
 

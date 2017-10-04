@@ -11,7 +11,7 @@ import java.math.BigInteger
 
 
 
-class LoginStateDecoder : ByteToMessageDecoder() {
+class LoginDecoder : ByteToMessageDecoder() {
 
     companion object {
         val MODULUS = BigInteger(

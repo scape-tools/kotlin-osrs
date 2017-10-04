@@ -26,8 +26,8 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
             return
         }
 
-        ctx.pipeline().replace(LoginRequestDecoder::class.simpleName, LoginStateDecoder::class.simpleName, LoginStateDecoder())
-        ctx.pipeline().addAfter(LoginStateDecoder::class.simpleName, LoginResponseEncoder::class.simpleName, LoginResponseEncoder())
+        ctx.pipeline().replace(LoginRequestDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
+        ctx.pipeline().addAfter(LoginDecoder::class.simpleName, LoginResponseEncoder::class.simpleName, LoginResponseEncoder())
 
     }
 
