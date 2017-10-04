@@ -1,4 +1,4 @@
-package io.battlerune.core.net.codec.game
+package io.battlerune.core.net.protocol.game
 
 import io.netty.buffer.ByteBuf
 

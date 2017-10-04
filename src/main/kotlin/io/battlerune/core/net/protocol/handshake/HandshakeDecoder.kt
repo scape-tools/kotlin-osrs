@@ -1,7 +1,7 @@
-package io.battlerune.core.net.codec.handshake
+package io.battlerune.core.net.protocol.handshake
 
-import io.battlerune.core.net.codec.js5.JS5HandshakeMessage
-import io.battlerune.core.net.login.LoginHandshakeMessage
+import io.battlerune.core.net.protocol.js5.JS5HandshakeMessage
+import io.battlerune.core.net.protocol.login.LoginHandshakeMessage
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder

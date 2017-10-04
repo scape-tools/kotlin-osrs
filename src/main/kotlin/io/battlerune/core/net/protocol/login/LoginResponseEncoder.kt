@@ -1,7 +1,7 @@
-package io.battlerune.core.net.login
+package io.battlerune.core.net.protocol.login
 
-import io.battlerune.core.net.codec.game.GamePacketDecoder
-import io.battlerune.core.net.codec.game.GamePacketEncoder
+import io.battlerune.core.net.protocol.game.GamePacketDecoder
+import io.battlerune.core.net.protocol.game.GamePacketEncoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
