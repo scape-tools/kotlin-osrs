@@ -2,6 +2,7 @@ package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.IsaacRandom
 import io.battlerune.net.packet.GamePacket
+import io.battlerune.net.packet.PacketHandlerRepository
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -22,17 +23,6 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
     var size: Int = 0
 
     lateinit var packetType: PacketType
-
-    companion object {
-        val packetSizes = listOf(-2, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, -1, 0, 0, 2, 0, -2, -1, 0, 5, 0, 0, 0, -1, 0, 0, 0,
-                0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, -2, -2, 0, -2, 0, 0, 6, 0, 0, 0, 0, -2, 0, 0, 0, 3, 10, 0, -1,
-                -2, 0, -1, 0, 0, 0, 0, 0, 0, 0, -2, 10, 1, 0, 0, 0, 0, 0, 8, 0, 2, -1, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, -2, 0, 0, 0, 0, 0, 4, 0, 6, 0, 0, 5, 0, 1, 0, 2, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 14, 1, 0, 0, 8,
-                4, -2, 2, 0, 0, 0, 0, 0, 0, 2, -2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, -2, 5, 0, 0, 0, 0, 0,
-                0, 6, 8, 0, 0, 0, 0, -2, 2, 12, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 4, 2, 0, 0, 3, 6, 0, 0, 0,
-                0, 0, 0, 0, 6, 0, 6, 0, 0, -2, 0, 0, 0, 0, 0, -2, 0, 0, 2, 0, 7, 8, 20, 6, 0, 0, 0, 15, 0, -2, 0, 0, 6,
-                6, 0, 0, 0, 0, 28, 0, 5, 0, 0, 0, 0, 6, 0, 0, 0, 0, -2, 0, 0, 0, 5, 0, 0, 0, 6, 0, 0, 0)
-    }
 
     override fun decode(ctx: ChannelHandlerContext, inc: ByteBuf, out: MutableList<Any>) {
 
@@ -65,7 +55,7 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
 
         opcode = (inc.readByte().toInt() - isaacRandom.nextInt()) and 0xFF
 
-        size = packetSizes[opcode]
+        size = PacketHandlerRepository.sizes[opcode]
 
         println("opcode $opcode size $size")
 

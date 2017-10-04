@@ -2,10 +2,8 @@ package io.battlerune.net.packet
 
 object PacketHandlerRepository {
 
-    val map: HashMap<Int, PacketReader> = HashMap()
+    val readers = arrayOfNulls<PacketReader>(257)
 
-    fun register(reader: PacketReader) {
-
-    }
+    val sizes = IntArray(257)
 
 }

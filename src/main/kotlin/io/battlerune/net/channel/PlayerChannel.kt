@@ -20,7 +20,7 @@ class PlayerChannel(val channel: Channel) {
         while(true) {
             val packet = prioritizedPackets.poll() ?: break
 
-            val reader = PacketHandlerRepository.map[packet.opcode] ?: continue
+            val reader = PacketHandlerRepository.readers[packet.opcode] ?: continue
 
             reader.readPacket(player, packet)
         }
