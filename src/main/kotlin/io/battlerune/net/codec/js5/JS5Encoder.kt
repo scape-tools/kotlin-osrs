@@ -1,6 +1,6 @@
 package io.battlerune.net.codec.js5
 
-import io.battlerune.net.Server
+import io.battlerune.net.NetworkService
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -16,7 +16,7 @@ class JS5Encoder : MessageToByteEncoder<JS5FileRequest>() {
                 .writeShort(file)
 
         if (index == 255 && file == 255) {
-            val checksums = Server.checksumTable.duplicate()
+            val checksums = NetworkService.checksumTable.duplicate()
 
             response.writeByte(0)
                     .writeInt(checksums.limit())

@@ -8,9 +8,14 @@ import io.netty.handler.logging.LoggingHandler
 import net.openrs.cache.Cache
 import net.openrs.cache.FileStore
 
-class Server {
+class NetworkService {
 
-    fun bind(port: Int) {
+    companion object {
+        val cache = Cache(FileStore.open("./data/cache/"))
+        val checksumTable = cache.createChecksumTable().encode()
+    }
+
+    fun start(port: Int) {
         val bossGroup = NioEventLoopGroup(1)
         val loopGroup = NioEventLoopGroup()
         try {
@@ -34,11 +39,6 @@ class Server {
             loopGroup.shutdownGracefully()
         }
 
-    }
-
-    companion object {
-        val cache = Cache(FileStore.open("./data/cache/"))
-        val checksumTable = cache.createChecksumTable().encode()
     }
 
 }
