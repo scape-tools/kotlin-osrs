@@ -9,6 +9,8 @@ import java.nio.file.Files
 
 class RegionLoader(val gameContext: GameContext) : StartupTask<RegionLoader>(RegionLoader::class.java) {
 
+    var regions = 0
+
     override fun load() : Boolean {
         val dir = File("./data/xteas/")
 
@@ -27,17 +29,17 @@ class RegionLoader(val gameContext: GameContext) : StartupTask<RegionLoader>(Reg
             val map = gameContext.cache.getFileId(5, "m" + (regionId shr 8) + "_" + (regionId and 0xFF))
             val land = gameContext.cache.getFileId(5, "l" + (regionId shr 8) + "_" + (regionId and 0xFF))
 
+            if (map == -1 || land == -1) {
+                continue
+            }
+
             val region = Region(regionId)
 
-            if (map != -1) {
-                region.loadTerrain(gameContext.cache.read(5, map).data)
-            }
+            region.loadTerrain(gameContext.cache.read(5, map).data)
+            region.loadLocations(gameContext.cache.read(5, land, Ints.toArray(keys)).data)
 
-            if (land != -1) {
-                region.loadLocations(gameContext.cache.read(5, land, Ints.toArray(keys)).data)
-            }
-
-            gameContext.regionManager.regions[regionId] = region
+            gameContext.regionManager.set(regionId, region)
+            regions++
 
         }
 
@@ -45,7 +47,7 @@ class RegionLoader(val gameContext: GameContext) : StartupTask<RegionLoader>(Reg
     }
 
     override fun onComplete() {
-        logger.info("Loaded regions")
+        logger.info("Loaded $regions regions")
     }
 
 }
