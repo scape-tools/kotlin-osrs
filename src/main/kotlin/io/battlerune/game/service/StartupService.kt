@@ -25,8 +25,8 @@ class StartupService {
         processStartupTasks()
         startupService.start()
         startupService.awaitUntilFinished()
-        networkService.start(NetworkConstants.PORT)
         gameService.startAsync()
+        networkService.start(NetworkConstants.PORT)
     }
 
     // TODO implement eventually

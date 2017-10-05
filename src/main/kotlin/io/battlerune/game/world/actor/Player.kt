@@ -2,7 +2,6 @@ package io.battlerune.game.world.actor
 
 import io.battlerune.game.GameContext
 import io.battlerune.net.channel.PlayerChannel
-import io.battlerune.net.codec.game.AccessType
 import io.battlerune.net.codec.game.GamePacketBuilder
 import io.battlerune.net.packet.PacketWriter
 import io.battlerune.net.packet.out.RegionUpdatePacket

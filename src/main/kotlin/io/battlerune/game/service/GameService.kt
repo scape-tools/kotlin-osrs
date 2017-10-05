@@ -14,7 +14,7 @@ class GameService(val context: GameContext) : AbstractScheduledService() {
     override fun runOneIteration() {
 
         val world = context.world
-
+        
         world.processLogins()
 
         // run tasks
