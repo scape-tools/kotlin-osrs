@@ -1,40 +1,37 @@
 package io.battlerune.game.service
 
-import org.apache.logging.log4j.LogManager
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.Executors
-import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.TimeUnit
+import io.battlerune.game.GameContext
+import io.battlerune.game.world.RegionManager
+import io.battlerune.io.FileSystemLoader
+import io.battlerune.io.PacketRepositoryLoader
+import io.battlerune.net.NetworkConstants
+import io.battlerune.net.NetworkService
 
 class StartupService {
 
-    companion object {
-        private val logger = LogManager.getLogger()
+    private val context = GameContext()
 
-        private val service = Executors.newSingleThreadExecutor()
+    private val startupService = StartupTaskService()
+    private val gameService = GameService(context)
+    private val networkService = NetworkService(context)
 
-        private val queue: BlockingQueue<Runnable> = LinkedBlockingQueue()
+    private fun processStartupTasks() {
+        startupService.queue(PacketRepositoryLoader())
+                .queue(FileSystemLoader(context))
+                .queue(RegionManager())
     }
 
     fun start() {
-        val tasks = queue.size
-        while(queue.isNotEmpty()) {
-            val task = queue.poll() ?: continue
-            service.submit(task)
-        }
-
-        service.shutdown()
-
-        logger.info("Loaded: $tasks startup tasks.")
+        processStartupTasks()
+        startupService.start()
+        startupService.awaitUntilFinished()
+        networkService.start(NetworkConstants.PORT)
+        gameService.startAsync()
     }
 
-    fun awaitUntilFinished(timeout: Long = 5, unit: TimeUnit = TimeUnit.MINUTES) {
-        service.awaitTermination(timeout, unit)
-    }
+    // TODO implement eventually
+    fun restart() {
 
-    fun queue(task: Runnable) : StartupService {
-        queue.add(task)
-        return this
     }
 
 }

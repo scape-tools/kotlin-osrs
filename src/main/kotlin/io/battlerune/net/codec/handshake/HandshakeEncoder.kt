@@ -18,7 +18,7 @@ class HandshakeEncoder(private val gameContext: GameContext) : MessageToByteEnco
         if (msg is UpdateHandshakeMessage) {
             if (msg.version == 149) {
                  ctx.pipeline().replace(HandshakeDecoder::class.simpleName, UpdateDecoder::class.simpleName, UpdateDecoder())
-                ctx.pipeline().addAfter(UpdateDecoder::class.simpleName, UpdateEncoder::class.simpleName, UpdateEncoder())
+                ctx.pipeline().addAfter(UpdateDecoder::class.simpleName, UpdateEncoder::class.simpleName, UpdateEncoder(gameContext))
             }
         } else {
 

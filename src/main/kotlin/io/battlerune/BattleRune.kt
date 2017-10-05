@@ -1,10 +1,10 @@
 package io.battlerune
 
-import io.battlerune.game.GameContext
+import io.battlerune.game.service.StartupService
 
 fun main(args: Array<String>) {
 
-       val context = GameContext()
-        context.serviceLoader.start()
+    val loader = StartupService()
+    loader.start()
 
 }

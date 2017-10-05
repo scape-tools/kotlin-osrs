@@ -5,7 +5,7 @@ import net.openrs.cache.Cache
 import net.openrs.cache.FileStore
 import org.apache.logging.log4j.LogManager
 
-class FileSystemLoader : Runnable {
+class FileSystemLoader(val context: GameContext) : Runnable {
 
     companion object {
         val logger = LogManager.getLogger()
@@ -14,8 +14,8 @@ class FileSystemLoader : Runnable {
     override fun run() {
         val cache = Cache(FileStore.open("./data/cache/"))
         val checksumTable = cache.createChecksumTable().encode()
-        GameContext.cache = cache
-        GameContext.checksumTable = checksumTable
+        context.cache = cache
+        context.checksumTable = checksumTable
 
         logger.info("Loaded: file system")
     }

@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class UpdateEncoder : MessageToByteEncoder<FileRequest>() {
+class UpdateEncoder(val gameContext: GameContext) : MessageToByteEncoder<FileRequest>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: FileRequest, out: ByteBuf) {
         val index = msg.index
@@ -17,7 +17,7 @@ class UpdateEncoder : MessageToByteEncoder<FileRequest>() {
                 .writeShort(file)
 
         if (index == 255 && file == 255) {
-            val checksums = GameContext.checksumTable.duplicate()
+            val checksums = gameContext.checksumTable.duplicate()
 
             response.writeByte(0)
                     .writeInt(checksums.limit())

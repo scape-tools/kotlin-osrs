@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.AbstractScheduledService
 import io.battlerune.game.GameContext
 import java.util.concurrent.TimeUnit
 
-class GameService(val gameContext: GameContext) : AbstractScheduledService() {
+class GameService(context: GameContext) : AbstractScheduledService() {
 
     companion object {
         val GAME_DELAY = 600.toLong()
