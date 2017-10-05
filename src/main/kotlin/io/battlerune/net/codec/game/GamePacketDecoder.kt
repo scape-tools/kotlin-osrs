@@ -2,7 +2,7 @@ package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.IsaacRandom
 import io.battlerune.net.packet.GamePacket
-import io.battlerune.net.packet.PacketHandlerRepository
+import io.battlerune.net.packet.PacketRepository
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -55,7 +55,7 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
 
         opcode = (inc.readByte().toInt() - isaacRandom.nextInt()) and 0xFF
 
-        size = PacketHandlerRepository.sizes[opcode]
+        size = PacketRepository.sizes[opcode]
 
         println("opcode $opcode size $size")
 

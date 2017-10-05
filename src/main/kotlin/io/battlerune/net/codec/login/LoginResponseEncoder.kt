@@ -6,9 +6,9 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class LoginResponseEncoder : MessageToByteEncoder<LoginResponse>() {
+class LoginResponseEncoder : MessageToByteEncoder<LoginRequest>() {
 
-    override fun encode(ctx: ChannelHandlerContext, msg: LoginResponse, out: ByteBuf) {
+    override fun encode(ctx: ChannelHandlerContext, msg: LoginRequest, out: ByteBuf) {
         // successful
         out.writeByte(2)
 

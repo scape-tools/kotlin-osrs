@@ -1,6 +1,6 @@
 package io.battlerune.net.packet
 
-object PacketHandlerRepository {
+object PacketRepository {
 
     val readers = arrayOfNulls<PacketReader>(257)
 

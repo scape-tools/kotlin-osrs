@@ -1,5 +1,6 @@
 package io.battlerune.net.codec.login
 
+import io.battlerune.game.GameContext
 import io.battlerune.util.ByteBufUtil
 import io.battlerune.net.crypt.IsaacRandom
 import io.battlerune.net.crypt.IsaacRandomPair
@@ -11,7 +12,7 @@ import java.math.BigInteger
 
 
 
-class LoginDecoder : ByteToMessageDecoder() {
+class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder() {
 
     companion object {
         val MODULUS = BigInteger(
@@ -121,7 +122,7 @@ class LoginDecoder : ByteToMessageDecoder() {
 
         val isaacPair = IsaacRandomPair(IsaacRandom(serverKeys), IsaacRandom(clientKeys))
 
-        out.add(LoginResponse(username, password, resizable, lowMem, isaacPair))
+        out.add(LoginRequest(username, password, resizable, lowMem, isaacPair, gameContext, ctx.channel()))
 
     }
 

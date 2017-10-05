@@ -1,5 +1,6 @@
 package io.battlerune.net.codec.handshake
 
+import io.battlerune.game.GameContext
 import io.battlerune.net.codec.js5.JS5Decoder
 import io.battlerune.net.codec.js5.JS5Encoder
 import io.battlerune.net.codec.js5.JS5HandshakeMessage
@@ -8,7 +9,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class HandshakeEncoder : MessageToByteEncoder<HandshakeMessage>() {
+class HandshakeEncoder(private val gameContext: GameContext) : MessageToByteEncoder<HandshakeMessage>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: HandshakeMessage, out: ByteBuf) {
         // get past login stage 3
@@ -23,7 +24,7 @@ class HandshakeEncoder : MessageToByteEncoder<HandshakeMessage>() {
 
             // get past login stage 4
             out.writeLong((Math.random() * Long.MAX_VALUE).toLong())
-            ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginRequestDecoder::class.simpleName, LoginRequestDecoder())
+            ctx.pipeline().replace(HandshakeDecoder::class.simpleName, LoginRequestDecoder::class.simpleName, LoginRequestDecoder(gameContext))
         }
 
         ctx.pipeline().remove(this)

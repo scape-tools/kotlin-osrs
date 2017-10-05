@@ -1,10 +1,11 @@
 package io.battlerune.net.codec.login
 
+import io.battlerune.game.GameContext
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class LoginRequestDecoder : ByteToMessageDecoder() {
+class LoginRequestDecoder(private val gameContext: GameContext) : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, inc: ByteBuf, out: MutableList<Any>) {
 
@@ -26,7 +27,7 @@ class LoginRequestDecoder : ByteToMessageDecoder() {
             return
         }
 
-        ctx.pipeline().replace(LoginRequestDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder())
+        ctx.pipeline().replace(LoginRequestDecoder::class.simpleName, LoginDecoder::class.simpleName, LoginDecoder(gameContext))
         ctx.pipeline().addAfter(LoginDecoder::class.simpleName, LoginResponseEncoder::class.simpleName, LoginResponseEncoder())
 
     }
