@@ -1,4 +1,4 @@
-package io.battlerune.game.logic
+package io.battlerune.game.service
 
 import com.google.common.util.concurrent.AbstractScheduledService
 import java.util.concurrent.TimeUnit

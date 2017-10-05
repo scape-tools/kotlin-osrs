@@ -1,11 +1,9 @@
-package io.battlerune
+package io.battlerune.game.service
 
-import io.battlerune.game.logic.GameService
-import io.battlerune.game.logic.StartupService
 import io.battlerune.io.PacketSizeParser
 import io.battlerune.net.NetworkService
 
-class Bootstrap {
+class ServiceLoader {
 
     companion object {
         val startupService = StartupService()

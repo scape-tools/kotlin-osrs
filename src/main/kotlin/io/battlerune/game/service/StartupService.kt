@@ -1,4 +1,4 @@
-package io.battlerune.game.logic
+package io.battlerune.game.service
 
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors

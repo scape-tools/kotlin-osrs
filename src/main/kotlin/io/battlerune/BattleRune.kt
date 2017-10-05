@@ -1,8 +1,10 @@
 package io.battlerune
 
+import io.battlerune.game.service.ServiceLoader
+
 fun main(args: Array<String>) {
 
-        val bootstrap = Bootstrap()
-        bootstrap.start()
+        val loader = ServiceLoader()
+        loader.start()
 
 }
