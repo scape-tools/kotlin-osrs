@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
+import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.packet.PacketType
 
 class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
@@ -24,7 +25,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
 
     constructor() : this(-1, PacketType.EMPTY)
 
-    fun setMode(accessType: AccessType) {
+    private fun setMode(accessType: AccessType) {
         if (this.accessType == accessType) {
             throw IllegalStateException("Already in $accessType mode.")
         }
@@ -36,6 +37,16 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         }
 
         this.accessType = accessType
+    }
+
+    fun switchToBitAccess() : GamePacketBuilder {
+        setMode(AccessType.BIT)
+        return this
+    }
+
+    fun switchToByteAccess() : GamePacketBuilder {
+        setMode(AccessType.BYTE)
+        return this
     }
 
     fun writeBits(amount:Int = 1, value:Int):GamePacketBuilder {
@@ -97,6 +108,10 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
     fun writeBytes(bytes: ByteArray) : GamePacketBuilder {
         buffer.writeBytes(bytes)
         return this
+    }
+
+    fun writeShort(value: Int, order: ByteOrder) {
+        return writeShort(value, order)
     }
 
     fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
@@ -176,6 +191,13 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
             else -> throw UnsupportedOperationException("$order is not implemented!")
         }
         return this
+    }
+
+    fun toGamePacket() : GamePacket {
+        if (accessType == AccessType.BIT) {
+            throw IllegalStateException("Cannot be in bit access.")
+        }
+        return GamePacket(opcode, type, buffer)
     }
 
 }

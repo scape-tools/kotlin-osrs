@@ -3,7 +3,7 @@ package io.battlerune.game.world.actor
 import java.util.*
 import java.util.stream.IntStream
 
-class PawnList<T : Pawn>(capacity: Int) {
+class PawnList<T : Pawn>(val capacity: Int) {
 
     val list = mutableListOf<T?>()
     val slots = ArrayDeque<Int>(capacity)
@@ -40,6 +40,10 @@ class PawnList<T : Pawn>(capacity: Int) {
     fun contains(t: T) : Boolean {
         val e = list[t.index] ?: false
         return e == t
+    }
+
+    fun capacity() : Int {
+        return capacity
     }
 
 }

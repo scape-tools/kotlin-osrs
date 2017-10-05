@@ -39,6 +39,8 @@ class RegionLoader(val gameContext: GameContext) : StartupTask<RegionLoader>(Reg
             region.loadLocations(gameContext.cache.read(5, land, Ints.toArray(keys)).data)
 
             gameContext.regionManager.set(regionId, region)
+            keys.forEach { gameContext.regionManager.keys.put(regionId, it) }
+
             regions++
 
         }

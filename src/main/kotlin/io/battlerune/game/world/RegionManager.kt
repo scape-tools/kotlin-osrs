@@ -1,10 +1,13 @@
 package io.battlerune.game.world
 
+import com.google.common.collect.ArrayListMultimap
 import net.openrs.cache.region.Region
 
 class RegionManager {
 
     private val regions = arrayOfNulls<Region>(32768)
+
+    val keys: ArrayListMultimap<Int, Int> = ArrayListMultimap.create()
 
     fun set(regionId: Int, region: Region) {
         if (regionId < 0 || regionId >= regions.size) {
