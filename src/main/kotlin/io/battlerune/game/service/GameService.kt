@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.AbstractScheduledService
 import io.battlerune.game.GameContext
 import java.util.concurrent.TimeUnit
 
-class GameService(context: GameContext) : AbstractScheduledService() {
+class GameService(val context: GameContext) : AbstractScheduledService() {
 
     companion object {
         val GAME_DELAY = 600.toLong()
@@ -13,13 +13,15 @@ class GameService(context: GameContext) : AbstractScheduledService() {
 
     override fun runOneIteration() {
 
-        // dequeue logins
+        val world = context.world
+
+        world.processLogins()
 
         // run tasks
 
         // client sync
 
-        // dequeue logout
+        world.processLogouts()
 
     }
 

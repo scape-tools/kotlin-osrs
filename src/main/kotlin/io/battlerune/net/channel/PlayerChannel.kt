@@ -19,17 +19,22 @@ class PlayerChannel(val channel: Channel) {
     val player = Player(this)
     val hostAddress: String = (channel as SocketChannel).remoteAddress().address.hostAddress
 
-    fun validLogin(loginRequest: LoginRequest) : Boolean {
+    fun handleLogin(loginRequest: LoginRequest) {
         val username = loginRequest.username
         val password = loginRequest.password
+        val context = loginRequest.gameContext
 
         if (!username.matches("^[a-z0-9_ ]{1,12}$".toRegex()) || password.isEmpty() || password.length > 20) {
-            return false
+            return
         }
 
         player.username = username
         player.password = password
-        return true
+        player.context = context
+
+        context.world.queueLogin(player)
+
+        channel.writeAndFlush(loginRequest)
     }
 
     fun handlePrioritizedPackets() {

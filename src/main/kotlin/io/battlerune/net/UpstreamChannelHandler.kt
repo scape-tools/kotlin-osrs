@@ -18,11 +18,7 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
             ctx.writeAndFlush(msg)
         } else if (msg is LoginRequest) {
             val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get() ?: return
-
-            if (playerChannel.validLogin(msg)) {
-                ctx.writeAndFlush(msg)
-            }
-
+            playerChannel.handleLogin(msg)
         } else if (msg is GamePacket) {
             val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get() ?: return
             playerChannel.handleIncomingPacket(msg)
