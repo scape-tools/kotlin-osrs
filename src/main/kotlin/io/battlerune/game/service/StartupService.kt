@@ -1,7 +1,7 @@
 package io.battlerune.game.service
 
 import io.battlerune.game.GameContext
-import io.battlerune.game.world.RegionManager
+import io.battlerune.io.RegionLoader
 import io.battlerune.io.FileSystemLoader
 import io.battlerune.io.PacketRepositoryLoader
 import io.battlerune.net.NetworkConstants
@@ -18,7 +18,7 @@ class StartupService {
     private fun processStartupTasks() {
         startupService.queue(PacketRepositoryLoader())
                 .queue(FileSystemLoader(context))
-                .queue(RegionManager())
+                .queue(RegionLoader(context))
     }
 
     fun start() {

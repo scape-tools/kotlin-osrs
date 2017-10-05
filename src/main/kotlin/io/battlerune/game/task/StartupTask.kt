@@ -2,9 +2,9 @@ package io.battlerune.game.task
 
 import org.apache.logging.log4j.LogManager
 
-abstract class StartupTask : Runnable {
+abstract class StartupTask<T>(t: Class<T>) : Runnable {
 
-    val logger = LogManager.getLogger()
+    val logger = LogManager.getLogger(t)
 
     override fun run() {
         try {
@@ -14,6 +14,7 @@ abstract class StartupTask : Runnable {
         } catch (ex: Exception) {
             logger.warn("Startup task failed. ", ex)
         }
+
     }
 
     abstract fun load() : Boolean
