@@ -11,4 +11,7 @@ object NetworkConstants {
 
     val PACKET_LIMIT = 30
 
+    val LOGIN_LIMIT = 50
+    val LOGOUT_LIMIT = 50
+
 }
