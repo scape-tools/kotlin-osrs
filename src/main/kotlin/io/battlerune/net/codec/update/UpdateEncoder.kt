@@ -1,5 +1,6 @@
 package io.battlerune.net.codec.update
 
+import io.battlerune.game.GameContext
 import io.battlerune.net.NetworkService
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -16,7 +17,7 @@ class UpdateEncoder : MessageToByteEncoder<FileRequest>() {
                 .writeShort(file)
 
         if (index == 255 && file == 255) {
-            val checksums = NetworkService.checksumTable.duplicate()
+            val checksums = GameContext.checksumTable.duplicate()
 
             response.writeByte(0)
                     .writeInt(checksums.limit())

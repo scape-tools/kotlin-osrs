@@ -1,23 +1,32 @@
 package io.battlerune.game.service
 
 import io.battlerune.game.GameContext
-import io.battlerune.io.PacketSizeParser
+import io.battlerune.io.FileSystemLoader
+import io.battlerune.io.PacketRepositoryLoader
+import io.battlerune.net.NetworkService
 
-class ServiceLoader {
+class ServiceLoader(gameContext: GameContext) {
 
-    companion object {
-        val gameContext = GameContext()
-    }
+    val startupService = StartupService()
+    val gameService = GameService(gameContext)
+    val networkService = NetworkService(gameContext)
 
     private fun queueStartupTasks() {
-        gameContext.startupService.queue(PacketSizeParser())
+        startupService.queue(PacketRepositoryLoader())
+                .queue(FileSystemLoader())
     }
 
     fun start() {
         queueStartupTasks()
-        gameContext.startupService.start()
-        gameContext.gameService.startAsync()
-        gameContext.networkService.start(43594)
+        startupService.start()
+        startupService.awaitUntilFinished()
+        networkService.start(43594)
+        gameService.startAsync()
+    }
+
+    // TODO implement eventually
+    fun restart() {
+
     }
 
 }

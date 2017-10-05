@@ -6,7 +6,7 @@ import io.battlerune.net.packet.PacketReader
 import io.battlerune.util.GsonParser
 import org.apache.logging.log4j.LogManager
 
-class PacketSizeParser : GsonParser("./data/packet_repository.json") {
+class PacketRepositoryLoader : GsonParser("./data/packet_repository.json") {
 
     companion object {
         val logger = LogManager.getLogger()

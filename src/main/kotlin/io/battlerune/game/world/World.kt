@@ -1,3 +1,5 @@
 package io.battlerune.game.world
 
-class World
+class World(val id: Int) {
+
+}

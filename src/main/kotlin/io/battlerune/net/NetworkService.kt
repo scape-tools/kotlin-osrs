@@ -1,21 +1,18 @@
 package io.battlerune.net
 
-import io.battlerune.game.service.ServiceLoader
+import io.battlerune.game.GameContext
 import io.netty.bootstrap.ServerBootstrap
+import io.netty.channel.ChannelFutureListener
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
-import net.openrs.cache.Cache
-import net.openrs.cache.FileStore
 import org.apache.logging.log4j.LogManager
 
-class NetworkService {
+class NetworkService(val gameContext: GameContext) {
 
     companion object {
         val logger = LogManager.getLogger()
-        val cache = Cache(FileStore.open("./data/cache/"))
-        val checksumTable = cache.createChecksumTable().encode()
     }
 
     fun start(port: Int) {
@@ -27,14 +24,13 @@ class NetworkService {
             sb.group(bossGroup, loopGroup)
                     .channel(NioServerSocketChannel().javaClass)
                     .handler(LoggingHandler(LogLevel.INFO))
-                    .childHandler(ServerPipelineInitializer(ServiceLoader.gameContext))
+                    .childHandler(ServerPipelineInitializer(gameContext))
 
             val f = sb.bind(port).syncUninterruptibly()
 
             logger.info("BattleRune bound to port $port.")
 
             f.channel().closeFuture().sync()
-
         } catch (ex : Exception) {
             ex.printStackTrace()
         } finally {
@@ -42,6 +38,16 @@ class NetworkService {
             loopGroup.shutdownGracefully()
         }
 
+    }
+
+    fun portAvailable(port: Int) : Boolean {
+        val future = ServerBootstrap().bind(port)
+
+        if (future.isSuccess) {
+            future.addListener { ChannelFutureListener.CLOSE }
+        }
+
+        return future.isSuccess
     }
 
 }

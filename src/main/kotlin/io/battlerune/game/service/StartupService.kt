@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.TimeUnit
 
 class StartupService {
 
@@ -25,6 +26,10 @@ class StartupService {
         service.shutdown()
 
         logger.info("Loaded: $tasks startup tasks.")
+    }
+
+    fun awaitUntilFinished(timeout: Long = 5, unit: TimeUnit = TimeUnit.MINUTES) {
+        service.awaitTermination(timeout, unit)
     }
 
     fun queue(task: Runnable) : StartupService {

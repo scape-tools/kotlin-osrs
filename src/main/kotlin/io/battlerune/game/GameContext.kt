@@ -1,13 +1,18 @@
 package io.battlerune.game
 
-import io.battlerune.game.service.GameService
-import io.battlerune.game.service.StartupService
-import io.battlerune.net.NetworkService
+import io.battlerune.game.service.ServiceLoader
+import io.battlerune.game.world.World
+import net.openrs.cache.Cache
+import java.nio.ByteBuffer
 
 class GameContext {
 
-    val startupService = StartupService()
-    val gameService = GameService()
-    val networkService = NetworkService()
+    companion object {
+        lateinit var cache: Cache
+        lateinit var checksumTable: ByteBuffer
+    }
+
+    val serviceLoader = ServiceLoader(this)
+    lateinit var world: World
 
 }
