@@ -1,8 +1,6 @@
 package io.battlerune.game.world.actor
 
-import io.battlerune.game.world.Position
-
-open class Actor(position: Position) {
+open class Actor {
 
     var index = -1
 

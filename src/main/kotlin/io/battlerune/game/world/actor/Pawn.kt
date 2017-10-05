@@ -1,6 +1,10 @@
 package io.battlerune.game.world.actor
 
-import io.battlerune.game.world.Position
+import net.openrs.cache.region.Position
 
-open class Pawn(position: Position) : Actor(position) {
+open class Pawn : Actor() {
+
+    val position = Position(3222, 3222, 0, Position.RegionSize.DEFAULT)
+    val lastPosition = Position(3222, 3222, 0, Position.RegionSize.DEFAULT)
+
 }
