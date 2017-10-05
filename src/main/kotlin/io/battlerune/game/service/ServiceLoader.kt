@@ -11,13 +11,13 @@ class ServiceLoader(gameContext: GameContext) {
     val gameService = GameService(gameContext)
     val networkService = NetworkService(gameContext)
 
-    private fun queueStartupTasks() {
+    private fun processStartupTasks() {
         startupService.queue(PacketRepositoryLoader())
                 .queue(FileSystemLoader())
     }
 
     fun start() {
-        queueStartupTasks()
+        processStartupTasks()
         startupService.start()
         startupService.awaitUntilFinished()
         networkService.start(43594)
