@@ -7,10 +7,12 @@ import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 import net.openrs.cache.Cache
 import net.openrs.cache.FileStore
+import org.apache.logging.log4j.LogManager
 
 class NetworkService {
 
     companion object {
+        val logger = LogManager.getLogger()
         val cache = Cache(FileStore.open("./data/cache/"))
         val checksumTable = cache.createChecksumTable().encode()
     }
@@ -28,7 +30,7 @@ class NetworkService {
 
             val f = sb.bind(port).syncUninterruptibly()
 
-            println("BattleRune bound to port $port")
+            logger.info("BattleRune bound to port $port.")
 
             f.channel().closeFuture().sync()
 

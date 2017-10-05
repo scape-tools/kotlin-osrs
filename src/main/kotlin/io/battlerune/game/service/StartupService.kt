@@ -1,14 +1,19 @@
 package io.battlerune.game.service
 
+import org.apache.logging.log4j.LogManager
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
 
 class StartupService {
 
-    private val service = Executors.newSingleThreadExecutor()
+    companion object {
+        private val logger = LogManager.getLogger()
 
-    private val queue: BlockingQueue<Runnable> = LinkedBlockingQueue()
+        private val service = Executors.newSingleThreadExecutor()
+
+        private val queue: BlockingQueue<Runnable> = LinkedBlockingQueue()
+    }
 
     fun start() {
         val tasks = queue.size
@@ -16,16 +21,15 @@ class StartupService {
             val task = queue.poll() ?: continue
             service.submit(task)
         }
-        println("Loaded: $tasks startup tasks.")
+
+        service.shutdown()
+
+        logger.info("Loaded: $tasks startup tasks.")
     }
 
     fun queue(task: Runnable) : StartupService {
         queue.add(task)
         return this
-    }
-
-    fun stop() {
-        service.shutdown()
     }
 
 }

@@ -4,8 +4,13 @@ import com.google.gson.JsonObject
 import io.battlerune.net.packet.PacketHandlerRepository
 import io.battlerune.net.packet.PacketReader
 import io.battlerune.util.GsonParser
+import org.apache.logging.log4j.LogManager
 
 class PacketSizeParser : GsonParser("./data/packet_sizes.json") {
+
+    companion object {
+        val logger = LogManager.getLogger()
+    }
 
     override fun parse(data: JsonObject) {
 
@@ -27,7 +32,7 @@ class PacketSizeParser : GsonParser("./data/packet_sizes.json") {
     }
 
     override fun onComplete() {
-        println("Loaded: $count packet sizes.")
+        logger.info("Loaded: $count packet sizes.")
     }
 
 }

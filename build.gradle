@@ -30,6 +30,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '23.1-jre'
 
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.9.1'
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.9.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:1.1.50"
