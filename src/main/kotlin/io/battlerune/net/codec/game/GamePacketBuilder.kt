@@ -23,7 +23,6 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
     var bitPos: Int = 0
 
     constructor() : this(-1, PacketType.EMPTY)
-    constructor(opcode: Int) : this(opcode, PacketType.FIXED)
 
     fun setMode(accessType: AccessType) {
         if (this.accessType == accessType) {
@@ -39,11 +38,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         this.accessType = accessType
     }
 
-    fun writeBit(flag: Boolean) : GamePacketBuilder {
-        return writeBits(1, if (flag) 1 else 0)
-    }
-
-    fun writeBits(amount:Int, value:Int):GamePacketBuilder {
+    fun writeBits(amount:Int = 1, value:Int):GamePacketBuilder {
         if (!buffer.hasArray()) {
             throw UnsupportedOperationException("This buffer must support an array for bit usage.")
         }
@@ -70,11 +65,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeByte(value: Int) : GamePacketBuilder {
-        return writeByte(value, NONE)
-    }
-
-    fun writeByte(value: Int, modification: ByteModification) : GamePacketBuilder {
+    fun writeByte(value: Int, modification: ByteModification = NONE) : GamePacketBuilder {
         var temp = value
         when(modification) {
             ADDITION -> {
@@ -98,7 +89,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeBuffer(buf: ByteBuf) : GamePacketBuilder {
+    fun writeBytes(buf: ByteBuf) : GamePacketBuilder {
         buffer.writeBytes(buf)
         return this
     }
@@ -108,19 +99,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeShort(value: Int) : GamePacketBuilder {
-        return writeShort(value, NONE, ByteOrder.BIG)
-    }
-
-    fun writeShort(value: Int, modification: ByteModification) : GamePacketBuilder {
-        return writeShort(value, modification, ByteOrder.BIG)
-    }
-
-    fun writeShort(value: Int, order: ByteOrder) : GamePacketBuilder {
-        return writeShort(value, NONE, order)
-    }
-
-    fun writeShort(value: Int, modification: ByteModification, order: ByteOrder) : GamePacketBuilder {
+    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
         when(order) {
             BIG -> {
                 writeByte(value shr 8)
@@ -136,19 +115,8 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         }
         return this
     }
-    fun writeInt(value: Int) : GamePacketBuilder {
-        return writeInt(value, NONE, BIG)
-    }
 
-    fun writeInt(value: Int, order: ByteOrder) : GamePacketBuilder {
-        return writeInt(value, NONE, order)
-    }
-
-    fun writeInt(value: Int, modification: ByteModification) : GamePacketBuilder {
-        return writeInt(value, modification, BIG)
-    }
-
-    fun writeInt(value: Int, modification: ByteModification, order: ByteOrder) : GamePacketBuilder {
+    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
         when(order) {
             BIG -> {
                 writeByte(value shr 24)
@@ -181,19 +149,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeLong(value: Long) : GamePacketBuilder {
-        return writeLong(value, NONE, BIG)
-    }
-
-    fun writeLong(value: Long, order: ByteOrder) : GamePacketBuilder {
-        return writeLong(value, NONE, order)
-    }
-
-    fun writeLong(value: Long, modification: ByteModification) : GamePacketBuilder {
-        return writeLong(value, modification, BIG)
-    }
-
-    fun writeLong(value: Long, modification: ByteModification, order: ByteOrder) : GamePacketBuilder {
+    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
         when(order) {
             BIG -> {
                 writeByte((value shr 56).toInt())
