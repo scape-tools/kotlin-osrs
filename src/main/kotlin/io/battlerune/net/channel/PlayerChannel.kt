@@ -3,22 +3,23 @@ package io.battlerune.net.channel
 import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
+import io.battlerune.net.NetworkConstants
 import io.battlerune.net.codec.login.LoginRequest
+import io.battlerune.net.packet.PacketWriter
+import io.netty.channel.Channel
 import io.netty.channel.socket.SocketChannel
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
-class PlayerChannel(val loginRequest: LoginRequest) {
+class PlayerChannel(val channel: Channel) {
 
     val incomingPackets: Queue<GamePacket> = ConcurrentLinkedQueue()
     val prioritizedPackets: Queue<GamePacket> = ConcurrentLinkedQueue()
 
-    val channel = loginRequest.channel
-    val player: Player = Player(loginRequest.gameContext, loginRequest.username, loginRequest.password)
+    val player = Player(this)
     val hostAddress: String = (channel as SocketChannel).remoteAddress().address.hostAddress
 
-    fun validLogin() : Boolean {
-
+    fun validLogin(loginRequest: LoginRequest) : Boolean {
         val username = loginRequest.username
         val password = loginRequest.password
 
@@ -26,7 +27,8 @@ class PlayerChannel(val loginRequest: LoginRequest) {
             return false
         }
 
-        player.channel = this
+        player.username = username
+        player.password = password
         return true
     }
 
@@ -41,15 +43,34 @@ class PlayerChannel(val loginRequest: LoginRequest) {
     }
 
     fun handleQueuedPackets() {
+        handlePrioritizedPackets()
+
+        while(true) {
+            val packet = incomingPackets.poll() ?: break
+
+            val handler = PacketRepository.readers[packet.opcode] ?: continue
+
+            handler.readPacket(player, packet)
+        }
 
     }
 
-    fun queue() {
+    fun handleIncomingPacket(packet: GamePacket) {
+        if (incomingPackets.size > NetworkConstants.PACKET_LIMIT) {
+            return
+        }
 
+        if (packet.isPriotity()) {
+            prioritizedPackets.add(packet)
+        } else {
+            incomingPackets.add(packet)
+        }
     }
 
-    fun flush() {
-        this.channel.flush()
+    fun writeAndFlush(writer: PacketWriter) {
+        val packet = writer.writePacket(player)
+
+        packet.ifPresent { channel.writeAndFlush(it) }
     }
 
 }
