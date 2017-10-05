@@ -1,10 +1,10 @@
-package io.battlerune.net.codec.js5
+package io.battlerune.net.codec.update
 
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class JS5Decoder : ByteToMessageDecoder() {
+class UpdateDecoder : ByteToMessageDecoder() {
 
     companion object {
         val NORMAL_FILE_REQUEST = 0
@@ -27,7 +27,7 @@ class JS5Decoder : ByteToMessageDecoder() {
                     val file = incoming.readUnsignedShort()
                     val priority = type == 1
 
-                    outgoing.add(JS5FileRequest(index, file, priority))
+                    outgoing.add(FileRequest(index, file, priority))
                 }
 
                 CLIENT_LOGGED_IN, CLIENT_LOGGED_OUT, NEW_ENCRYPTION_USED -> {

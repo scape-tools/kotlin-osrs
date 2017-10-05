@@ -1,6 +1,6 @@
 package io.battlerune.net.codec.handshake
 
-import io.battlerune.net.codec.js5.JS5HandshakeMessage
+import io.battlerune.net.codec.update.UpdateHandshakeMessage
 import io.battlerune.net.codec.login.LoginHandshakeMessage
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -9,8 +9,8 @@ import io.netty.handler.codec.ByteToMessageDecoder
 class HandshakeDecoder : ByteToMessageDecoder() {
 
     companion object {
-        val LOGIN_HANDSHAKE = 14
-        val JS5_HANDSHAKE = 15
+        val LOGIN_REQUEST_HANDSHAKE = 14
+        val UPDATE_REQUEST_HANDSHAKE = 15
     }
 
     override fun decode(ctx: ChannelHandlerContext, incoming: ByteBuf, outgoing: MutableList<Any>) {
@@ -19,19 +19,19 @@ class HandshakeDecoder : ByteToMessageDecoder() {
             return
         }
 
-        val handshakeType = incoming.readUnsignedByte().toInt()
+        val requestType = incoming.readUnsignedByte().toInt()
 
-        println("handshake $handshakeType")
+        println("requestType $requestType")
 
-        when(handshakeType) {
-            LOGIN_HANDSHAKE -> {
-                outgoing.add(LoginHandshakeMessage(handshakeType, HandshakeMessage.VERSION_CURRENT))
+        when(requestType) {
+            LOGIN_REQUEST_HANDSHAKE -> {
+                outgoing.add(LoginHandshakeMessage(requestType, HandshakeMessage.VERSION_CURRENT))
             }
 
-            JS5_HANDSHAKE -> {
+            UPDATE_REQUEST_HANDSHAKE -> {
                 val revision = incoming.readInt()
 
-                outgoing.add(JS5HandshakeMessage(handshakeType, HandshakeMessage.VERSION_CURRENT, revision))
+                outgoing.add(UpdateHandshakeMessage(requestType, HandshakeMessage.VERSION_CURRENT, revision))
             }
         }
 

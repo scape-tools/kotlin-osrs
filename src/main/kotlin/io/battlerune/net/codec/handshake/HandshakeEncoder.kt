@@ -1,9 +1,9 @@
 package io.battlerune.net.codec.handshake
 
 import io.battlerune.game.GameContext
-import io.battlerune.net.codec.js5.JS5Decoder
-import io.battlerune.net.codec.js5.JS5Encoder
-import io.battlerune.net.codec.js5.JS5HandshakeMessage
+import io.battlerune.net.codec.update.UpdateDecoder
+import io.battlerune.net.codec.update.UpdateEncoder
+import io.battlerune.net.codec.update.UpdateHandshakeMessage
 import io.battlerune.net.codec.login.LoginRequestDecoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
@@ -15,10 +15,10 @@ class HandshakeEncoder(private val gameContext: GameContext) : MessageToByteEnco
         // get past login stage 3
         out.writeByte(msg.response)
 
-        if (msg is JS5HandshakeMessage) {
+        if (msg is UpdateHandshakeMessage) {
             if (msg.version == 149) {
-                 ctx.pipeline().replace(HandshakeDecoder::class.simpleName, JS5Decoder::class.simpleName, JS5Decoder())
-                ctx.pipeline().addAfter(JS5Decoder::class.simpleName, JS5Encoder::class.simpleName, JS5Encoder())
+                 ctx.pipeline().replace(HandshakeDecoder::class.simpleName, UpdateDecoder::class.simpleName, UpdateDecoder())
+                ctx.pipeline().addAfter(UpdateDecoder::class.simpleName, UpdateEncoder::class.simpleName, UpdateEncoder())
             }
         } else {
 

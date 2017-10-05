@@ -2,7 +2,7 @@ package io.battlerune.net
 
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.packet.GamePacket
-import io.battlerune.net.codec.js5.JS5FileRequest
+import io.battlerune.net.codec.update.FileRequest
 import io.battlerune.net.codec.handshake.HandshakeMessage
 import io.battlerune.net.codec.login.LoginRequest
 import io.netty.channel.ChannelHandler
@@ -15,7 +15,7 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Any) {
         if (msg is HandshakeMessage) {
             ctx.writeAndFlush(msg)
-        } else if (msg is JS5FileRequest) {
+        } else if (msg is FileRequest) {
             ctx.writeAndFlush(msg)
         } else if (msg is LoginRequest) {
             val playerChannel = PlayerChannel(msg)
