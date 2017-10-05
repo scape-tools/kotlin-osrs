@@ -1,6 +1,7 @@
 package io.battlerune.net
 
 import io.battlerune.game.GameContext
+import io.battlerune.game.world.World
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelFutureListener
 import io.netty.channel.nio.NioEventLoopGroup
@@ -28,7 +29,10 @@ class NetworkService(val gameContext: GameContext) {
 
             val f = sb.bind(port).syncUninterruptibly()
 
-            logger.info("BattleRune bound to port $port.")
+            val world = World((port - 43594) + 1, gameContext)
+            gameContext.world = world
+
+            logger.info("[World ${world.id}] BattleRune started on port: $port.")
 
             f.channel().closeFuture().sync()
         } catch (ex : Exception) {

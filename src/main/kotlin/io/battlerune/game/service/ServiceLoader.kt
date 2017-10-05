@@ -3,6 +3,7 @@ package io.battlerune.game.service
 import io.battlerune.game.GameContext
 import io.battlerune.io.FileSystemLoader
 import io.battlerune.io.PacketRepositoryLoader
+import io.battlerune.net.NetworkConstants
 import io.battlerune.net.NetworkService
 
 class ServiceLoader(gameContext: GameContext) {
@@ -20,7 +21,7 @@ class ServiceLoader(gameContext: GameContext) {
         processStartupTasks()
         startupService.start()
         startupService.awaitUntilFinished()
-        networkService.start(43594)
+        networkService.start(NetworkConstants.PORT)
         gameService.startAsync()
     }
 

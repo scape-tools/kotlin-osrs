@@ -1,5 +1,8 @@
 package io.battlerune.game.world
 
-class World(val id: Int) {
+import io.battlerune.game.GameContext
+
+class World(val id: Int = 1, val gameContext: GameContext) {
+
 
 }
