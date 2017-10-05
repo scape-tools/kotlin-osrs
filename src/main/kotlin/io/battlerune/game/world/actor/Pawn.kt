@@ -1,4 +1,6 @@
 package io.battlerune.game.world.actor
 
-open class Pawn : Actor() {
+import io.battlerune.game.world.Position
+
+open class Pawn(position: Position) : Actor(position) {
 }

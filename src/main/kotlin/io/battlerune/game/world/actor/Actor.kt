@@ -1,4 +1,6 @@
 package io.battlerune.game.world.actor
 
-open class Actor {
+import io.battlerune.game.world.Position
+
+open class Actor(position: Position) {
 }
