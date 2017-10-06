@@ -208,6 +208,15 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun writeString(string: String) : RSByteBufWriter {
+        val array = string.toCharArray()
+        for (ch in array) {
+            buffer.writeByte(ch.toInt())
+        }
+        buffer.writeByte(0)
+        return this
+    }
+
     fun toOutgoingPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : OutgoingPacket {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")
