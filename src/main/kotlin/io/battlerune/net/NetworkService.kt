@@ -1,5 +1,6 @@
 package io.battlerune.net
 
+import io.battlerune.game.GameConstants
 import io.battlerune.game.GameContext
 import io.battlerune.game.world.World
 import io.netty.bootstrap.ServerBootstrap
@@ -32,7 +33,7 @@ class NetworkService(val gameContext: GameContext) {
             val world = World((port - 43594) + 1, gameContext)
             gameContext.world = world
 
-            logger.info("[World ${world.id}] BattleRune started on port: $port.")
+            logger.info("[World ${world.id}] ${GameConstants.SERVER_NAME} started on port: $port.")
 
             f.channel().closeFuture().sync()
         } catch (ex : Exception) {

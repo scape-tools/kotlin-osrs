@@ -1,0 +1,9 @@
+[game]
+server_name = "BattleRune"
+
+[network]
+server_port = 43594
+packet_limit = 30
+login_limit = 50
+logout_limit = 50
+connection_timeout = 5

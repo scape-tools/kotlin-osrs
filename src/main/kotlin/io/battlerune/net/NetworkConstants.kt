@@ -1,17 +1,30 @@
 package io.battlerune.net
 
+import com.moandjiezana.toml.Toml
 import io.netty.util.AttributeKey
 import io.battlerune.net.channel.PlayerChannel
+import java.io.File
 
 object NetworkConstants {
 
-    val PORT = 43594
+    val PORT: Int
+    val PACKET_LIMIT: Int
+    val LOGIN_LIMIT: Int
+    val LOGOUT_LIMIT: Int
 
-    val SESSION_KEY = AttributeKey.valueOf<PlayerChannel>("session.key")
+    init {
+        val parser = Toml().read(File("./settings.toml")).getTable("network")
 
-    val PACKET_LIMIT = 30
+        try {
+            PORT = parser.getLong("server_port").toInt()
+            PACKET_LIMIT = parser.getLong("packet_limit").toInt()
+            LOGIN_LIMIT = parser.getLong("login_limit").toInt()
+            LOGOUT_LIMIT = parser.getLong("logout_limit").toInt()
+        } catch (ex: Exception) {
+            throw ExceptionInInitializerError(ex)
+        }
+    }
 
-    val LOGIN_LIMIT = 50
-    val LOGOUT_LIMIT = 50
+    val SESSION_KEY: AttributeKey<PlayerChannel> = AttributeKey.valueOf<PlayerChannel>("session.key")
 
 }
