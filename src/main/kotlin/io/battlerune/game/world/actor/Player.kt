@@ -48,7 +48,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
         builder.switchToByteAccess()
 
         writePacket(RegionUpdateOutgoingPacket(builder))
-        writePacket(IPLookupOutgoingPacket())
+        //writePacket(IPLookupOutgoingPacket())
     }
 
     fun logout() {
