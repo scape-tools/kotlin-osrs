@@ -29,6 +29,7 @@ class NetworkService(val gameContext: GameContext) {
                     .handler(LoggingHandler(LogLevel.INFO))
                     .childHandler(ServerPipelineInitializer(gameContext))
                     .option(ChannelOption.SO_BACKLOG, 128)
+                    .option(ChannelOption.TCP_NODELAY, true)
 
             val f = sb.bind(port).syncUninterruptibly()
 
