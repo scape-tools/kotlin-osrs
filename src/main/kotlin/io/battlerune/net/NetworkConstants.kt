@@ -11,6 +11,7 @@ object NetworkConstants {
     val PACKET_LIMIT: Int
     val LOGIN_LIMIT: Int
     val LOGOUT_LIMIT: Int
+    val CONNECTION_TIMEOUT: Int
 
     init {
         val parser = Toml().read(File("./settings.toml")).getTable("network")
@@ -20,6 +21,7 @@ object NetworkConstants {
             PACKET_LIMIT = parser.getLong("packet_limit").toInt()
             LOGIN_LIMIT = parser.getLong("login_limit").toInt()
             LOGOUT_LIMIT = parser.getLong("logout_limit").toInt()
+            CONNECTION_TIMEOUT = parser.getLong("connection_timeout").toInt()
         } catch (ex: Exception) {
             throw ExceptionInInitializerError(ex)
         }

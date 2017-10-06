@@ -7,6 +7,7 @@ import io.battlerune.net.codec.handshake.HandshakeEncoder
 import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.socket.SocketChannel
+import io.netty.handler.timeout.IdleStateHandler
 
 @ChannelHandler.Sharable
 class ServerPipelineInitializer(private val gameContext: GameContext) : ChannelInitializer<SocketChannel>() {
@@ -20,6 +21,7 @@ class ServerPipelineInitializer(private val gameContext: GameContext) : ChannelI
         ch.pipeline()
                 .addLast(HandshakeDecoder::class.simpleName, HandshakeDecoder())
                 .addLast(HandshakeEncoder::class.simpleName, HandshakeEncoder(gameContext))
+                .addLast(IdleStateHandler(NetworkConstants.CONNECTION_TIMEOUT, 0, 0))
                 .addLast(UpstreamChannelHandler::class.simpleName, HANDLER)
     }
 
