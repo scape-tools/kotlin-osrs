@@ -20,21 +20,36 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
         println("on login")
 
-        val builder = RSByteBufWriter()
-        builder.switchToBitAccess()
+        val builder = RSByteBufWriter.alloc()
 
+        builder.switchToBitAccess()
         builder.writeBits(30, position.toPositionPacked())
 
-        for (player in context.world.players.list) {
+        try {
 
-            player ?: continue
+            for (i in 1 until 2048) {
 
-            builder.writeBits(18, player.position.toRegionPacked())
+                if (i == this.index) {
+                    continue
+                }
+
+                val player = context.world.players.list[i]
+
+                if (player == null) {
+                    builder.writeBits(18, 0)
+                } else {
+                    builder.writeBits(18, player.position.toRegionPacked())
+                }
+
+            }
+
+        } catch (ex: Exception) {
+            println(ex.message)
         }
 
         builder.switchToByteAccess()
 
-        writePacket(RegionUpdatePacket())
+        writePacket(RegionUpdatePacket(builder))
     }
 
     fun logout() {

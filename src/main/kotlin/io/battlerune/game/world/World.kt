@@ -11,7 +11,7 @@ class World(val id: Int = 1, val gameContext: GameContext) {
 
     val logins = ConcurrentLinkedQueue<Player>()
     val logouts = ConcurrentLinkedQueue<Player>()
-    val players = PawnList<Player>(1000)
+    val players = PawnList<Player>(2048)
 
     fun queueLogin(player: Player) {
         logins.add(player)

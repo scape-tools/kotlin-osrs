@@ -7,7 +7,7 @@ import io.battlerune.net.codec.game.ByteOrder.*
 import io.battlerune.net.packet.OutgoingPacket
 import io.battlerune.net.packet.PacketType
 
-class RSByteBufWriter() {
+class RSByteBufWriter private constructor(val buffer: ByteBuf) {
 
     companion object {
         val BIT_MASK = listOf(0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff,
@@ -15,9 +15,15 @@ class RSByteBufWriter() {
                 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1)
 
         val DEFAULT_CAPACITY = 128
-    }
 
-    val buffer: ByteBuf = Unpooled.buffer(DEFAULT_CAPACITY)
+        fun wrap(buf: ByteBuf) : RSByteBufWriter {
+            return RSByteBufWriter(buf)
+        }
+
+        fun alloc(size: Int = DEFAULT_CAPACITY) : RSByteBufWriter {
+            return RSByteBufWriter(Unpooled.buffer(size))
+        }
+    }
 
     var accessType: AccessType = AccessType.BYTE
 
@@ -47,29 +53,46 @@ class RSByteBufWriter() {
         return this
     }
 
-    fun writeBits(amount:Int = 1, value:Int): RSByteBufWriter {
-        if (!buffer.hasArray()) {
-            throw UnsupportedOperationException("This buffer must support an array for bit usage.")
+    fun writeBits(amount:Int, value: Int): RSByteBufWriter {
+        if (amount <= 0 || amount > 32) {
+            throw IllegalArgumentException("Number of bits must be between 1 and 31 inclusive")
         }
-        var temp = amount
-        val bytes = Math.ceil(temp / 8.0).toInt() + 1
-        buffer.ensureWritable((bitPos + 7) / 8 + bytes)
-        val buffer = this.buffer.array()
+
+        if (accessType != AccessType.BIT) {
+            throw IllegalStateException("Must have bit access")
+        }
+
+        var numBits = amount
+
         var bytePos = bitPos shr 3
-        var bitOffset = 8 - (bitPos and 7)
-        bitPos += temp
-        while (temp > bitOffset) {
-            buffer[bytePos] = (buffer[bytePos].toInt() and BIT_MASK[bitOffset].inv()).toByte()
-            buffer[bytePos++] = (buffer[bytePos++].toInt() or ((value shr (temp - bitOffset)) and BIT_MASK[bitOffset])).toByte()
-            temp -= bitOffset
+        buffer.writerIndex(bytePos + 1)
+
+        if (buffer.writableBytes() < ((numBits + 7) / 8)) {
+            buffer.capacity(buffer.capacity() * 2)
+        }
+
+        var bitOffset = 8 - (bitPos and 0x7)
+        bitPos += numBits
+
+        while (numBits > bitOffset) {
+            var tmp = buffer.getByte(bytePos).toInt()
+            tmp = tmp and BIT_MASK[bitOffset].inv()
+            tmp = tmp or ((value shr (numBits - bitOffset)) and BIT_MASK[bitOffset])
+            buffer.setByte(bytePos++, tmp)
+            numBits -= bitOffset
             bitOffset = 8
         }
-        if (temp == bitOffset) {
-            buffer[bytePos] = (buffer[bytePos].toInt() and BIT_MASK[bitOffset].inv()).toByte()
-            buffer[bytePos] = (buffer[bytePos].toInt() or (temp and BIT_MASK[bitOffset])).toByte()
+
+        if (numBits == bitOffset) {
+            var tmp = buffer.getByte(bytePos).toInt()
+            tmp = tmp and BIT_MASK[bitOffset].inv()
+            tmp = tmp or (value and BIT_MASK[bitOffset])
+            buffer.setByte(bytePos, tmp)
         } else {
-            buffer[bytePos] = (buffer[bytePos].toInt() and (BIT_MASK[temp] shl (bitOffset - temp)).inv()).toByte()
-            buffer[bytePos] = (buffer[bytePos].toInt() or ((temp and BIT_MASK[temp]) shl (bitOffset - temp))).toByte()
+            var tmp = buffer.getByte(bytePos).toInt()
+            tmp = tmp and (BIT_MASK[numBits] shl (bitOffset - numBits)).inv()
+            tmp = tmp or ((value and BIT_MASK[numBits]) shl (bitOffset - numBits))
+            buffer.setByte(bytePos, tmp)
         }
         return this
     }
