@@ -1,6 +1,5 @@
 package io.battlerune.net
 
-import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.codec.update.FileRequest
 import io.battlerune.net.codec.handshake.HandshakeMessage
 import io.battlerune.net.codec.login.LoginRequest

@@ -6,6 +6,6 @@ import java.util.*
 @FunctionalInterface
 interface PacketWriter {
 
-    fun writePacket(player: Player): Optional<GamePacket>
+    fun writePacket(player: Player): Optional<OutgoingPacket>
 
 }

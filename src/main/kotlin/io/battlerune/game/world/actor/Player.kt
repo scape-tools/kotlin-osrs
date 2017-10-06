@@ -2,7 +2,7 @@ package io.battlerune.game.world.actor
 
 import io.battlerune.game.GameContext
 import io.battlerune.net.channel.PlayerChannel
-import io.battlerune.net.codec.game.GamePacketBuilder
+import io.battlerune.net.codec.game.PacketBuilder
 import io.battlerune.net.packet.PacketWriter
 import io.battlerune.net.packet.out.RegionUpdatePacket
 
@@ -20,7 +20,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
         println("on login")
 
-        val builder = GamePacketBuilder()
+        val builder = PacketBuilder()
         builder.switchToBitAccess()
 
         builder.writeBits(30, position.toPositionPacked())

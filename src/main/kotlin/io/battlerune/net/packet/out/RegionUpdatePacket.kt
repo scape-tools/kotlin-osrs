@@ -3,16 +3,16 @@ package io.battlerune.net.packet.out
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.ByteOrder
-import io.battlerune.net.codec.game.GamePacketBuilder
-import io.battlerune.net.packet.GamePacket
+import io.battlerune.net.codec.game.PacketBuilder
+import io.battlerune.net.packet.OutgoingPacket
 import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketWriter
 import java.util.*
 
 class RegionUpdatePacket : PacketWriter {
 
-    override fun writePacket(player: Player): Optional<GamePacket> {
-        val builder = GamePacketBuilder(174, PacketType.VAR_SHORT)
+    override fun writePacket(player: Player): Optional<OutgoingPacket> {
+        val builder = PacketBuilder(174, PacketType.VAR_SHORT)
 
         val chunkX = player.position.chunkX
         val chunkY = player.position.chunkY
@@ -29,7 +29,7 @@ class RegionUpdatePacket : PacketWriter {
 
         var count = 0
 
-        val xtea = GamePacketBuilder()
+        val xtea = PacketBuilder()
         for (xCalc in (chunkX - 6) / 8..(6 + chunkX) / 8) {
             for (yCalc in (chunkY - 6) / 8..(6 + chunkY) / 8) {
                 val region = yCalc + (xCalc shl 8)
@@ -47,7 +47,7 @@ class RegionUpdatePacket : PacketWriter {
         builder.writeShort(chunkX, ByteModification.ADD)
         builder.writeShort(count)
 
-        return Optional.of(builder.toGamePacket())
+        return Optional.of(builder.toOutgoingPacket())
     }
 
 }

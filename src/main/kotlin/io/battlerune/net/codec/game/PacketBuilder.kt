@@ -4,10 +4,10 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
-import io.battlerune.net.packet.GamePacket
+import io.battlerune.net.packet.OutgoingPacket
 import io.battlerune.net.packet.PacketType
 
-class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
+class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
 
     companion object {
         val BIT_MASK = listOf(0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff,
@@ -39,17 +39,17 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         this.accessType = accessType
     }
 
-    fun switchToBitAccess() : GamePacketBuilder {
+    fun switchToBitAccess() : PacketBuilder {
         setMode(AccessType.BIT)
         return this
     }
 
-    fun switchToByteAccess() : GamePacketBuilder {
+    fun switchToByteAccess() : PacketBuilder {
         setMode(AccessType.BYTE)
         return this
     }
 
-    fun writeBits(amount:Int = 1, value:Int):GamePacketBuilder {
+    fun writeBits(amount:Int = 1, value:Int): PacketBuilder {
         if (!buffer.hasArray()) {
             throw UnsupportedOperationException("This buffer must support an array for bit usage.")
         }
@@ -76,7 +76,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeByte(value: Int, modification: ByteModification = NONE) : GamePacketBuilder {
+    fun writeByte(value: Int, modification: ByteModification = NONE) : PacketBuilder {
         var temp = value
         when(modification) {
             ADD -> {
@@ -100,12 +100,12 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeBytes(buf: ByteBuf) : GamePacketBuilder {
+    fun writeBytes(buf: ByteBuf) : PacketBuilder {
         buffer.writeBytes(buf)
         return this
     }
 
-    fun writeBytes(bytes: ByteArray) : GamePacketBuilder {
+    fun writeBytes(bytes: ByteArray) : PacketBuilder {
         buffer.writeBytes(bytes)
         return this
     }
@@ -114,7 +114,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return writeShort(value, order)
     }
 
-    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
+    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
         when(order) {
             BE -> {
                 writeByte(value shr 8)
@@ -131,7 +131,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
+    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
         when(order) {
             BE -> {
                 writeByte(value shr 24)
@@ -164,7 +164,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
+    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
         when(order) {
             BE -> {
                 writeByte((value shr 56).toInt())
@@ -193,11 +193,11 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun toGamePacket() : GamePacket {
+    fun toOutgoingPacket() : OutgoingPacket {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")
         }
-        return GamePacket(opcode, type, buffer)
+        return OutgoingPacket(opcode, type, buffer)
     }
 
 }

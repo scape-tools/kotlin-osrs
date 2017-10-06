@@ -1,7 +1,7 @@
 package io.battlerune.net.codec.login
 
-import io.battlerune.net.codec.game.GamePacketDecoder
-import io.battlerune.net.codec.game.GamePacketEncoder
+import io.battlerune.net.codec.game.PacketDecoder
+import io.battlerune.net.codec.game.PacketEncoder
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
@@ -19,8 +19,8 @@ class LoginResponseEncoder : MessageToByteEncoder<LoginRequest>() {
         out.writeShort(1) // index 9
         out.writeByte(1) // 10
 
-        ctx.pipeline().replace(LoginDecoder::class.simpleName, GamePacketDecoder::class.simpleName, GamePacketDecoder(msg.isaacPair.decoder))
-        ctx.pipeline().replace(LoginResponseEncoder::class.simpleName, GamePacketEncoder::class.simpleName, GamePacketEncoder(msg.isaacPair.encoder))
+        ctx.pipeline().replace(LoginDecoder::class.simpleName, PacketDecoder::class.simpleName, PacketDecoder(msg.isaacPair.decoder))
+        ctx.pipeline().replace(LoginResponseEncoder::class.simpleName, PacketEncoder::class.simpleName, PacketEncoder(msg.isaacPair.encoder))
     }
 
 }

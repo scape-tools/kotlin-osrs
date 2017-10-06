@@ -1,7 +1,6 @@
 package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.IsaacRandom
-import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.packet.IncomingPacket
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.net.packet.PacketType
@@ -9,7 +8,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
+class PacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
 
     enum class State {
         OPCODE,

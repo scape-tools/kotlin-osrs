@@ -1,6 +1,5 @@
 package io.battlerune.net.channel
 
-import io.battlerune.net.packet.GamePacket
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
