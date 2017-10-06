@@ -79,15 +79,15 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
     fun writeByte(value: Int, modification: ByteModification = NONE) : GamePacketBuilder {
         var temp = value
         when(modification) {
-            ADDITION -> {
+            ADD -> {
                 temp += 128
             }
 
-            NEGATION -> {
+            NEG -> {
                 temp = -temp
             }
 
-            SUBTRACTION -> {
+            SUB -> {
                 temp = 128 - value
             }
 

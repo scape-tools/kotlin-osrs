@@ -12,7 +12,7 @@ import java.util.*
 class RegionUpdatePacket : PacketWriter {
 
     override fun writePacket(player: Player): Optional<GamePacket> {
-        val builder = GamePacketBuilder(174, PacketType.VARIABLE_SHORT)
+        val builder = GamePacketBuilder(174, PacketType.VAR_SHORT)
 
         val chunkX = player.position.chunkX
         val chunkY = player.position.chunkY
@@ -44,7 +44,7 @@ class RegionUpdatePacket : PacketWriter {
         }
 
         builder.writeShort(chunkY, ByteOrder.LITTLE)
-        builder.writeShort(chunkX, ByteModification.ADDITION)
+        builder.writeShort(chunkX, ByteModification.ADD)
         builder.writeShort(count)
 
         return Optional.of(builder.toGamePacket())

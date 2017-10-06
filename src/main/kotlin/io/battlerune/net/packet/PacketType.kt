@@ -4,7 +4,7 @@ enum class PacketType {
 
     EMPTY,
     FIXED,
-    VARIABLE_BYTE,
-    VARIABLE_SHORT
+    VAR_BYTE,
+    VAR_SHORT
 
 }

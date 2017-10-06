@@ -16,9 +16,9 @@ class GamePacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<Gam
 
         out.writeByte(msg.opcode + isaacRandom.nextInt())
 
-        if (type == PacketType.VARIABLE_BYTE) {
+        if (type == PacketType.VAR_BYTE) {
             out.writeByte(payload.writerIndex())
-        } else if (type == PacketType.VARIABLE_SHORT) {
+        } else if (type == PacketType.VAR_SHORT) {
             out.writeShort(payload.writerIndex())
         }
 

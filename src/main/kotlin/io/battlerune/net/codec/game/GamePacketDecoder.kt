@@ -2,6 +2,7 @@ package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.IsaacRandom
 import io.battlerune.net.packet.GamePacket
+import io.battlerune.net.packet.IncomingPacket
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
@@ -60,9 +61,9 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
         println("opcode $opcode size $size")
 
         if (size == -2) {
-            packetType = PacketType.VARIABLE_SHORT
+            packetType = PacketType.VAR_SHORT
         } else if (size == -1) {
-            packetType = PacketType.VARIABLE_BYTE
+            packetType = PacketType.VAR_BYTE
         } else {
             packetType = PacketType.FIXED
         }
@@ -78,14 +79,14 @@ class GamePacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
         if (inc.readableBytes() < size) {
             return
         }
-        out.add(GamePacket(opcode, packetType, inc.readBytes(size)))
+        out.add(IncomingPacket(opcode, packetType, inc.readBytes(size)))
         state = State.OPCODE
     }
 
     fun readSize(inc: ByteBuf) {
-        if (packetType == PacketType.VARIABLE_BYTE) {
+        if (packetType == PacketType.VAR_BYTE) {
             size = inc.readUnsignedByte().toInt()
-        } else if (packetType == PacketType.VARIABLE_SHORT) {
+        } else if (packetType == PacketType.VAR_SHORT) {
             if (inc.readableBytes() >= 2) {
                 size = inc.readUnsignedShort()
             }

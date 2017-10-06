@@ -5,6 +5,6 @@ import io.battlerune.game.world.actor.Player
 @FunctionalInterface
 interface PacketReader {
 
-    fun readPacket(player: Player, packet: GamePacket)
+    fun readPacket(player: Player, packet: IncomingPacket)
 
 }
