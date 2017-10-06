@@ -13,7 +13,6 @@ class RegionUpdatePacket : WritablePacket {
 
     override fun writePacket(player: Player): Optional<OutgoingPacket> {
         val builder = RSByteBufWriter()
-        try {
             val chunkX = player.position.chunkX
             val chunkY = player.position.chunkY
 
@@ -46,11 +45,6 @@ class RegionUpdatePacket : WritablePacket {
             builder.writeShort(chunkY, ByteOrder.LE)
             builder.writeShort(chunkX, ByteModification.ADD)
             builder.writeShort(count)
-
-        } catch (ex: Exception) {
-            println("error when creating packet")
-            ex.printStackTrace()
-        }
 
         return Optional.of(builder.toOutgoingPacket(174, PacketType.VAR_SHORT))
     }

@@ -46,10 +46,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
     }
 
     fun writePacket(writer: WritablePacket) : Player {
-        println("writing packet")
-
         playerChannel.writeAndFlush(writer)
-        println("wrote packet")
         return this
     }
 

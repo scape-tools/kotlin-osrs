@@ -77,22 +77,10 @@ class RSByteBufWriter() {
     fun writeByte(value: Int, modification: ByteModification = NONE) : RSByteBufWriter {
         var temp = value
         when(modification) {
-            ADD -> {
-                temp += 128
-            }
-
-            NEG -> {
-                temp = -temp
-            }
-
-            SUB -> {
-                temp = 128 - value
-            }
-
-            NONE -> {
-
-            }
-
+            ADD -> { temp += 128 }
+            NEG -> { temp = -temp }
+            SUB -> { temp = 128 - value }
+            NONE -> { }
         }
         buffer.writeByte(temp)
         return this
@@ -108,8 +96,9 @@ class RSByteBufWriter() {
         return this
     }
 
-    fun writeShort(value: Int, order: ByteOrder) {
-        return writeShort(value, order)
+    fun writeShort(value: Int, order: ByteOrder) : RSByteBufWriter {
+         writeShort(value, NONE, order)
+        return this
     }
 
     fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {

@@ -5,13 +5,19 @@ import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
 import io.battlerune.net.codec.login.LoginRequest
 import io.battlerune.net.packet.IncomingPacket
+import io.battlerune.net.packet.OutgoingPacket
 import io.battlerune.net.packet.WritablePacket
 import io.netty.channel.Channel
 import io.netty.channel.socket.SocketChannel
+import org.apache.logging.log4j.LogManager
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class PlayerChannel(val channel: Channel) {
+
+    companion object {
+        val logger = LogManager.getLogger()
+    }
 
     val incomingPackets: Queue<IncomingPacket> = ConcurrentLinkedQueue()
     val prioritizedPackets: Queue<IncomingPacket> = ConcurrentLinkedQueue()
@@ -73,11 +79,17 @@ class PlayerChannel(val channel: Channel) {
     }
 
     fun writeAndFlush(writer: WritablePacket) {
-        val packet = writer.writePacket(player)
+        val packet: Optional<OutgoingPacket>
+        try {
+            packet = writer.writePacket(player)
 
-        println("packet present: " + packet.isPresent)
+            println("packet present: " + packet.isPresent)
 
-        packet.ifPresent { channel.writeAndFlush(it) }
+            packet.ifPresent { channel.writeAndFlush(it) }
+        } catch (ex: Throwable) {
+            logger.warn("An exception was caught writing a packet.", ex)
+        }
+
     }
 
 }
