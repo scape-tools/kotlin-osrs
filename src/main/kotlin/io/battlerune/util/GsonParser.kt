@@ -15,26 +15,30 @@ abstract class GsonParser(val path: String) : Runnable {
     abstract fun onComplete()
 
     override fun run() {
-        BufferedReader(FileReader(File(path))).use {
-            val parser = JsonParser()
+        try {
+            BufferedReader(FileReader(File(path))).use {
+                val parser = JsonParser()
 
-            val jsonElement = parser.parse(it)
+                val jsonElement = parser.parse(it)
 
-            if (jsonElement.isJsonArray) {
-                for (e in jsonElement.asJsonArray) {
-                    val obj = e.asJsonObject
+                if (jsonElement.isJsonArray) {
+                    for (e in jsonElement.asJsonArray) {
+                        val obj = e.asJsonObject
 
-                    parse(obj)
+                        parse(obj)
 
+                        count++
+                    }
+                } else if (jsonElement.isJsonObject) {
+                    parse(jsonElement.asJsonObject)
                     count++
                 }
-            } else if (jsonElement.isJsonObject) {
-                parse(jsonElement.asJsonObject)
-                count++
+
+                onComplete()
+
             }
-
-            onComplete()
-
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 
