@@ -5,7 +5,7 @@ import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
 import io.battlerune.net.codec.login.LoginRequest
 import io.battlerune.net.packet.IncomingPacket
-import io.battlerune.net.packet.PacketWriter
+import io.battlerune.net.packet.WritablePacket
 import io.netty.channel.Channel
 import io.netty.channel.socket.SocketChannel
 import java.util.*
@@ -72,7 +72,7 @@ class PlayerChannel(val channel: Channel) {
         }
     }
 
-    fun writeAndFlush(writer: PacketWriter) {
+    fun writeAndFlush(writer: WritablePacket) {
         val packet = writer.writePacket(player)
 
         packet.ifPresent { channel.writeAndFlush(it) }

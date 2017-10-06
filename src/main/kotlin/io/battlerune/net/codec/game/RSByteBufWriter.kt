@@ -7,7 +7,7 @@ import io.battlerune.net.codec.game.ByteOrder.*
 import io.battlerune.net.packet.OutgoingPacket
 import io.battlerune.net.packet.PacketType
 
-class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
+class RSByteBufWriter() {
 
     companion object {
         val BIT_MASK = listOf(0x0, 0x1, 0x3, 0x7, 0xf, 0x1f, 0x3f, 0x7f, 0xff, 0x1ff, 0x3ff, 0x7ff, 0xfff,
@@ -23,8 +23,6 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
 
     var bitPos: Int = 0
 
-    constructor() : this(-1, PacketType.EMPTY)
-
     private fun setMode(accessType: AccessType) {
         if (this.accessType == accessType) {
             throw IllegalStateException("Already in $accessType mode.")
@@ -39,17 +37,17 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         this.accessType = accessType
     }
 
-    fun switchToBitAccess() : PacketBuilder {
+    fun switchToBitAccess() : RSByteBufWriter {
         setMode(AccessType.BIT)
         return this
     }
 
-    fun switchToByteAccess() : PacketBuilder {
+    fun switchToByteAccess() : RSByteBufWriter {
         setMode(AccessType.BYTE)
         return this
     }
 
-    fun writeBits(amount:Int = 1, value:Int): PacketBuilder {
+    fun writeBits(amount:Int = 1, value:Int): RSByteBufWriter {
         if (!buffer.hasArray()) {
             throw UnsupportedOperationException("This buffer must support an array for bit usage.")
         }
@@ -76,7 +74,7 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return this
     }
 
-    fun writeByte(value: Int, modification: ByteModification = NONE) : PacketBuilder {
+    fun writeByte(value: Int, modification: ByteModification = NONE) : RSByteBufWriter {
         var temp = value
         when(modification) {
             ADD -> {
@@ -100,12 +98,12 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return this
     }
 
-    fun writeBytes(buf: ByteBuf) : PacketBuilder {
+    fun writeBytes(buf: ByteBuf) : RSByteBufWriter {
         buffer.writeBytes(buf)
         return this
     }
 
-    fun writeBytes(bytes: ByteArray) : PacketBuilder {
+    fun writeBytes(bytes: ByteArray) : RSByteBufWriter {
         buffer.writeBytes(bytes)
         return this
     }
@@ -114,7 +112,7 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return writeShort(value, order)
     }
 
-    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
+    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
         when(order) {
             BE -> {
                 writeByte(value shr 8)
@@ -131,7 +129,7 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return this
     }
 
-    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
+    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
         when(order) {
             BE -> {
                 writeByte(value shr 24)
@@ -164,7 +162,7 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return this
     }
 
-    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : PacketBuilder {
+    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
         when(order) {
             BE -> {
                 writeByte((value shr 56).toInt())
@@ -193,11 +191,12 @@ class PacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED) {
         return this
     }
 
-    fun toOutgoingPacket() : OutgoingPacket {
+    fun toOutgoingPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : OutgoingPacket {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")
         }
-        return OutgoingPacket(opcode, type, buffer)
+        
+        return OutgoingPacket(opcode, packetType, buffer)
     }
 
 }

@@ -2,7 +2,7 @@ package io.battlerune.io
 
 import com.google.gson.JsonObject
 import io.battlerune.net.packet.PacketRepository
-import io.battlerune.net.packet.PacketReader
+import io.battlerune.net.packet.ReadablePacket
 import io.battlerune.util.GsonParser
 import org.apache.logging.log4j.LogManager
 
@@ -23,7 +23,7 @@ class PacketRepositoryLoader : GsonParser("./data/packet_repository.json") {
 
             val handler = Class.forName(data.get("handler").asString).newInstance()
 
-            if (handler is PacketReader) {
+            if (handler is ReadablePacket) {
                 PacketRepository.readers[opcode] = handler
                 handlers++
             }

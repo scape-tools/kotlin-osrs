@@ -4,7 +4,7 @@ import io.battlerune.game.world.actor.Player
 import java.util.*
 
 @FunctionalInterface
-interface PacketWriter {
+interface WritablePacket {
 
     fun writePacket(player: Player): Optional<OutgoingPacket>
 
