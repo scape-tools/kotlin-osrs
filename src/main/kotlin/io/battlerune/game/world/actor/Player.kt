@@ -6,6 +6,7 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.WritablePacket
 import io.battlerune.net.packet.out.IPLookupOutgoingPacket
 import io.battlerune.net.packet.out.RegionUpdateOutgoingPacket
+import io.battlerune.net.packet.out.RootInterfaceOutgoingPacket
 
 class Player(val playerChannel: PlayerChannel) : Pawn() {
 
@@ -49,6 +50,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
         writePacket(RegionUpdateOutgoingPacket(builder))
         //writePacket(IPLookupOutgoingPacket())
+        writePacket(RootInterfaceOutgoingPacket(165))
     }
 
     fun logout() {

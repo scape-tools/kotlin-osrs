@@ -7,13 +7,13 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class PacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<OutgoingPacket>() {
+class PacketEncoder(val random: IsaacRandom) : MessageToByteEncoder<OutgoingPacket>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: OutgoingPacket, out: ByteBuf) {
         val type = msg.type
         val payload = msg.payload
 
-        out.writeByte(msg.opcode + isaacRandom.nextInt())
+        out.writeByte(msg.opcode + random.nextInt())
 
         if (type == PacketType.VAR_BYTE) {
             out.writeByte(payload.writerIndex())
