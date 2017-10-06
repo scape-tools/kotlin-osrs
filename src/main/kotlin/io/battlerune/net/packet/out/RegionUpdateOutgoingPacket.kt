@@ -46,7 +46,7 @@ class RegionUpdateOutgoingPacket(val buf: RSByteBufWriter) : WritablePacket {
             builder.writeShort(chunkX, ByteModification.ADD)
             builder.writeShort(count)
 
-        return Optional.of(builder.toOutgoingPacket(174, PacketType.VAR_SHORT))
+        return Optional.of(builder.toOutgoingPacket(60, PacketType.VAR_SHORT))
     }
 
 }

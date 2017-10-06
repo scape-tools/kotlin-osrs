@@ -14,9 +14,10 @@ class InterfaceOutgoingPacket(val rootInterfaceId: Int, val childId: Int, val in
     override fun writePacket(player: Player): Optional<OutgoingPacket> {
         val writer = RSByteBufWriter.alloc()
         writer.writeByte(if (clickable) 1 else 0, ByteModification.NEG)
-                .writeInt(rootInterfaceId and 16 or childId, ByteOrder.ME)
-                .writeShort(interfaceId, ByteOrder.BE)
-        return Optional.of(writer.toOutgoingPacket(191, PacketType.FIXED))
+                .writeInt((rootInterfaceId shl 16) or childId, ByteOrder.ME)
+                .writeShort(interfaceId, ByteModification.ADD)
+
+        return Optional.of(writer.toOutgoingPacket(111, PacketType.FIXED))
     }
 
 }

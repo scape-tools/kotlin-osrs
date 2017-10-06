@@ -135,7 +135,6 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
                 writeByte(value, modification)
                 writeByte(value shr 8)
             }
-
             else -> throw IllegalStateException("$order short is not possible!")
         }
         return this

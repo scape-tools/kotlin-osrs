@@ -12,9 +12,9 @@ class InterfaceTextOutgoingPacket(val root: Int, val child: Int, val message: St
 
     override fun writePacket(player: Player): Optional<OutgoingPacket> {
         val writer = RSByteBufWriter.alloc()
+        writer.writeString(message)
         writer.writeInt(root shl 16 or child, ByteOrder.IME)
-                .writeString(message)
-        return Optional.of(writer.toOutgoingPacket(53, PacketType.VAR_SHORT))
+        return Optional.of(writer.toOutgoingPacket(244, PacketType.VAR_SHORT))
     }
 
 }
