@@ -141,6 +141,11 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun writeInt(value: Int, order: ByteOrder = BE) : RSByteBufWriter {
+        writeInt(value, NONE, order)
+        return this
+    }
+
     fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
         when(order) {
             BE -> {

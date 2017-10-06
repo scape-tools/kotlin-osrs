@@ -9,7 +9,7 @@ import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.WritablePacket
 import java.util.*
 
-class RegionUpdatePacket(val buf: RSByteBufWriter) : WritablePacket {
+class RegionUpdateOutgoingPacket(val buf: RSByteBufWriter) : WritablePacket {
 
     override fun writePacket(player: Player): Optional<OutgoingPacket> {
         val builder = RSByteBufWriter.wrap(buf.buffer)
@@ -45,8 +45,6 @@ class RegionUpdatePacket(val buf: RSByteBufWriter) : WritablePacket {
             builder.writeShort(chunkY, ByteOrder.LE)
             builder.writeShort(chunkX, ByteModification.ADD)
             builder.writeShort(count)
-
-        println("packet size: ${builder.buffer.readableBytes()}")
 
         return Optional.of(builder.toOutgoingPacket(174, PacketType.VAR_SHORT))
     }

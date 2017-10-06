@@ -4,7 +4,8 @@ import io.battlerune.game.GameContext
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.WritablePacket
-import io.battlerune.net.packet.out.RegionUpdatePacket
+import io.battlerune.net.packet.out.IPLookupOutgoingPacket
+import io.battlerune.net.packet.out.RegionUpdateOutgoingPacket
 
 class Player(val playerChannel: PlayerChannel) : Pawn() {
 
@@ -17,9 +18,6 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
     }
 
     fun onLogin() {
-
-        println("on login")
-
         val builder = RSByteBufWriter.alloc()
 
         builder.switchToBitAccess()
@@ -49,7 +47,8 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
         builder.switchToByteAccess()
 
-        writePacket(RegionUpdatePacket(builder))
+        writePacket(RegionUpdateOutgoingPacket(builder))
+        writePacket(IPLookupOutgoingPacket())
     }
 
     fun logout() {

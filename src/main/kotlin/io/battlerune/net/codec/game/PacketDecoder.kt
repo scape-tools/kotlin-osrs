@@ -30,20 +30,10 @@ class PacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
             return
         }
 
-        println("decoding packet state $state")
-
         when(state) {
-            State.OPCODE -> {
-                readOpcode(inc)
-            }
-
-            State.SIZE -> {
-                readSize(inc)
-            }
-
-            State.PAYLOAD -> {
-                readPayload(inc, out)
-            }
+            State.OPCODE -> { readOpcode(inc) }
+            State.SIZE -> { readSize(inc) }
+            State.PAYLOAD -> { readPayload(inc, out) }
         }
 
     }
@@ -57,7 +47,7 @@ class PacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
 
         size = PacketRepository.sizes[opcode]
 
-        println("opcode $opcode size $size")
+        println("opcode $opcode size $size actual ${inc.readableBytes()}")
 
         if (size == -2) {
             packetType = PacketType.VAR_SHORT

@@ -10,9 +10,6 @@ import io.netty.handler.codec.MessageToByteEncoder
 class PacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<OutgoingPacket>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: OutgoingPacket, out: ByteBuf) {
-
-        println("encoding packet")
-
         val type = msg.type
         val payload = msg.payload
 
@@ -25,7 +22,6 @@ class PacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<Outgoin
         }
 
         out.writeBytes(payload)
-
     }
 
 }

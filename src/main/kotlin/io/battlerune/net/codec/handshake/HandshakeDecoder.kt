@@ -21,8 +21,6 @@ class HandshakeDecoder : ByteToMessageDecoder() {
 
         val requestType = incoming.readUnsignedByte().toInt()
 
-        println("requestType $requestType")
-
         when(requestType) {
             LOGIN_REQUEST_HANDSHAKE -> {
                 outgoing.add(LoginHandshakeMessage(requestType, HandshakeMessage.VERSION_CURRENT))

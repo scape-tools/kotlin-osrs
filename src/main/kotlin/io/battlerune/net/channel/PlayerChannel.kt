@@ -80,12 +80,8 @@ class PlayerChannel(val channel: Channel) {
 
     fun writeAndFlush(writer: WritablePacket) {
         try {
-            println("writing packet")
             writer.writePacket(player).ifPresent { channel.writeAndFlush(it) }
-
-            println("wrote packet")
         } catch (ex: Throwable) {
-            println("exception")
             logger.warn("An exception was caught writing a packet.", ex)
         }
     }
