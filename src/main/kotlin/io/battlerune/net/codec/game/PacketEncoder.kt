@@ -11,6 +11,8 @@ class PacketEncoder(val isaacRandom: IsaacRandom) : MessageToByteEncoder<Outgoin
 
     override fun encode(ctx: ChannelHandlerContext, msg: OutgoingPacket, out: ByteBuf) {
 
+        println("encoding packet")
+
         val type = msg.type
         val payload = msg.payload
 

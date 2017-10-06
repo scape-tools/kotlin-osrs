@@ -75,6 +75,8 @@ class PlayerChannel(val channel: Channel) {
     fun writeAndFlush(writer: WritablePacket) {
         val packet = writer.writePacket(player)
 
+        println("packet present: " + packet.isPresent)
+
         packet.ifPresent { channel.writeAndFlush(it) }
     }
 

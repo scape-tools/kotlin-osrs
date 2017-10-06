@@ -4,6 +4,9 @@ import com.moandjiezana.toml.Toml
 import io.netty.util.AttributeKey
 import io.battlerune.net.channel.PlayerChannel
 import java.io.File
+import com.google.common.collect.ImmutableList
+
+
 
 object NetworkConstants {
 
@@ -28,5 +31,9 @@ object NetworkConstants {
     }
 
     val SESSION_KEY: AttributeKey<PlayerChannel> = AttributeKey.valueOf<PlayerChannel>("session.key")
+
+    val IGNORED_EXCEPTIONS = ImmutableList.of(
+            "An existing connection was forcibly closed by the remote host",
+            "An established connection was aborted by the software in your host machine")
 
 }

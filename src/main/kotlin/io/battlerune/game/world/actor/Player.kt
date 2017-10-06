@@ -35,7 +35,6 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
         builder.switchToByteAccess()
 
         writePacket(RegionUpdatePacket())
-
     }
 
     fun logout() {
@@ -47,7 +46,10 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
     }
 
     fun writePacket(writer: WritablePacket) : Player {
+        println("writing packet")
+
         playerChannel.writeAndFlush(writer)
+        println("wrote packet")
         return this
     }
 

@@ -13,39 +13,44 @@ class RegionUpdatePacket : WritablePacket {
 
     override fun writePacket(player: Player): Optional<OutgoingPacket> {
         val builder = RSByteBufWriter()
+        try {
+            val chunkX = player.position.chunkX
+            val chunkY = player.position.chunkY
 
-        val chunkX = player.position.chunkX
-        val chunkY = player.position.chunkY
+            var forceSend = false
 
-        var forceSend = false
-
-        if (((chunkX / 8) == 48 || (chunkX / 8) == 49) && (chunkY / 8) == 48) {
-            forceSend = true
-        }
-
-        if (chunkX / 8 == 48 && chunkY / 8 == 149) {
-            forceSend = true
-        }
-
-        var count = 0
-
-        val xtea = RSByteBufWriter()
-        for (xCalc in (chunkX - 6) / 8..(6 + chunkX) / 8) {
-            for (yCalc in (chunkY - 6) / 8..(6 + chunkY) / 8) {
-                val region = yCalc + (xCalc shl 8)
-                if (!forceSend || yCalc != 49 && 149 != yCalc && 147 != yCalc && xCalc != 50 && (xCalc != 49 || yCalc != 47)) {
-                    val keys = player.context.regionManager.keys[region]
-
-                    keys.forEach { xtea.writeInt(it) }
-
-                }
-                count++
+            if (((chunkX / 8) == 48 || (chunkX / 8) == 49) && (chunkY / 8) == 48) {
+                forceSend = true
             }
-        }
 
-        builder.writeShort(chunkY, ByteOrder.LE)
-        builder.writeShort(chunkX, ByteModification.ADD)
-        builder.writeShort(count)
+            if (chunkX / 8 == 48 && chunkY / 8 == 149) {
+                forceSend = true
+            }
+
+            var count = 0
+
+            val xtea = RSByteBufWriter()
+            for (xCalc in (chunkX - 6) / 8..(6 + chunkX) / 8) {
+                for (yCalc in (chunkY - 6) / 8..(6 + chunkY) / 8) {
+                    val region = yCalc + (xCalc shl 8)
+                    if (!forceSend || yCalc != 49 && 149 != yCalc && 147 != yCalc && xCalc != 50 && (xCalc != 49 || yCalc != 47)) {
+                        val keys = player.context.regionManager.keys[region]
+
+                        keys.forEach { xtea.writeInt(it) }
+
+                    }
+                    count++
+                }
+            }
+
+            builder.writeShort(chunkY, ByteOrder.LE)
+            builder.writeShort(chunkX, ByteModification.ADD)
+            builder.writeShort(count)
+
+        } catch (ex: Exception) {
+            println("error when creating packet")
+            ex.printStackTrace()
+        }
 
         return Optional.of(builder.toOutgoingPacket(174, PacketType.VAR_SHORT))
     }
