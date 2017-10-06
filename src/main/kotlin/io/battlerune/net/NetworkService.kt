@@ -5,6 +5,7 @@ import io.battlerune.game.GameContext
 import io.battlerune.game.world.World
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelFutureListener
+import io.netty.channel.ChannelOption
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
@@ -27,6 +28,7 @@ class NetworkService(val gameContext: GameContext) {
                     .channel(NioServerSocketChannel().javaClass)
                     .handler(LoggingHandler(LogLevel.INFO))
                     .childHandler(ServerPipelineInitializer(gameContext))
+                    .option(ChannelOption.SO_BACKLOG, 128)
 
             val f = sb.bind(port).syncUninterruptibly()
 
