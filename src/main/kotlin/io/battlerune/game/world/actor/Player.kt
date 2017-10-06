@@ -5,6 +5,7 @@ import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.WritablePacket
 import io.battlerune.net.packet.out.IPLookupOutgoingPacket
+import io.battlerune.net.packet.out.InterfaceOutgoingPacket
 import io.battlerune.net.packet.out.RegionUpdateOutgoingPacket
 import io.battlerune.net.packet.out.RootInterfaceOutgoingPacket
 
@@ -51,6 +52,25 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
         writePacket(RegionUpdateOutgoingPacket(builder))
         //writePacket(IPLookupOutgoingPacket())
         writePacket(RootInterfaceOutgoingPacket(165))
+        writePacket(InterfaceOutgoingPacket(165, 1, 162, true))
+        writePacket(InterfaceOutgoingPacket(165, 8, 593, true))
+        writePacket(InterfaceOutgoingPacket(165, 9, 320, true))
+        writePacket(InterfaceOutgoingPacket(165, 10, 76, true))
+        writePacket(InterfaceOutgoingPacket(165, 11, 149, true))
+        writePacket(InterfaceOutgoingPacket(165, 12, 387, true))
+        writePacket(InterfaceOutgoingPacket(165, 13, 541, true))
+        writePacket(InterfaceOutgoingPacket(165, 14, 218, true))
+        writePacket(InterfaceOutgoingPacket(165, 15, 7, true))
+        writePacket(InterfaceOutgoingPacket(165, 16, 429, true))
+        writePacket(InterfaceOutgoingPacket(165, 17, 432, true))
+        writePacket(InterfaceOutgoingPacket(165, 18, 182, true))
+        writePacket(InterfaceOutgoingPacket(165, 19, 261, true))
+        writePacket(InterfaceOutgoingPacket(165, 20, 216, true))
+        writePacket(InterfaceOutgoingPacket(165, 21, 239, true))
+        writePacket(InterfaceOutgoingPacket(165, 23, 163, true))
+        writePacket(InterfaceOutgoingPacket(165, 24, 160, true))
+        writePacket(InterfaceOutgoingPacket(165, 28, 50, false))
+        writePacket(InterfaceOutgoingPacket(165, 29, 378, false))
     }
 
     fun logout() {
