@@ -37,7 +37,8 @@
   },
   {
     "opcode": 9,
-    "size": 0
+    "size": 4,
+	"handler": "io.battlerune.net.packet.in.ButtonClickPacket"
   },
   {
     "opcode": 10,
