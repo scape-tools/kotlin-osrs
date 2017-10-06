@@ -1,11 +1,11 @@
 package io.battlerune.net.codec.game
 
 enum class ByteOrder {
-    LITTLE,
+    LE,
 
-    BIG,
+    BE,
 
-    MIDDLE,
+    ME,
 
-    INVERSE_MIDDLE
+    IME
 }

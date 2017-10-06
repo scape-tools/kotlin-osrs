@@ -114,14 +114,14 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return writeShort(value, order)
     }
 
-    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
+    fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
         when(order) {
-            BIG -> {
+            BE -> {
                 writeByte(value shr 8)
                 writeByte(value, modification)
             }
 
-            LITTLE -> {
+            LE -> {
                 writeByte(value, modification)
                 writeByte(value shr 8)
             }
@@ -131,30 +131,30 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
+    fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
         when(order) {
-            BIG -> {
+            BE -> {
                 writeByte(value shr 24)
                 writeByte(value shr 16)
                 writeByte(value shr 8)
                 writeByte(value, modification)
             }
 
-            MIDDLE -> {
+            ME -> {
                 writeByte(value shr 8)
                 writeByte(value, modification)
                 writeByte(value shr 24)
                 writeByte(value shr 16)
             }
 
-            INVERSE_MIDDLE -> {
+            IME -> {
                 writeByte(value shr 16)
                 writeByte(value shr 24)
                 writeByte(value, modification)
                 writeByte(value shr 8)
             }
 
-            LITTLE -> {
+            LE -> {
                 writeByte(value, modification)
                 writeByte(value shr 8)
                 writeByte(value shr 16)
@@ -164,9 +164,9 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
         return this
     }
 
-    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BIG) : GamePacketBuilder {
+    fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : GamePacketBuilder {
         when(order) {
-            BIG -> {
+            BE -> {
                 writeByte((value shr 56).toInt())
                 writeByte((value shr 48).toInt())
                 writeByte((value shr 40).toInt())
@@ -177,7 +177,7 @@ class GamePacketBuilder(val opcode: Int, val type: PacketType = PacketType.FIXED
                 writeByte(value.toInt(), modification)
             }
 
-            LITTLE -> {
+            LE -> {
                 writeByte(value.toInt(), modification)
                 writeByte((value shr 8).toInt())
                 writeByte((value shr 16).toInt())

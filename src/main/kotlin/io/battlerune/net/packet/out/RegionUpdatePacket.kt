@@ -43,7 +43,7 @@ class RegionUpdatePacket : PacketWriter {
             }
         }
 
-        builder.writeShort(chunkY, ByteOrder.LITTLE)
+        builder.writeShort(chunkY, ByteOrder.LE)
         builder.writeShort(chunkX, ByteModification.ADD)
         builder.writeShort(count)
 
