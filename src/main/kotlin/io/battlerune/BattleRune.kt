@@ -4,7 +4,7 @@ import io.battlerune.game.service.StartupService
 
 fun main(args: Array<String>) {
 
-    val loader = StartupService()
+   val loader = StartupService()
     loader.start()
 
 }

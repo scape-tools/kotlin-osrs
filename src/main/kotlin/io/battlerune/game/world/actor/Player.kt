@@ -2,6 +2,7 @@ package io.battlerune.game.world.actor
 
 import io.battlerune.game.GameContext
 import io.battlerune.game.event.Event
+import io.battlerune.game.widget.DisplayType
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
@@ -12,6 +13,8 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
     lateinit var username: String
     lateinit var password: String
     lateinit var context: GameContext
+
+    var displayType = DisplayType.FIXED
 
     val client = Client(this)
 

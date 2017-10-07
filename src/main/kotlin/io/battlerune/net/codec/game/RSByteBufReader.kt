@@ -1,20 +1,18 @@
 package io.battlerune.net.codec.game
 
 import io.battlerune.net.codec.game.ByteModification.*
-import io.battlerune.net.packet.Packet
-import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 
-class PacketReader private constructor(val opcode: Int, val packetType: PacketType, private val payload: ByteBuf) {
+class RSByteBufReader private constructor(private val buf: ByteBuf) {
 
     companion object {
-        fun wrap(packet: Packet) : PacketReader {
-            return PacketReader(packet.opcode, packet.packetType, packet.payload)
+        fun wrap(buf: ByteBuf) : RSByteBufReader {
+            return RSByteBufReader(buf)
         }
     }
 
     fun readByte(mod: ByteModification = NONE) : Int {
-        var value = payload.readByte().toInt()
+        var value = buf.readByte().toInt()
 
         when (mod) {
             ADD -> { value += 128 }
@@ -26,7 +24,7 @@ class PacketReader private constructor(val opcode: Int, val packetType: PacketTy
     }
 
     fun readUByte(mod: ByteModification = NONE) : Int {
-        var value = payload.readByte().toInt()
+        var value = buf.readByte().toInt()
 
         when (mod) {
             ADD -> { value += 128 }
@@ -74,7 +72,7 @@ class PacketReader private constructor(val opcode: Int, val packetType: PacketTy
     }
 
     fun skipBytes(length: Int) {
-        payload.skipBytes(length)
+        buf.skipBytes(length)
     }
 
     fun readInt(mod: ByteModification = NONE) : Int {
@@ -202,11 +200,11 @@ class PacketReader private constructor(val opcode: Int, val packetType: PacketTy
     }
 
     fun setPosition(position: Int) {
-        payload.readerIndex(position)
+        buf.readerIndex(position)
     }
 
     fun size() : Int {
-        return payload.readableBytes()
+        return buf.readableBytes()
     }
 
 }

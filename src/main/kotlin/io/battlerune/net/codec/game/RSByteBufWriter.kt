@@ -216,10 +216,6 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun wrap(buf: ByteBuf) : RSByteBufWriter {
-        return RSByteBufWriter(buf)
-    }
-
     fun toPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : Packet {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")

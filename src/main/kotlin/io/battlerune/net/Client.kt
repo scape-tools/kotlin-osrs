@@ -2,10 +2,7 @@ package io.battlerune.net
 
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
-import io.battlerune.net.packet.out.InterfacePacketEncoder
-import io.battlerune.net.packet.out.InterfaceTextPacketEncoder
-import io.battlerune.net.packet.out.RegionUpdatePacketEncoder
-import io.battlerune.net.packet.out.RootInterfacePacketEncoder
+import io.battlerune.net.packet.out.*
 
 class Client(val player: Player) {
 
@@ -16,6 +13,11 @@ class Client(val player: Player) {
 
     fun setInterface(rootInterfaceId: Int, childId: Int, interfaceId: Int, clickable: Boolean) : Client {
         player.write(InterfacePacketEncoder(rootInterfaceId, childId, interfaceId, clickable))
+        return this
+    }
+
+    fun setInterfaceSets(fromRoot: Int, fromChild: Int, toRoot: Int, toChild: Int) : Client {
+        player.write(InterfaceSetsPacketEncoder(fromRoot, fromChild, toRoot, toChild))
         return this
     }
 
