@@ -50,27 +50,22 @@ class PlayerChannel(val channel: Channel) {
             return
         }
 
-        while(true)  {
+        val packet = prioritizedPackets.poll() ?: return
 
-            val packet = prioritizedPackets.poll() ?: break
+        val decoder = PacketRepository.decoders[packet.opcode] ?: return
 
-            val decoder = PacketRepository.decoders[packet.opcode] ?: continue
+        val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
 
-            val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
-
-            player.post(event)
-
-        }
+        player.post(event)
     }
 
     fun handleQueuedPackets() {
-        handlePrioritizedPackets()
+        for (i in 0 until NetworkConstants.PACKET_LIMIT) {
+            handlePrioritizedPackets()
 
-        if (incomingPackets.isEmpty()) {
-            return
-        }
-
-        while(true) {
+            if (incomingPackets.isEmpty()) {
+                break
+            }
 
             val packet = incomingPackets.poll() ?: break
 
@@ -79,9 +74,7 @@ class PlayerChannel(val channel: Channel) {
             val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
 
             player.post(event)
-
         }
-
     }
 
     fun handleIncomingPacket(packet: Packet) {
