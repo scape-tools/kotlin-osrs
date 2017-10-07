@@ -43,8 +43,13 @@ class PlayerChannel(val channel: Channel) {
         channel.writeAndFlush(loginRequest)
     }
 
-    fun handlePrioritizedPackets() {
-        while(true) {
+    private fun handlePrioritizedPackets() {
+        if (prioritizedPackets.isEmpty()) {
+            return
+        }
+
+        while(true)  {
+
             val packet = prioritizedPackets.poll() ?: break
 
             val reader = PacketRepository.readers[packet.opcode] ?: continue
@@ -56,12 +61,18 @@ class PlayerChannel(val channel: Channel) {
     fun handleQueuedPackets() {
         handlePrioritizedPackets()
 
+        if (incomingPackets.isEmpty()) {
+            return
+        }
+
         while(true) {
+
             val packet = incomingPackets.poll() ?: break
 
             val handler = PacketRepository.readers[packet.opcode] ?: continue
 
             handler.readPacket(player, packet)
+
         }
 
     }
@@ -76,6 +87,7 @@ class PlayerChannel(val channel: Channel) {
         } else {
             incomingPackets.add(packet)
         }
+
     }
 
     fun writeAndFlush(writer: WritablePacket) {

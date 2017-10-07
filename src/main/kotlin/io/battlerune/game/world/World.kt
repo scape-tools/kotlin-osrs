@@ -61,6 +61,21 @@ class World(val id: Int = 1, val gameContext: GameContext) {
         }
     }
 
+    fun processIncomingPackets() {
+        if (players.isEmpty()) {
+            return
+        }
+
+        println("processing incoming packets playercount ${players.size()}")
+
+        for (player in players.list) {
+
+            player ?: continue
+
+            player.playerChannel.handleQueuedPackets()
+        }
+    }
+
     private fun register(pawn: Pawn) {
         if (pawn is Player) {
             players.add(pawn)

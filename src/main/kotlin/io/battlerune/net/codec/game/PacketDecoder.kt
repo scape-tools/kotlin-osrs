@@ -43,8 +43,8 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
             return
         }
 
-        opcode = (inc.readByte().toInt() - random.nextInt()) and 0xFF
-
+        // TODO ISAAC
+        opcode = inc.readUnsignedByte().toInt()
         size = PacketRepository.sizes[opcode]
 
         if (size == -2) {
@@ -52,14 +52,13 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
         } else if (size == -1) {
             packetType = PacketType.VAR_BYTE
         } else if (size == 0) {
-            println("Unknown packet: $opcode length: ${inc.readableBytes()}")
-            inc.skipBytes(inc.readableBytes())
+            //println("Unknown packet: $opcode length: ${inc.readableBytes()}")
             return
         } else {
             packetType = PacketType.FIXED
         }
 
-        println("Known packet: $opcode type: $packetType")
+        //println("Known packet: $opcode type: $packetType")
 
         if (packetType == PacketType.FIXED) {
             state = State.PAYLOAD
@@ -69,10 +68,14 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
     }
 
     fun readPayload(inc: ByteBuf, out: MutableList<Any>) {
+
         if (inc.readableBytes() < size) {
             return
         }
-        out.add(IncomingPacket(opcode, packetType, inc.readBytes(size)))
+
+        if (size != 0) {
+            out.add(IncomingPacket(opcode, packetType, inc.readBytes(size)))
+        }
         state = State.OPCODE
     }
 

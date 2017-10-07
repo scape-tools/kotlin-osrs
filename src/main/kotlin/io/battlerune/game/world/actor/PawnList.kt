@@ -3,10 +3,11 @@ package io.battlerune.game.world.actor
 import java.util.*
 import java.util.stream.IntStream
 
-class PawnList<T : Pawn>(val capacity: Int) {
+class PawnList<T : Pawn>(private val capacity: Int) {
 
     val list = mutableListOf<T?>()
-    val slots = ArrayDeque<Int>(capacity)
+    private val slots = ArrayDeque<Int>(capacity)
+    private var size = 0
 
     init {
         IntStream.rangeClosed(0, capacity).forEach { list.add(null) }
@@ -25,6 +26,12 @@ class PawnList<T : Pawn>(val capacity: Int) {
         }
 
         t.index = slot
+
+        list[slot] = t
+
+        size++
+
+        assert(size < list.size)
     }
 
     fun remove(t: T) {
@@ -35,11 +42,23 @@ class PawnList<T : Pawn>(val capacity: Int) {
         list[t.index] =  null
 
         slots.add(t.index)
+
+        size--
+
+        assert(size >= 0)
     }
 
     fun contains(t: T) : Boolean {
         val e = list[t.index] ?: false
         return e == t
+    }
+
+    fun isEmpty() : Boolean {
+        return size == 0
+    }
+
+    fun size() : Int {
+        return size
     }
 
     fun capacity() : Int {
