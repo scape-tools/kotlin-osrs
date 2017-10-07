@@ -8,24 +8,21 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
-
-    enum class State {
-        OPCODE,
-
-        SIZE,
-
-        PAYLOAD
+class PacketDecoder(private val random: ISAACCipher) : ByteToMessageDecoder() {
+    companion object {
+        enum class State {
+            OPCODE,
+            SIZE,
+            PAYLOAD
+        }
     }
 
     var state = State.OPCODE
     var opcode: Int = 0
     var size: Int = 0
-
-    lateinit var packetType: PacketType
+    var packetType: PacketType = PacketType.FIXED
 
     override fun decode(ctx: ChannelHandlerContext, inc: ByteBuf, out: MutableList<Any>) {
-
         if (!inc.isReadable) {
             return
         }
@@ -35,10 +32,9 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
             State.SIZE -> { readSize(inc) }
             State.PAYLOAD -> { readPayload(inc, out) }
         }
-
     }
 
-    fun readOpcode(inc: ByteBuf) {
+    private fun readOpcode(inc: ByteBuf) {
         if (!inc.isReadable) {
             return
         }
@@ -47,28 +43,17 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
         opcode = inc.readUnsignedByte().toInt()
         size = PacketRepository.sizes[opcode]
 
-        if (size == -2) {
-            packetType = PacketType.VAR_SHORT
-        } else if (size == -1) {
-            packetType = PacketType.VAR_BYTE
-        } else if (size == 0) {
-            //println("Unknown packet: $opcode length: ${inc.readableBytes()}")
-            return
-        } else {
-            packetType = PacketType.FIXED
+        when (size) {
+            -2 -> PacketType.VAR_SHORT
+            -1 -> PacketType.VAR_BYTE
+            0 -> return
+            else -> PacketType.FIXED
         }
 
-        //println("Known packet: $opcode type: $packetType")
-
-        if (packetType == PacketType.FIXED) {
-            state = State.PAYLOAD
-        } else {
-            state = State.SIZE
-        }
+        state = (if (packetType == PacketType.FIXED) State.PAYLOAD else State.SIZE)
     }
 
-    fun readPayload(inc: ByteBuf, out: MutableList<Any>) {
-
+    private fun readPayload(inc: ByteBuf, out: MutableList<Any>) {
         if (inc.readableBytes() < size) {
             return
         }
@@ -79,9 +64,11 @@ class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
         state = State.OPCODE
     }
 
-    fun readSize(inc: ByteBuf) {
+    private fun readSize(inc: ByteBuf) {
         if (packetType == PacketType.VAR_BYTE) {
-            size = inc.readUnsignedByte().toInt()
+            if (inc.isReadable) {
+                size = inc.readUnsignedByte().toInt()
+            }
         } else if (packetType == PacketType.VAR_SHORT) {
             if (inc.readableBytes() >= 2) {
                 size = inc.readUnsignedShort()
