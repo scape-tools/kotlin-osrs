@@ -1,6 +1,6 @@
 package io.battlerune.net.codec.game
 
-import io.battlerune.net.crypt.IsaacRandom
+import io.battlerune.net.crypt.ISAACCipher
 import io.battlerune.net.packet.IncomingPacket
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.net.packet.PacketType
@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class PacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
+class PacketDecoder(val random: ISAACCipher) : ByteToMessageDecoder() {
 
     enum class State {
         OPCODE,
@@ -43,19 +43,23 @@ class PacketDecoder(val isaacRandom: IsaacRandom) : ByteToMessageDecoder() {
             return
         }
 
-        opcode = (inc.readByte().toInt() - isaacRandom.nextInt()) and 0xFF
+        opcode = (inc.readByte().toInt() - random.nextInt()) and 0xFF
 
         size = PacketRepository.sizes[opcode]
-
-        println("opcode $opcode size $size actual ${inc.readableBytes()}")
 
         if (size == -2) {
             packetType = PacketType.VAR_SHORT
         } else if (size == -1) {
             packetType = PacketType.VAR_BYTE
+        } else if (size == 0) {
+            println("Unknown packet: $opcode length: ${inc.readableBytes()}")
+            inc.skipBytes(inc.readableBytes())
+            return
         } else {
             packetType = PacketType.FIXED
         }
+
+        println("Known packet: $opcode type: $packetType")
 
         if (packetType == PacketType.FIXED) {
             state = State.PAYLOAD

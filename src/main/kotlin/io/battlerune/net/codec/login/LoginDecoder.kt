@@ -2,8 +2,8 @@ package io.battlerune.net.codec.login
 
 import io.battlerune.game.GameContext
 import io.battlerune.util.ByteBufUtil
-import io.battlerune.net.crypt.IsaacRandom
-import io.battlerune.net.crypt.IsaacRandomPair
+import io.battlerune.net.crypt.ISAACCipher
+import io.battlerune.net.crypt.ISAACCipherPair
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
@@ -120,10 +120,7 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
             serverKeys[i] = clientKeys[i] + 50
         }
 
-        val isaacPair = IsaacRandomPair(IsaacRandom(serverKeys), IsaacRandom(clientKeys))
-
-        out.add(LoginRequest(username, password, resizable, lowMem, isaacPair, gameContext, ctx.channel()))
-
+        out.add(LoginRequest(username, password, resizable, lowMem, ISAACCipherPair(ISAACCipher(serverKeys), ISAACCipher(clientKeys)), gameContext, ctx.channel()))
     }
 
 }

@@ -1,7 +1,7 @@
 [
   {
     "opcode": 0,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 1,
@@ -25,7 +25,7 @@
   },
   {
     "opcode": 6,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 7,
@@ -46,7 +46,7 @@
   },
   {
     "opcode": 11,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 12,
@@ -58,7 +58,7 @@
   },
   {
     "opcode": 14,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 15,
@@ -66,11 +66,11 @@
   },
   {
     "opcode": 16,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 17,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 18,
@@ -78,7 +78,7 @@
   },
   {
     "opcode": 19,
-    "size": 5
+    "size": 0
   },
   {
     "opcode": 20,
@@ -94,7 +94,7 @@
   },
   {
     "opcode": 23,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 24,
@@ -114,7 +114,7 @@
   },
   {
     "opcode": 28,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 29,
@@ -138,7 +138,7 @@
   },
   {
     "opcode": 34,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 35,
@@ -166,11 +166,11 @@
   },
   {
     "opcode": 41,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 42,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 43,
@@ -178,7 +178,7 @@
   },
   {
     "opcode": 44,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 45,
@@ -190,7 +190,7 @@
   },
   {
     "opcode": 47,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 48,
@@ -210,7 +210,7 @@
   },
   {
     "opcode": 52,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 53,
@@ -226,11 +226,11 @@
   },
   {
     "opcode": 56,
-    "size": 3
+    "size": 0
   },
   {
     "opcode": 57,
-    "size": 10
+    "size": 0
   },
   {
     "opcode": 58,
@@ -238,11 +238,11 @@
   },
   {
     "opcode": 59,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 60,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 61,
@@ -250,7 +250,7 @@
   },
   {
     "opcode": 62,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 63,
@@ -282,15 +282,15 @@
   },
   {
     "opcode": 70,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 71,
-    "size": 10
+    "size": 0
   },
   {
     "opcode": 72,
-    "size": 1
+    "size": 0
   },
   {
     "opcode": 73,
@@ -314,7 +314,7 @@
   },
   {
     "opcode": 78,
-    "size": 8
+    "size": 0
   },
   {
     "opcode": 79,
@@ -322,11 +322,11 @@
   },
   {
     "opcode": 80,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 81,
-    "size": -1
+    "size": 0
   },
   {
     "opcode": 82,
@@ -338,7 +338,7 @@
   },
   {
     "opcode": 84,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 85,
@@ -378,7 +378,7 @@
   },
   {
     "opcode": 94,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 95,
@@ -402,7 +402,7 @@
   },
   {
     "opcode": 100,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 101,
@@ -410,7 +410,7 @@
   },
   {
     "opcode": 102,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 103,
@@ -422,7 +422,7 @@
   },
   {
     "opcode": 105,
-    "size": 5
+    "size": 0
   },
   {
     "opcode": 106,
@@ -430,7 +430,7 @@
   },
   {
     "opcode": 107,
-    "size": 1
+    "size": 0
   },
   {
     "opcode": 108,
@@ -438,7 +438,7 @@
   },
   {
     "opcode": 109,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 110,
@@ -446,7 +446,7 @@
   },
   {
     "opcode": 111,
-    "size": 7
+    "size": 0
   },
   {
     "opcode": 112,
@@ -482,19 +482,19 @@
   },
   {
     "opcode": 120,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 121,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 122,
-    "size": 14
+    "size": 0
   },
   {
     "opcode": 123,
-    "size": 1
+    "size": 0
   },
   {
     "opcode": 124,
@@ -506,19 +506,19 @@
   },
   {
     "opcode": 126,
-    "size": 8
+    "size": 0
   },
   {
     "opcode": 127,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 128,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 129,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 130,
@@ -546,11 +546,11 @@
   },
   {
     "opcode": 136,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 137,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 138,
@@ -566,7 +566,7 @@
   },
   {
     "opcode": 141,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 142,
@@ -606,7 +606,7 @@
   },
   {
     "opcode": 151,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 152,
@@ -614,11 +614,11 @@
   },
   {
     "opcode": 153,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 154,
-    "size": 5
+    "size": 0
   },
   {
     "opcode": 155,
@@ -646,11 +646,11 @@
   },
   {
     "opcode": 161,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 162,
-    "size": 8
+    "size": 0
   },
   {
     "opcode": 163,
@@ -670,15 +670,15 @@
   },
   {
     "opcode": 167,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 168,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 169,
-    "size": 12
+    "size": 0
   },
   {
     "opcode": 170,
@@ -710,7 +710,7 @@
   },
   {
     "opcode": 177,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 178,
@@ -742,11 +742,11 @@
   },
   {
     "opcode": 185,
-    "size": 4
+    "size": 0
   },
   {
     "opcode": 186,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 187,
@@ -758,11 +758,11 @@
   },
   {
     "opcode": 189,
-    "size": 3
+    "size": 0
   },
   {
     "opcode": 190,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 191,
@@ -794,7 +794,7 @@
   },
   {
     "opcode": 198,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 199,
@@ -802,7 +802,7 @@
   },
   {
     "opcode": 200,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 201,
@@ -814,7 +814,7 @@
   },
   {
     "opcode": 203,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 204,
@@ -838,7 +838,7 @@
   },
   {
     "opcode": 209,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 210,
@@ -850,7 +850,7 @@
   },
   {
     "opcode": 212,
-    "size": 2
+    "size": 0
   },
   {
     "opcode": 213,
@@ -858,19 +858,19 @@
   },
   {
     "opcode": 214,
-    "size": 7
+    "size": 0
   },
   {
     "opcode": 215,
-    "size": 8
+    "size": 0
   },
   {
     "opcode": 216,
-    "size": 20
+    "size": 0
   },
   {
     "opcode": 217,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 218,
@@ -886,7 +886,7 @@
   },
   {
     "opcode": 221,
-    "size": 15
+    "size": 0
   },
   {
     "opcode": 222,
@@ -894,7 +894,7 @@
   },
   {
     "opcode": 223,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 224,
@@ -906,11 +906,11 @@
   },
   {
     "opcode": 226,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 227,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 228,
@@ -930,7 +930,7 @@
   },
   {
     "opcode": 232,
-    "size": 28
+    "size": 0
   },
   {
     "opcode": 233,
@@ -938,7 +938,7 @@
   },
   {
     "opcode": 234,
-    "size": 5
+    "size": 0
   },
   {
     "opcode": 235,
@@ -958,7 +958,7 @@
   },
   {
     "opcode": 239,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 240,
@@ -978,7 +978,7 @@
   },
   {
     "opcode": 244,
-    "size": -2
+    "size": 0
   },
   {
     "opcode": 245,
@@ -994,7 +994,7 @@
   },
   {
     "opcode": 248,
-    "size": 5
+    "size": 0
   },
   {
     "opcode": 249,
@@ -1010,7 +1010,7 @@
   },
   {
     "opcode": 252,
-    "size": 6
+    "size": 0
   },
   {
     "opcode": 253,
@@ -1022,6 +1022,10 @@
   },
   {
     "opcode": 255,
+    "size": 0
+  },
+  {
+    "opcode": 256,
     "size": 0
   }
 ]
