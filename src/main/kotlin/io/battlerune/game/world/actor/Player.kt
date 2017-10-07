@@ -20,7 +20,7 @@ class Player(val channel: PlayerChannel) : Pawn() {
     lateinit var context: GameContext
 
     override fun init() {
-
+        regionChanged = true
     }
 
     fun post(event: Event) {

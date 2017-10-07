@@ -42,19 +42,11 @@ class World(val gameContext: GameContext) {
             return
         }
 
-        var count = 0
-        while(true) {
-
-            if (count > NetworkConstants.LOGIN_LIMIT) {
-                break
-            }
-
+        for (i in 0 until NetworkConstants.LOGIN_LIMIT) {
             val player = logins.poll() ?: break
-
             register(player)
-
-            count++
         }
+
     }
 
     fun processLogouts() {
@@ -62,20 +54,10 @@ class World(val gameContext: GameContext) {
             return
         }
 
-        var count = 0
-        while(true) {
-
-            if (count > NetworkConstants.LOGOUT_LIMIT) {
-                break
-            }
-
-            val player = logouts.poll()
-
+        for (i in 0 until NetworkConstants.LOGOUT_LIMIT) {
+            val player = logouts.poll() ?: break
             player.onLogout()
-
             unregister(player)
-
-            count++
         }
     }
 
@@ -83,8 +65,6 @@ class World(val gameContext: GameContext) {
         if (players.isEmpty()) {
             return
         }
-
-        //println("processing incoming packets playercount ${players.size()}")
 
         for (player in players.list) {
 
@@ -106,7 +86,6 @@ class World(val gameContext: GameContext) {
         if (pawn is Player) {
             pawn.onLogout()
             players.remove(pawn)
-            println("logins ${logins.size} logouts ${logouts.size} size ${players.size()}")
         }
     }
 
