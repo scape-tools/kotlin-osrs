@@ -1,5 +1,6 @@
 package io.battlerune.net.channel
 
+import io.battlerune.game.event.Event
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
@@ -91,9 +92,11 @@ class PlayerChannel(val channel: Channel) {
 
     }
 
-    fun writeAndFlush(encoder: PacketEncoder) {
+    fun handleDownstreamPacket(encoder: PacketEncoder) {
         try {
-            encoder.encode(player).ifPresent { channel.writeAndFlush(it) }
+            val packet = encoder.encode(player)
+
+            player.playerChannel.channel.writeAndFlush(packet)
         } catch (ex: Throwable) {
             logger.warn("An exception was caught writing a packet.", ex)
         }

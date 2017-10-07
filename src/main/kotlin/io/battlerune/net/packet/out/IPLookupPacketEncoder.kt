@@ -7,17 +7,13 @@ import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.util.IntUtils
-import java.util.*
 
-class IPLookupOutgoingPacket : PacketEncoder {
+class IPLookupPacketEncoder(val hostAddress: String) : PacketEncoder {
 
-    override fun encode(player: Player): Optional<Packet> {
+    override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-
-        println(player.playerChannel.hostAddress)
-
-        writer.writeInt(IntUtils.ipToInt(player.playerChannel.hostAddress), ByteOrder.IME)
-        return Optional.of(writer.toPacket(210, PacketType.FIXED))
+        writer.writeInt(IntUtils.ipToInt(hostAddress), ByteOrder.IME)
+        return writer.toPacket(210, PacketType.FIXED)
     }
 
 }

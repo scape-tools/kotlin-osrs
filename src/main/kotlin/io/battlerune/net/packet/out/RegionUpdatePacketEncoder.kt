@@ -5,14 +5,15 @@ import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.ByteOrder
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
-import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
-import java.util.*
+import io.battlerune.net.packet.PacketType
+import io.netty.buffer.ByteBuf
 
-class RegionUpdateOutgoingPacket(val buf: RSByteBufWriter) : PacketEncoder {
+class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
 
-    override fun encode(player: Player): Optional<Packet> {
-        val builder = RSByteBufWriter.wrap(buf.buffer)
+    override fun encode(player: Player): Packet {
+            val writer = RSByteBufWriter.wrap(gpiBuf)
+
             val chunkX = player.position.chunkX
             val chunkY = player.position.chunkY
 
@@ -42,11 +43,10 @@ class RegionUpdateOutgoingPacket(val buf: RSByteBufWriter) : PacketEncoder {
                 }
             }
 
-            builder.writeShort(chunkY, ByteOrder.LE)
-            builder.writeShort(chunkX, ByteModification.ADD)
-            builder.writeShort(count)
-
-        return Optional.of(builder.toPacket(60, PacketType.VAR_SHORT))
+        writer.writeShort(chunkY, ByteOrder.LE)
+        writer.writeShort(chunkX, ByteModification.ADD)
+        writer.writeShort(count)
+        return writer.toPacket(60, PacketType.VAR_SHORT)
     }
 
 }

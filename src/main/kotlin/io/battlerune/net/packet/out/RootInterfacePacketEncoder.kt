@@ -6,14 +6,13 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
-import java.util.*
 
-class RootInterfaceOutgoingPacket(val interfaceId: Int) : PacketEncoder {
+class RootInterfacePacketEncoder(private val interfaceId: Int): PacketEncoder {
 
-    override fun encode(player: Player): Optional<Packet> {
+    override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeShort(interfaceId, ByteModification.ADD)
-        return Optional.of(writer.toPacket(129, PacketType.FIXED))
+         writer.writeShort(interfaceId, ByteModification.ADD)
+        return writer.toPacket(129, PacketType.FIXED)
     }
 
 }
