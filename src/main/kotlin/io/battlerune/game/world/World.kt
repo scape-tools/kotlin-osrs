@@ -14,6 +14,10 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 class World(val gameContext: GameContext) {
 
+    companion object {
+        val MAX_PLAYER_COUNT = 2048
+    }
+
     val eventBus = EventBus()
     val logger: Logger = LogManager.getLogger()
 
@@ -23,7 +27,7 @@ class World(val gameContext: GameContext) {
 
     val logins = ConcurrentLinkedQueue<Player>()
     val logouts = ConcurrentLinkedQueue<Player>()
-    val players = PawnList<Player>(2048)
+    val players = PawnList<Player>(MAX_PLAYER_COUNT)
 
     fun queueLogin(player: Player) {
         logins.add(player)
@@ -67,6 +71,8 @@ class World(val gameContext: GameContext) {
 
             val player = logouts.poll()
 
+            player.onLogout()
+
             unregister(player)
 
             count++
@@ -84,7 +90,7 @@ class World(val gameContext: GameContext) {
 
             player ?: continue
 
-            player.playerChannel.handleQueuedPackets()
+            player.channel.handleQueuedPackets()
         }
     }
 
@@ -100,6 +106,7 @@ class World(val gameContext: GameContext) {
         if (pawn is Player) {
             pawn.onLogout()
             players.remove(pawn)
+            println("logins ${logins.size} logouts ${logouts.size} size ${players.size()}")
         }
     }
 

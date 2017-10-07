@@ -3,22 +3,23 @@ package io.battlerune.game.world.actor
 import io.battlerune.game.GameContext
 import io.battlerune.game.event.Event
 import io.battlerune.game.widget.DisplayType
+import io.battlerune.game.world.World
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.PacketEncoder
 
-class Player(val playerChannel: PlayerChannel) : Pawn() {
-
-    lateinit var username: String
-    lateinit var password: String
-    lateinit var context: GameContext
+class Player(val channel: PlayerChannel) : Pawn() {
 
     var displayType = DisplayType.FIXED
 
     val client = Client(this)
 
-    fun init() {
+    lateinit var username: String
+    lateinit var password: String
+    lateinit var context: GameContext
+
+    override fun init() {
 
     }
 
@@ -34,7 +35,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
         try {
 
-            for (i in 1 until 2048) {
+            for (i in 1 until World.MAX_PLAYER_COUNT) {
 
                 if (i == this.index) {
                     continue
@@ -90,16 +91,18 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
     }
 
+    fun onLogout() {
+        println("player $username logged out.")
+    }
+
     fun logout() {
+        //TODO send logout packet
+
         context.world.queueLogout(this)
     }
 
-    fun onLogout() {
-
-    }
-
     fun write(encoder: PacketEncoder) : Player {
-        playerChannel.handleDownstreamPacket(encoder)
+        channel.handleDownstreamPacket(encoder)
         return this
     }
 

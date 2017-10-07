@@ -6,12 +6,16 @@ import java.util.stream.IntStream
 class PawnList<T : Pawn>(private val capacity: Int) {
 
     val list = mutableListOf<T?>()
-    private val slots = ArrayDeque<Int>(capacity)
-    private var size = 0
+    private val slots = Stack<Int>()
 
     init {
-        IntStream.rangeClosed(0, capacity).forEach { list.add(null) }
-        IntStream.rangeClosed(1, capacity).forEach { slots.add(it) }
+        for (i in 0 until capacity) {
+            list.add(null)
+
+            val slot = capacity - i
+
+            slots.push(slot)
+        }
     }
 
     fun add(t: T) {
@@ -19,46 +23,47 @@ class PawnList<T : Pawn>(private val capacity: Int) {
             return
         }
 
-        val slot = slots.poll()
+        val size = size()
 
-        if (slot < 1 || slot >= list.size) {
-            return
-        }
+        val slot = slots.pop()
+
+        assert(slot >= 1 && slot < list.size)
 
         t.index = slot
 
         list[slot] = t
 
-        size++
+        println("add slot $slot")
 
-        assert(size < list.size)
+        assert(size == (size + 1) && (size + 1) < list.size)
     }
 
     fun remove(t: T) {
-        if (t.index < 1 || t.index >= list.size) {
-            return
-        }
+        assert(t.index >= 1 && t.index < list.size)
 
-        list[t.index] =  null
+        val size = size()
 
-        slots.add(t.index)
+        val slot = t.index
 
-        size--
+        list[t.index] = null
 
-        assert(size >= 0)
+        slots.push(t.index)
+
+        println("remove slot $slot")
+
+        assert(size == (size - 1) && (size - 1) >= 0)
     }
 
     fun contains(t: T) : Boolean {
-        val e = list[t.index] ?: false
-        return e == t
+        return t == list[t.index]
     }
 
     fun isEmpty() : Boolean {
-        return size == 0
+        return slots.isEmpty()
     }
 
     fun size() : Int {
-        return size
+        return capacity - slots.size
     }
 
     fun capacity() : Int {
