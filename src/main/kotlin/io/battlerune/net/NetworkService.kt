@@ -33,10 +33,10 @@ class NetworkService(val gameContext: GameContext) {
 
             val f = sb.bind(port).syncUninterruptibly()
 
-            val world = World((port - 43594) + 1, gameContext)
+            val world = World(gameContext)
             gameContext.world = world
 
-            logger.info("[World ${world.id}] ${GameConstants.SERVER_NAME} started on port: $port.")
+            logger.info("[World 1] ${GameConstants.SERVER_NAME} started on port: $port.")
 
             f.channel().closeFuture().sync()
         } catch (ex : Exception) {

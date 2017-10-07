@@ -1,13 +1,24 @@
 package io.battlerune.game.world
 
+import com.google.common.eventbus.EventBus
+import io.battlerune.content.ButtonClickEventListener
 import io.battlerune.game.GameContext
 import io.battlerune.game.world.actor.Pawn
 import io.battlerune.game.world.actor.PawnList
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.util.concurrent.ConcurrentLinkedQueue
 
-class World(val id: Int = 1, val gameContext: GameContext) {
+class World(val gameContext: GameContext) {
+
+    val eventBus = EventBus()
+    val logger: Logger = LogManager.getLogger()
+
+    init {
+        init()
+    }
 
     val logins = ConcurrentLinkedQueue<Player>()
     val logouts = ConcurrentLinkedQueue<Player>()
@@ -66,7 +77,7 @@ class World(val id: Int = 1, val gameContext: GameContext) {
             return
         }
 
-        println("processing incoming packets playercount ${players.size()}")
+        //println("processing incoming packets playercount ${players.size()}")
 
         for (player in players.list) {
 
@@ -90,5 +101,14 @@ class World(val id: Int = 1, val gameContext: GameContext) {
             players.remove(pawn)
         }
     }
+
+    private fun init() {
+        registerEvents()
+    }
+
+    private fun registerEvents() {
+        eventBus.register(ButtonClickEventListener())
+        logger.info("Registered event listeners")
+     }
 
 }

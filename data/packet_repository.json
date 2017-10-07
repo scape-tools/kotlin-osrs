@@ -38,7 +38,7 @@
   {
     "opcode": 9,
     "size": 4,
-	"decoder": "io.battlerune.net.packet.in.ButtonClickPacket"
+	"decoder": "io.battlerune.net.packet.in.ButtonClickPacketDecoder"
   },
   {
     "opcode": 10,

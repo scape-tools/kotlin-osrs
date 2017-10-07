@@ -1,6 +1,6 @@
 package io.battlerune.net.channel
 
-import io.battlerune.game.event.Event
+import io.battlerune.game.event.impl.ButtonClickEvent
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
@@ -55,7 +55,9 @@ class PlayerChannel(val channel: Channel) {
 
             val decoder = PacketRepository.decoders[packet.opcode] ?: continue
 
-            decoder.decode(player, PacketReader.wrap(packet))
+            val event = decoder.decode(player, PacketReader.wrap(packet))
+
+            player.post(event)
 
         }
     }
@@ -73,7 +75,9 @@ class PlayerChannel(val channel: Channel) {
 
             val decoder = PacketRepository.decoders[packet.opcode] ?: continue
 
-            decoder.decode(player, PacketReader.wrap(packet))
+            val event = decoder.decode(player, PacketReader.wrap(packet))
+
+            player.post(event)
 
         }
 

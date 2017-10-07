@@ -1,6 +1,7 @@
 package io.battlerune.game.world.actor
 
 import io.battlerune.game.GameContext
+import io.battlerune.game.event.Event
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
@@ -16,6 +17,10 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
     fun init() {
 
+    }
+
+    fun post(event: Event) {
+        context.world.eventBus.post(event)
     }
 
     fun onLogin() {
