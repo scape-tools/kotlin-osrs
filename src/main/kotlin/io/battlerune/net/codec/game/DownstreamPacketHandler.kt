@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class PacketEncoder(val random: ISAACCipher) : MessageToByteEncoder<OutgoingPacket>() {
+class DownstreamPacketHandler(val random: ISAACCipher) : MessageToByteEncoder<OutgoingPacket>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: OutgoingPacket, out: ByteBuf) {
         val type = msg.type

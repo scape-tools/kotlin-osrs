@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 
-class PacketDecoder(private val random: ISAACCipher) : ByteToMessageDecoder() {
+class UpstreamPacketHandler(private val random: ISAACCipher) : ByteToMessageDecoder() {
     companion object {
         enum class State {
             OPCODE,
