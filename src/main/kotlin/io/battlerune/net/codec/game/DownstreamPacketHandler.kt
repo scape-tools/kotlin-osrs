@@ -1,16 +1,16 @@
 package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.ISAACCipher
-import io.battlerune.net.packet.OutgoingPacket
+import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class DownstreamPacketHandler(val random: ISAACCipher) : MessageToByteEncoder<OutgoingPacket>() {
+class DownstreamPacketHandler(val random: ISAACCipher) : MessageToByteEncoder<Packet>() {
 
-    override fun encode(ctx: ChannelHandlerContext, msg: OutgoingPacket, out: ByteBuf) {
-        val type = msg.type
+    override fun encode(ctx: ChannelHandlerContext, msg: Packet, out: ByteBuf) {
+        val type = msg.packetType
         val payload = msg.payload
 
         out.writeByte(msg.opcode + random.nextInt())

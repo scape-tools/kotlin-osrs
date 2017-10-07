@@ -3,7 +3,7 @@ package io.battlerune.game.world.actor
 import io.battlerune.game.GameContext
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
-import io.battlerune.net.packet.WritablePacket
+import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.out.*
 
 class Player(val playerChannel: PlayerChannel) : Pawn() {
@@ -90,7 +90,7 @@ class Player(val playerChannel: PlayerChannel) : Pawn() {
 
     }
 
-    fun writePacket(writer: WritablePacket) : Player {
+    fun writePacket(writer: PacketEncoder) : Player {
         playerChannel.writeAndFlush(writer)
         return this
     }

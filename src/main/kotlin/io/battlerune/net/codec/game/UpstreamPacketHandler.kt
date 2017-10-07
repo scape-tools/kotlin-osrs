@@ -1,7 +1,7 @@
 package io.battlerune.net.codec.game
 
 import io.battlerune.net.crypt.ISAACCipher
-import io.battlerune.net.packet.IncomingPacket
+import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
@@ -59,7 +59,7 @@ class UpstreamPacketHandler(private val random: ISAACCipher) : ByteToMessageDeco
         }
 
         if (size != 0) {
-            out.add(IncomingPacket(opcode, packetType, inc.readBytes(size)))
+            out.add(Packet(opcode, packetType, inc.readBytes(size)))
         }
         state = State.OPCODE
     }

@@ -1,10 +1,11 @@
 package io.battlerune.net.packet
 
 import io.battlerune.game.world.actor.Player
+import java.util.*
 
 @FunctionalInterface
-interface ReadablePacket {
+interface PacketEncoder {
 
-    fun readPacket(player: Player, packet: IncomingPacket)
+    fun encode(player: Player): Optional<Packet>
 
 }

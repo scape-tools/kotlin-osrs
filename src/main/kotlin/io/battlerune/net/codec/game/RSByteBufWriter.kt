@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
-import io.battlerune.net.packet.OutgoingPacket
+import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
 
 class RSByteBufWriter private constructor(val buffer: ByteBuf) {
@@ -216,12 +216,11 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun toOutgoingPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : OutgoingPacket {
+    fun toPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : Packet {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")
         }
-        
-        return OutgoingPacket(opcode, packetType, buffer)
+        return Packet(opcode, packetType, buffer)
     }
 
 }

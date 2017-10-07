@@ -3,10 +3,10 @@ package io.battlerune.net.channel
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.NetworkConstants
+import io.battlerune.net.codec.game.PacketReader
 import io.battlerune.net.codec.login.LoginRequest
-import io.battlerune.net.packet.IncomingPacket
-import io.battlerune.net.packet.OutgoingPacket
-import io.battlerune.net.packet.WritablePacket
+import io.battlerune.net.packet.Packet
+import io.battlerune.net.packet.PacketEncoder
 import io.netty.channel.Channel
 import io.netty.channel.socket.SocketChannel
 import org.apache.logging.log4j.LogManager
@@ -19,8 +19,8 @@ class PlayerChannel(val channel: Channel) {
         val logger = LogManager.getLogger()
     }
 
-    val incomingPackets: Queue<IncomingPacket> = ConcurrentLinkedQueue()
-    val prioritizedPackets: Queue<IncomingPacket> = ConcurrentLinkedQueue()
+    val incomingPackets: Queue<Packet> = ConcurrentLinkedQueue()
+    val prioritizedPackets: Queue<Packet> = ConcurrentLinkedQueue()
 
     val player = Player(this)
     val hostAddress: String = (channel as SocketChannel).remoteAddress().address.hostAddress
@@ -52,9 +52,10 @@ class PlayerChannel(val channel: Channel) {
 
             val packet = prioritizedPackets.poll() ?: break
 
-            val reader = PacketRepository.readers[packet.opcode] ?: continue
+            val decoder = PacketRepository.decoders[packet.opcode] ?: continue
 
-            reader.readPacket(player, packet)
+            decoder.decode(player, PacketReader.wrap(packet))
+
         }
     }
 
@@ -69,15 +70,15 @@ class PlayerChannel(val channel: Channel) {
 
             val packet = incomingPackets.poll() ?: break
 
-            val handler = PacketRepository.readers[packet.opcode] ?: continue
+            val decoder = PacketRepository.decoders[packet.opcode] ?: continue
 
-            handler.readPacket(player, packet)
+            decoder.decode(player, PacketReader.wrap(packet))
 
         }
 
     }
 
-    fun handleIncomingPacket(packet: IncomingPacket) {
+    fun handleIncomingPacket(packet: Packet) {
         if (incomingPackets.size > NetworkConstants.PACKET_LIMIT) {
             return
         }
@@ -90,9 +91,9 @@ class PlayerChannel(val channel: Channel) {
 
     }
 
-    fun writeAndFlush(writer: WritablePacket) {
+    fun writeAndFlush(encoder: PacketEncoder) {
         try {
-            writer.writePacket(player).ifPresent { channel.writeAndFlush(it) }
+            encoder.encode(player).ifPresent { channel.writeAndFlush(it) }
         } catch (ex: Throwable) {
             logger.warn("An exception was caught writing a packet.", ex)
         }
