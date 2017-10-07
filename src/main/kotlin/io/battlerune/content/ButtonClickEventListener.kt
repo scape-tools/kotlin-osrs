@@ -9,7 +9,7 @@ class ButtonClickEventListener {
     fun onEvent(event: ButtonClickEvent) {
         val player = event.player
 
-        //println("interface: ${event.interfaceId} buttonId: ${event.buttonId}")
+        println("interface: ${event.interfaceId} buttonId: ${event.buttonId}")
 
 //        if (event.buttonId == 6) {
 //            player.client.setInterfaceSets(165, 1, 548, 23)
