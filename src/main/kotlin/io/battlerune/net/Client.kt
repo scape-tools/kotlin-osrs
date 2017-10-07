@@ -26,6 +26,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setVarp(id: Int, state: Int) : Client {
+        player.write(VarpPacketEncoder(id, state))
+        return this
+    }
+
     fun sendRegionUpdate(gpi: RSByteBufWriter) : Client {
         player.write(RegionUpdatePacketEncoder(gpi.buffer))
         return this
