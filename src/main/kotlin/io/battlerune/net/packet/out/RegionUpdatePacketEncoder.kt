@@ -39,13 +39,21 @@ class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
                         keys.forEach { xtea.writeInt(it) }
 
                     }
+
                     count++
+
                 }
             }
 
+        println("chunkY: $chunkX")
+        println("chunkY: $chunkY")
+        println("count: $count")
+
+        writer.writeShort(chunkX)
         writer.writeShort(chunkY, ByteOrder.LE)
-        writer.writeShort(chunkX, ByteModification.ADD)
         writer.writeShort(count)
+        writer.writeBytes(xtea.buffer)
+
         return writer.toPacket(60, PacketType.VAR_SHORT)
     }
 

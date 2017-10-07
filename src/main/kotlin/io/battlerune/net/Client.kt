@@ -31,7 +31,7 @@ class Client(val player: Player) {
         return this
     }
 
-    fun sendRegionUpdate(gpi: RSByteBufWriter) : Client {
+    fun sendRegionUpdate(gpi: RSByteBufWriter = RSByteBufWriter.alloc()) : Client {
         player.write(RegionUpdatePacketEncoder(gpi.buffer))
         return this
     }
