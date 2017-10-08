@@ -216,6 +216,15 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun writeSmart(value: Int) : RSByteBufWriter {
+        if (value < Byte.MAX_VALUE) {
+            buffer.writeByte(value)
+        } else {
+            buffer.writeShort(value)
+        }
+        return this
+    }
+
     fun toPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : Packet {
         if (accessType == AccessType.BIT) {
             throw IllegalStateException("Cannot be in bit access.")

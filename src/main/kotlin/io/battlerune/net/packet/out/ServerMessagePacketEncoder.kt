@@ -1,18 +1,19 @@
 package io.battlerune.net.packet.out
 
 import io.battlerune.game.world.actor.Player
-import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
-import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
+import io.battlerune.net.packet.PacketType
 
-class RootInterfacePacketEncoder(private val interfaceId: Int): PacketEncoder {
+class ServerMessagePacketEncoder(val message: String) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-         writer.writeShort(interfaceId)
-        return writer.toPacket(30, PacketType.FIXED)
+        writer.writeSmart(0) // must be more than 1 type
+                .writeByte(0) // read another string if 1
+                .writeString(message)
+        return writer.toPacket(100, PacketType.VAR_BYTE)
     }
 
 }

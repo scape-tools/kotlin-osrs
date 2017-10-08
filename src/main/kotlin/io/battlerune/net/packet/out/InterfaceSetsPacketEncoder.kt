@@ -11,9 +11,9 @@ class InterfaceSetsPacketEncoder(val fromRoot: Int, val fromChild: Int, val toRo
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        .writeInt((fromRoot shl 16) or fromChild, ByteOrder.LE)
-        .writeInt((toRoot shl 16) or toChild, ByteOrder.LE)
-        return writer.toPacket(78, PacketType.FIXED)
+        .writeInt((fromRoot shl 16) or fromChild)
+        .writeInt((toRoot shl 16) or toChild, ByteOrder.ME)
+        return writer.toPacket(16, PacketType.FIXED)
     }
 
 }

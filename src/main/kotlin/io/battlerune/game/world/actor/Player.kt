@@ -12,6 +12,8 @@ import io.battlerune.net.packet.out.LogoutPacketEncoder
 
 class Player(val channel: PlayerChannel) : Pawn() {
 
+    var initialized = false
+
     var displayType = DisplayType.FIXED
 
     val client = Client(this)
@@ -89,6 +91,8 @@ class Player(val channel: PlayerChannel) : Pawn() {
                 .setInterface(165, 24, 160, true)
                 .setInterface(165, 28, 50, false)
                 .setInterface(165, 29, 378, false)
+                .sendMessage("Welcome to BattleRune #155!")
+                //.playSong(1)
 
     }
 

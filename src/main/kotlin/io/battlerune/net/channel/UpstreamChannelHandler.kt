@@ -29,8 +29,11 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
     override fun channelInactive(ctx: ChannelHandlerContext) {
         super.channelInactive(ctx)
         val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get() ?: throw IllegalStateException("session is null")
-
         val player = playerChannel.player
+
+        if (!player.initialized) {
+            return
+        }
 
         player.onLogout()
         player.context.world.queueLogout(player)

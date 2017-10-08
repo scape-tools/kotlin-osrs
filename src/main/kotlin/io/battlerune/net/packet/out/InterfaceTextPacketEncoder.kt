@@ -11,9 +11,9 @@ class InterfaceTextPacketEncoder(private val root: Int, private val child: Int, 
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeString(message)
-        writer.writeInt((root shl 16) or child, ByteOrder.IME)
-        return writer.toPacket(244, PacketType.VAR_SHORT)
+        writer.writeInt((root shl 16) or child)
+        .writeString(message)
+        return writer.toPacket(42, PacketType.VAR_SHORT)
     }
 
 }

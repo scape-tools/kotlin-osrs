@@ -1,6 +1,7 @@
 package io.battlerune.net.codec.handshake
 
 import io.battlerune.game.GameContext
+import io.battlerune.net.ProtocolConstants
 import io.battlerune.net.codec.update.UpdateDecoder
 import io.battlerune.net.codec.update.UpdateEncoder
 import io.battlerune.net.codec.update.UpdateHandshakeMessage
@@ -16,7 +17,7 @@ class HandshakeEncoder(private val gameContext: GameContext) : MessageToByteEnco
         out.writeByte(msg.response)
 
         if (msg is UpdateHandshakeMessage) {
-            if (msg.version == 149) {
+            if (msg.version == ProtocolConstants.CLIENT_VERSION) {
                  ctx.pipeline().replace(HandshakeDecoder::class.simpleName, UpdateDecoder::class.simpleName, UpdateDecoder())
                 ctx.pipeline().addAfter(UpdateDecoder::class.simpleName, UpdateEncoder::class.simpleName, UpdateEncoder(gameContext))
             }

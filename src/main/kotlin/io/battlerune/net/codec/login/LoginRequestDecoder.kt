@@ -1,6 +1,7 @@
 package io.battlerune.net.codec.login
 
 import io.battlerune.game.GameContext
+import io.battlerune.net.ProtocolConstants
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
@@ -23,7 +24,7 @@ class LoginRequestDecoder(private val gameContext: GameContext) : ByteToMessageD
 
         val version = inc.readInt()
 
-        if (version != 149) {
+        if (version != ProtocolConstants.CLIENT_VERSION) {
             return
         }
 

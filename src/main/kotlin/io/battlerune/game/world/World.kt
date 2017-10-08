@@ -78,6 +78,7 @@ class World(val gameContext: GameContext) {
     private fun register(pawn: Pawn) {
         if (pawn is Player) {
             players.add(pawn)
+            pawn.initialized = true
             pawn.init()
             pawn.onLogin()
         }
