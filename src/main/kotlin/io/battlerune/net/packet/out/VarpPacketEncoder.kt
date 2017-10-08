@@ -13,14 +13,14 @@ class VarpPacketEncoder(val id: Int, val state: Int) : PacketEncoder {
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
 
-        if (state <= Byte.MIN_VALUE || state >= java.lang.Byte.MAX_VALUE) { // large varp
-                writer.writeInt(state)
-                        .writeShort(id)
-            return writer.toPacket(217, PacketType.FIXED)
+        if (state <= Byte.MIN_VALUE || state >= Byte.MAX_VALUE) { // varp large
+            writer.writeShort(id)
+            .writeInt(state, ByteOrder.ME)
+            return writer.toPacket(9, PacketType.FIXED)
         } else { // small varp
-            writer.writeShort(id, ByteModification.ADD, ByteOrder.LE)
-                    .writeByte(state, ByteModification.NEG)
-            return writer.toPacket(189, PacketType.FIXED)
+            writer.writeByte(state, ByteModification.SUB)
+            .writeShort(id, ByteModification.ADD, ByteOrder.LE)
+            return writer.toPacket(185, PacketType.FIXED)
         }
 
     }
