@@ -92,6 +92,11 @@ class Player(val channel: PlayerChannel) : Pawn() {
                 .setInterface(165, 28, 50, false)
                 .setInterface(165, 29, 378, false)
                 .sendMessage("Welcome to BattleRune #155!")
+
+                for (i in 0..24) {
+                    client.setSkill(i, 99, 14_000_000)
+                }
+
                 //.playSong(1)
 
     }

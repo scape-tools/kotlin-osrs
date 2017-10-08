@@ -46,4 +46,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setSkill(skill: Int, lvl: Int, xp: Int) : Client {
+        player.write(SetSkillPacketEncoder(skill, lvl, xp))
+        return this
+    }
+
 }
