@@ -8,12 +8,13 @@ import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.util.extensions.ipToInt
 
+// TODO better name for this
 class IPLookupPacketEncoder(val hostAddress: String) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeInt(hostAddress.ipToInt(), ByteOrder.IME)
-        return writer.toPacket(210, PacketType.FIXED)
+        writer.writeInt(hostAddress.ipToInt(), ByteOrder.LE)
+        return writer.toPacket(193, PacketType.FIXED)
     }
 
 }
