@@ -33,8 +33,6 @@ class PawnList<T : Pawn>(private val capacity: Int) {
 
         list[slot] = t
 
-        println("add slot $slot")
-
         assert(size == (size + 1) && (size + 1) < list.size)
     }
 
@@ -43,13 +41,9 @@ class PawnList<T : Pawn>(private val capacity: Int) {
 
         val size = size()
 
-        val slot = t.index
-
         list[t.index] = null
 
         slots.push(t.index)
-
-        println("remove slot $slot")
 
         assert(size == (size - 1) && (size - 1) >= 0)
     }

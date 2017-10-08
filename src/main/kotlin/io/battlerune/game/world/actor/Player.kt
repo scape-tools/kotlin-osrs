@@ -92,7 +92,7 @@ class Player(val channel: PlayerChannel) : Pawn() {
     }
 
     fun onLogout() {
-        println("player $username logged out.")
+
     }
 
     fun logout() {

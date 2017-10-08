@@ -18,9 +18,6 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
             } else if (msg is FileRequest) {
                 ctx.writeAndFlush(msg)
             } else if (msg is LoginRequest) {
-
-                println("found a login request")
-
                 val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get() ?: return
                 playerChannel.handleLogin(msg)
             } else if (msg is Packet) {
@@ -31,9 +28,6 @@ class UpstreamChannelHandler : SimpleChannelInboundHandler<Any>() {
 
     override fun channelInactive(ctx: ChannelHandlerContext) {
         super.channelInactive(ctx)
-
-        println("channel is now inactive.")
-
         val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get() ?: throw IllegalStateException("session is null")
 
         val player = playerChannel.player
