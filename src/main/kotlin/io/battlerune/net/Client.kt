@@ -36,4 +36,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun playSong(songId: Int) : Client {
+        player.write(PlaySongPacketEncoder(songId))
+        return this
+    }
+
 }

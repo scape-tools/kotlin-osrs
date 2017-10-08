@@ -91,6 +91,7 @@ class Player(val channel: PlayerChannel) : Pawn() {
                 .setInterface(165, 24, 160, true)
                 .setInterface(165, 28, 50, false)
                 .setInterface(165, 29, 378, false)
+                //.playSong(1)
 
     }
 
