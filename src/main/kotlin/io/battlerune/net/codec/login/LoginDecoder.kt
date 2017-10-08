@@ -54,7 +54,7 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
 
         val password = rsaBuf.readString()
 
-        val xteaBuf = rsaBuf.decryptXTEA(clientKeys)
+        val xteaBuf = inc.decryptXTEA(clientKeys)
 
         val username = xteaBuf.readString()
 
