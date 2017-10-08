@@ -41,4 +41,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun sendMessage(message: String) : Client {
+        player.write(ServerMessagePacketEncoder(message))
+        return this
+    }
+
 }
