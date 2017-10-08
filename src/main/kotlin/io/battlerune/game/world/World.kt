@@ -3,6 +3,7 @@ package io.battlerune.game.world
 import com.google.common.eventbus.EventBus
 import io.battlerune.content.ButtonClickEventListener
 import io.battlerune.content.ClientDimensionChangeEventListener
+import io.battlerune.content.InterfaceClickEventListener
 import io.battlerune.game.GameContext
 import io.battlerune.game.world.actor.Pawn
 import io.battlerune.game.world.actor.PawnList
@@ -96,6 +97,7 @@ class World(val gameContext: GameContext) {
     private fun registerEvents() {
         eventBus.register(ButtonClickEventListener())
         eventBus.register(ClientDimensionChangeEventListener())
+        eventBus.register(InterfaceClickEventListener())
         logger.info("Registered event listeners")
      }
 

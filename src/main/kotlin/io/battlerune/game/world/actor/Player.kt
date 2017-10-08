@@ -8,6 +8,7 @@ import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.PacketEncoder
+import io.battlerune.net.packet.out.LogoutPacketEncoder
 
 class Player(val channel: PlayerChannel) : Pawn() {
 
@@ -99,6 +100,8 @@ class Player(val channel: PlayerChannel) : Pawn() {
         //TODO send logout packet
 
         context.world.queueLogout(this)
+
+        write(LogoutPacketEncoder())
     }
 
     fun write(encoder: PacketEncoder) : Player {

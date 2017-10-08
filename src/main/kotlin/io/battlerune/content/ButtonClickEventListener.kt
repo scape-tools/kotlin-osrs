@@ -13,9 +13,14 @@ class ButtonClickEventListener {
 
         when(event.interfaceId) {
 
+            182 -> {
+                if (event.buttonId == 6) {
+                    player.logout()
+                }
+            }
+
             378 -> {
                 if (event.buttonId == 6) {
-                    println("setting interfaces")
                     player.client
                             .setRootInterface(player.displayType.root)
                             .setInterfaceSets(165, 1, 548, 23)

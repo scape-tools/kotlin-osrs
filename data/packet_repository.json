@@ -862,7 +862,8 @@
   },
   {
     "opcode": 215,
-    "size": 0
+    "size": 8,
+	"decoder": "io.battlerune.net.packet.in.InterfaceClickPacketDecoder"
   },
   {
     "opcode": 216,
