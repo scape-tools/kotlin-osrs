@@ -12,6 +12,8 @@ import io.battlerune.net.packet.out.LogoutPacketEncoder
 
 class Player(val channel: PlayerChannel) : Pawn() {
 
+    var initialized = false
+
     var displayType = DisplayType.FIXED
 
     val client = Client(this)

@@ -12,10 +12,10 @@ class InterfacePacketEncoder(private val rootInterfaceId: Int, private val child
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeByte(if (clickable) 1 else 0, ByteModification.NEG)
-                .writeInt((rootInterfaceId shl 16) or childId, ByteOrder.ME)
-                .writeShort(interfaceId, ByteModification.ADD)
-        return writer.toPacket(111, PacketType.FIXED)
+        writer.writeByte(if (clickable) 1 else 0, ByteModification.SUB)
+                .writeShort(interfaceId, ByteOrder.LE)
+                .writeInt((rootInterfaceId shl 16) or childId, ByteOrder.IME)
+        return writer.toPacket(127, PacketType.FIXED)
     }
 
 }

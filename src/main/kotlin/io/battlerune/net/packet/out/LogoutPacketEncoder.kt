@@ -9,7 +9,7 @@ import io.battlerune.net.packet.PacketType
 class LogoutPacketEncoder : PacketEncoder {
 
     override fun encode(player: Player): Packet {
-        return RSByteBufWriter.alloc().toPacket(165, PacketType.FIXED)
+        return RSByteBufWriter.alloc().toPacket(28, PacketType.FIXED)
     }
 
 }

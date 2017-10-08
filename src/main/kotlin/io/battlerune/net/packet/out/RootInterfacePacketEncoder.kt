@@ -11,8 +11,8 @@ class RootInterfacePacketEncoder(private val interfaceId: Int): PacketEncoder {
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-         writer.writeShort(interfaceId, ByteModification.ADD)
-        return writer.toPacket(129, PacketType.FIXED)
+         writer.writeShort(interfaceId)
+        return writer.toPacket(30, PacketType.FIXED)
     }
 
 }
