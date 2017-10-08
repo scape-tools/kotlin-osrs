@@ -51,4 +51,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setEnergy(amount: Int) : Client {
+        player.write(SetEnergyPacketEncoder(amount))
+        return this
+    }
+
 }
