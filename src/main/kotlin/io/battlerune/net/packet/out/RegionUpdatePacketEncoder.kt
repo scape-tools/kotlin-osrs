@@ -45,10 +45,6 @@ class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
                 }
             }
 
-        println("chunkY: $chunkX")
-        println("chunkY: $chunkY")
-        println("count: $count")
-
         writer.writeShort(chunkX)
         writer.writeShort(chunkY, ByteOrder.LE)
         writer.writeShort(count)
