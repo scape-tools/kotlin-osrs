@@ -1,5 +1,6 @@
 # BattleRune
 data/cache/
+data/xteas/
 
 ### Eclipse ###
 
@@ -164,5 +165,3 @@ gradle-app.setting
 
 # End of https://www.gitignore.io/api/java,gradle,eclipse,intellij
 \.idea/
-
-data/xteas/
