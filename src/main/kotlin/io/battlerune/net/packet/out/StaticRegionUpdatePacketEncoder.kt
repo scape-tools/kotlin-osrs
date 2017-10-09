@@ -9,7 +9,7 @@ import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 
-class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
+class StaticRegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
             val writer = RSByteBufWriter.wrap(gpiBuf)
