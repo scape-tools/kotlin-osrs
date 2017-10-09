@@ -9,7 +9,6 @@ import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.out.LogoutPacketEncoder
-import io.battlerune.net.packet.out.ServerUpdatePacketEncoder
 
 class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 

@@ -13,6 +13,13 @@ class InterfaceClickEventListener {
 
         when(event.interfaceId) {
 
+            160 -> {
+                if (event.button == 1) {
+                    player.client.updateServer(60 / 30)
+                }
+
+            }
+
             182 -> { if (event.button == 6) player.logout() }
 
         }
