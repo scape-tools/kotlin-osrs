@@ -6,11 +6,11 @@ import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.PacketType
 
-class SystemUpdatePacketEncoder(val value: Int) : PacketEncoder {
+class SystemUpdatePacketEncoder(val seconds: Int) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeShort(value)
+        writer.writeShort(seconds)
         return writer.toPacket(174, PacketType.FIXED)
     }
 

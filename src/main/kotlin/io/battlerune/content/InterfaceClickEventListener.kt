@@ -13,10 +13,8 @@ class InterfaceClickEventListener {
 
         when(event.interfaceId) {
 
+            // xp (used for testing atm)
             160 -> {
-                if (event.button == 1) {
-                    player.client.updateServer(60 / 30)
-                }
 
             }
 

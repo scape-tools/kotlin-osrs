@@ -56,8 +56,8 @@ class Client(val player: Player) {
         return this
     }
 
-    fun setSystemUpdate(value: Int) : Client {
-        player.write(SystemUpdatePacketEncoder(value))
+    fun setSystemUpdate(seconds: Int) : Client {
+        player.write(SystemUpdatePacketEncoder((600 / seconds) * 10))
         return this
     }
 

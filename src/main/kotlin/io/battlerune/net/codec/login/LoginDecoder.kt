@@ -35,8 +35,6 @@ class LoginDecoder : ByteToMessageDecoder() {
 
         val opcode = rsaBuf.readByte()
 
-        println("opcode: $opcode")
-
         if (opcode.toInt() != 1) {
             return
         }
