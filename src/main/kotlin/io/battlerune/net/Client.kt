@@ -56,4 +56,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun updateServer(seconds: Int) : Client {
+        player.write(ServerUpdatePacketEncoder(seconds))
+        return this
+    }
+
 }
