@@ -91,7 +91,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
                 .sendMessage("Welcome to BattleRune #155!")
                 .setEnergy(100)
 
-                for (i in 0..24) {
+                 for (i in 0..24) {
                     client.setSkill(i, 99, 14_000_000)
                 }
 

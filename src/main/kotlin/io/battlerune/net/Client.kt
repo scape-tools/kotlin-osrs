@@ -26,6 +26,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setInterfaceSettings(root: Int, component: Int, fromSlot: Int, toSlot: Int, setting: Int) : Client {
+        player.write(InterfaceSettingPacketEncoder(root, component, fromSlot, toSlot, setting))
+        return this
+    }
+
     fun setVarp(id: Int, state: Int) : Client {
         player.write(VarpPacketEncoder(id, state))
         return this
