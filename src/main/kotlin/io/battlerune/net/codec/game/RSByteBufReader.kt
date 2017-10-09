@@ -207,6 +207,21 @@ class RSByteBufReader private constructor(private val buf: ByteBuf) {
         return value and 0xFFFFFFFFL
     }
 
+    fun readString() : String {
+        val sb = StringBuilder()
+        var b: Byte
+        while (buf.isReadable) {
+            b = buf.readByte()
+
+            if (b.toInt() == 0) {
+                break
+            }
+
+            sb.append(b.toChar())
+        }
+        return sb.toString()
+    }
+
     fun setPosition(position: Int) {
         buf.readerIndex(position)
     }
