@@ -44,10 +44,10 @@ class UpstreamPacketHandler(private val random: ISAACCipher) : ByteToMessageDeco
         size = PacketRepository.sizes[opcode]
 
         when (size) {
-            -2 -> PacketType.VAR_SHORT
-            -1 -> PacketType.VAR_BYTE
+            -2 -> packetType =PacketType.VAR_SHORT
+            -1 -> packetType =PacketType.VAR_BYTE
             0 -> return
-            else -> PacketType.FIXED
+            else -> packetType = PacketType.FIXED
         }
 
         state = (if (packetType == PacketType.FIXED) State.PAYLOAD else State.SIZE)
