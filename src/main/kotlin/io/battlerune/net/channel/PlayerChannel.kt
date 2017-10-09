@@ -1,5 +1,6 @@
 package io.battlerune.net.channel
 
+import io.battlerune.game.GameContext
 import io.battlerune.net.packet.PacketRepository
 import io.battlerune.game.world.actor.Player
 import io.battlerune.game.world.actor.PlayerContext
@@ -14,13 +15,13 @@ import org.apache.logging.log4j.LogManager
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
-class PlayerChannel(val channel: Channel) {
+class PlayerChannel(val channel: Channel, val context: GameContext) {
 
     companion object {
         val logger = LogManager.getLogger()
     }
 
-    val player = Player(this)
+    val player = Player(this, context)
 
     val incomingPackets: Queue<Packet> = ConcurrentLinkedQueue()
     val prioritizedPackets: Queue<Packet> = ConcurrentLinkedQueue()
@@ -30,7 +31,6 @@ class PlayerChannel(val channel: Channel) {
     fun handleLogin(loginRequest: LoginRequest) {
         val username = loginRequest.username
         val password = loginRequest.password
-        val context = loginRequest.gameContext
 
         if (!username.matches("^[a-z0-9_ ]{1,12}$".toRegex()) || password.isEmpty() || password.length > 20) {
             return
@@ -38,7 +38,6 @@ class PlayerChannel(val channel: Channel) {
 
         player.username = username
         player.password = password
-        player.context = context
 
         context.world.queueLogin(player)
 

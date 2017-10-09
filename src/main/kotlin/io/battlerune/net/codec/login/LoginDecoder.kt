@@ -1,6 +1,5 @@
 package io.battlerune.net.codec.login
 
-import io.battlerune.game.GameContext
 import io.battlerune.net.crypt.ISAACCipher
 import io.battlerune.net.crypt.ISAACCipherPair
 import io.battlerune.util.extensions.decryptXTEA
@@ -12,7 +11,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 import java.math.BigInteger
 
-class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder() {
+class LoginDecoder : ByteToMessageDecoder() {
 
     companion object {
         val RSA_MODULUS = BigInteger(
@@ -122,7 +121,7 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
             serverKeys[i] = clientKeys[i] + 50
         }
 
-        out.add(LoginRequest(username, password, resizable, lowMem, ISAACCipherPair(ISAACCipher(serverKeys), ISAACCipher(clientKeys)), gameContext, ctx.channel()))
+        out.add(LoginRequest(username, password, resizable, lowMem, ISAACCipherPair(ISAACCipher(serverKeys), ISAACCipher(clientKeys)), ctx.channel()))
     }
 
 }

@@ -10,7 +10,7 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.out.LogoutPacketEncoder
 
-class Player(val channel: PlayerChannel) : Pawn() {
+class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     var initialized = false
 
@@ -20,7 +20,6 @@ class Player(val channel: PlayerChannel) : Pawn() {
 
     lateinit var username: String
     lateinit var password: String
-    lateinit var context: GameContext
 
     override fun init() {
         regionChanged = true
@@ -98,7 +97,7 @@ class Player(val channel: PlayerChannel) : Pawn() {
                     client.setSkill(i, 99, 14_000_000)
                 }
 
-                //.playSong(1)
+            //client.playSong(1)
 
     }
 
