@@ -66,4 +66,9 @@ class Client(val player: Player) {
         return this
     }
 
+    fun resetVarps() : Client {
+        player.write(ResetVarpPacketEncoder())
+        return this
+    }
+
 }
