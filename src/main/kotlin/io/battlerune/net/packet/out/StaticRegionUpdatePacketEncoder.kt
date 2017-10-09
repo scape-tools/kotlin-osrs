@@ -49,7 +49,6 @@ class StaticRegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
         writer.writeShort(chunkY, ByteModification.ADD)
         writer.writeShort(count)
         writer.writeBytes(xtea.buffer)
-
         return writer.toPacket(150, PacketType.VAR_SHORT)
     }
 
