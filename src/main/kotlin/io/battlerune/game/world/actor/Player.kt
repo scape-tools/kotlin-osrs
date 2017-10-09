@@ -59,8 +59,6 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
         builder.switchToByteAccess()
 
-        //writePacket(IPLookupPacketEncoder())
-
         client.sendRegionUpdate(builder)
                 .setInterfaceText(378, 13, "You last logged in <col=ff0000>earlier today<col=000000>.")
                 .setInterfaceText(378, 14, "Never tell anyone your password, even if they claim to work for Jagex!")
@@ -97,6 +95,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
                     client.setSkill(i, 99, 14_000_000)
                 }
 
+            // packet seems to be right though it doesn't play properly??
             //client.playSong(1)
 
     }
