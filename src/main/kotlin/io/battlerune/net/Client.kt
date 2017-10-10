@@ -41,6 +41,12 @@ class Client(val player: Player) {
         return this
     }
 
+    // forces the player to logout and they have to restart the client to log back in
+    fun dropClient() : Client {
+        player.write(DropClientPacketEncoder())
+        return this
+    }
+
     fun playSong(songId: Int) : Client {
         player.write(PlaySongPacketEncoder(songId))
         return this
