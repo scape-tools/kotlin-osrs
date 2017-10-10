@@ -41,6 +41,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setWeight(amount: Int) : Client {
+        player.write(SetWeightPacketEncoder(amount))
+        return this
+    }
+
     fun playSong(songId: Int) : Client {
         player.write(PlaySongPacketEncoder(songId))
         return this
