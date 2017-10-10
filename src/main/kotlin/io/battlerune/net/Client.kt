@@ -46,6 +46,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun showGroundItem(item: Int, amount: Int) : Client {
+        player.write(ShowGroundItemPacketEncoder(item, amount))
+        return this
+    }
+
     fun playSong(songId: Int) : Client {
         player.write(PlaySongPacketEncoder(songId))
         return this
