@@ -88,6 +88,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
                 .setInterface(165, 24, 160, true)
                 .setInterface(165, 28, 50, false)
                 .setInterface(165, 29, 378, false)
+                .setInterfaceText(593, 1, "Unarmed")
                 .sendMessage("Welcome to BattleRune #155!")
                 .setEnergy(100)
 
