@@ -81,4 +81,14 @@ class Client(val player: Player) {
         return this
     }
 
+    fun npcUpdate() : Client {
+        player.write(NpcUpdatePacketEncoder())
+        return this
+    }
+
+    fun updatePlayer() : Client {
+        player.write(PlayerUpdatePacketEncoder())
+        return this
+    }
+
 }
