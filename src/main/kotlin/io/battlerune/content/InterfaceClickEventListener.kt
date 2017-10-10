@@ -2,7 +2,6 @@ package io.battlerune.content
 
 import com.google.common.eventbus.Subscribe
 import io.battlerune.game.event.impl.InterfaceClickEvent
-import io.battlerune.net.packet.out.DropClientPacketEncoder
 
 class InterfaceClickEventListener {
 
@@ -19,7 +18,7 @@ class InterfaceClickEventListener {
             160 -> {
 
                 if (button == 1) {
-                    player.write(DropClientPacketEncoder())
+
                 }
 
             }
