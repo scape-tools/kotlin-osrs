@@ -1,18 +1,17 @@
 package io.battlerune.net.codec.login
 
-import io.battlerune.game.GameContext
-import io.battlerune.util.ByteBufUtil
 import io.battlerune.net.crypt.ISAACCipher
 import io.battlerune.net.crypt.ISAACCipherPair
+import io.battlerune.util.extensions.decryptXTEA
+import io.battlerune.util.extensions.readJagString
+import io.battlerune.util.extensions.readString
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
 import java.math.BigInteger
 
-
-
-class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder() {
+class LoginDecoder : ByteToMessageDecoder() {
 
     companion object {
         val RSA_MODULUS = BigInteger(
@@ -36,8 +35,6 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
 
         val opcode = rsaBuf.readByte()
 
-        println("opcode: $opcode")
-
         if (opcode.toInt() != 1) {
             return
         }
@@ -52,11 +49,11 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
 
         authType.read(rsaBuf)
 
-        val password = io.battlerune.util.ByteBufUtil.readString(rsaBuf)
+        val password = rsaBuf.readString()
 
-        val xteaBuf = io.battlerune.util.ByteBufUtil.decryptXTEA(inc, clientKeys)
+        val xteaBuf = inc.decryptXTEA(clientKeys)
 
-        val username = io.battlerune.util.ByteBufUtil.readString(xteaBuf)
+        val username = xteaBuf.readString()
 
         val resizableAndMemory = xteaBuf.readByte()
 
@@ -71,7 +68,7 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
         // some bytes for cache
         xteaBuf.skipBytes(24)
 
-        val token = io.battlerune.util.ByteBufUtil.readString(xteaBuf)
+        val token = xteaBuf.readString()
 
         xteaBuf.readInt()
 
@@ -89,14 +86,14 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
         xteaBuf.readByte()
         xteaBuf.readMedium()
         xteaBuf.readShort()
-        ByteBufUtil.readJagString(xteaBuf)
-        ByteBufUtil.readJagString(xteaBuf)
-        ByteBufUtil.readJagString(xteaBuf)
-        ByteBufUtil.readJagString(xteaBuf)
+        xteaBuf.readJagString()
+        xteaBuf.readJagString()
+        xteaBuf.readJagString()
+        xteaBuf.readJagString()
         xteaBuf.readByte()
         xteaBuf.readShort()
-        ByteBufUtil.readJagString(xteaBuf)
-        ByteBufUtil.readJagString(xteaBuf)
+        xteaBuf.readJagString()
+        xteaBuf.readJagString()
         xteaBuf.readByte()
         xteaBuf.readByte()
 
@@ -122,7 +119,7 @@ class LoginDecoder(private val gameContext: GameContext) : ByteToMessageDecoder(
             serverKeys[i] = clientKeys[i] + 50
         }
 
-        out.add(LoginRequest(username, password, resizable, lowMem, ISAACCipherPair(ISAACCipher(serverKeys), ISAACCipher(clientKeys)), gameContext, ctx.channel()))
+        out.add(LoginRequest(username, password, resizable, lowMem, ISAACCipherPair(ISAACCipher(serverKeys), ISAACCipher(clientKeys)), ctx.channel()))
     }
 
 }

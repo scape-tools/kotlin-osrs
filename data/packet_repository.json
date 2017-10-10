@@ -310,7 +310,7 @@
   {
     "opcode": 77,
     "size": 8,
-	"decoder": "io.battlerune.net.packet.in.InterfaceClickPacketDecoder"
+    "decoder": "io.battlerune.net.packet.in.InterfaceClickPacketDecoder"
   },
   {
     "opcode": 78,
@@ -614,7 +614,8 @@
   },
   {
     "opcode": 153,
-    "size": 0
+    "size": -1,
+    "decoder": "io.battlerune.net.packet.in.CommandPacketDecoder"
   },
   {
     "opcode": 154,
@@ -863,7 +864,7 @@
   {
     "opcode": 215,
     "size": 8,
-	"decoder": "io.battlerune.net.packet.in.InterfaceClickPacketDecoder"
+    "decoder": "io.battlerune.net.packet.in.InterfaceClickPacketDecoder"
   },
   {
     "opcode": 216,
@@ -888,7 +889,7 @@
   {
     "opcode": 221,
     "size": 4,
-	"decoder": "io.battlerune.net.packet.in.ButtonClickPacketDecoder"
+    "decoder": "io.battlerune.net.packet.in.ButtonClickPacketDecoder"
   },
   {
     "opcode": 222,

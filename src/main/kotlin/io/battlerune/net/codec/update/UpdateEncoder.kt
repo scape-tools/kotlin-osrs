@@ -1,13 +1,11 @@
 package io.battlerune.net.codec.update
 
-import io.battlerune.game.GameContext
-import io.battlerune.net.NetworkService
-import io.battlerune.net.ProtocolConstants
+import io.battlerune.net.NetworkConstants
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.MessageToByteEncoder
 
-class UpdateEncoder(val gameContext: GameContext) : MessageToByteEncoder<FileRequest>() {
+class UpdateEncoder: MessageToByteEncoder<FileRequest>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: FileRequest, out: ByteBuf) {
         val index = msg.index
@@ -19,7 +17,8 @@ class UpdateEncoder(val gameContext: GameContext) : MessageToByteEncoder<FileReq
 
         if (index == 255 && file == 255) {
 
-            val checksums = gameContext.checksumTable.duplicate()
+            val playerChannel = ctx.channel().attr(NetworkConstants.SESSION_KEY).get()
+            val checksums = playerChannel.context.checksumTable
 
             response.writeByte(0)
                     .writeInt(checksums.limit())

@@ -6,14 +6,14 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
 import io.battlerune.net.packet.PacketEncoder
-import io.battlerune.util.IntUtils
+import io.battlerune.util.extensions.ipToInt
 
-class IPLookupPacketEncoder(val hostAddress: String) : PacketEncoder {
+class DNSLookupPacketEncoder(val hostAddress: String) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
-        writer.writeInt(IntUtils.ipToInt(hostAddress), ByteOrder.IME)
-        return writer.toPacket(210, PacketType.FIXED)
+        writer.writeInt(hostAddress.ipToInt(), ByteOrder.LE)
+        return writer.toPacket(193, PacketType.FIXED)
     }
 
 }

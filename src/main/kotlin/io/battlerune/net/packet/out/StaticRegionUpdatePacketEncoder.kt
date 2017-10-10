@@ -9,7 +9,7 @@ import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.PacketType
 import io.netty.buffer.ByteBuf
 
-class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
+class StaticRegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
             val writer = RSByteBufWriter.wrap(gpiBuf)
@@ -49,7 +49,6 @@ class RegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
         writer.writeShort(chunkY, ByteModification.ADD)
         writer.writeShort(count)
         writer.writeBytes(xtea.buffer)
-
         return writer.toPacket(150, PacketType.VAR_SHORT)
     }
 

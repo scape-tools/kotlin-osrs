@@ -26,13 +26,28 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setInterfaceSettings(root: Int, component: Int, fromSlot: Int, toSlot: Int, setting: Int) : Client {
+        player.write(InterfaceSettingPacketEncoder(root, component, fromSlot, toSlot, setting))
+        return this
+    }
+
     fun setVarp(id: Int, state: Int) : Client {
         player.write(VarpPacketEncoder(id, state))
         return this
     }
 
     fun sendRegionUpdate(gpi: RSByteBufWriter = RSByteBufWriter.alloc()) : Client {
-        player.write(RegionUpdatePacketEncoder(gpi.buffer))
+        player.write(StaticRegionUpdatePacketEncoder(gpi.buffer))
+        return this
+    }
+
+    fun setWeight(amount: Int) : Client {
+        player.write(SetWeightPacketEncoder(amount))
+        return this
+    }
+
+    fun showGroundItem(item: Int, amount: Int) : Client {
+        player.write(ShowGroundItemPacketEncoder(item, amount))
         return this
     }
 
@@ -43,6 +58,36 @@ class Client(val player: Player) {
 
     fun sendMessage(message: String) : Client {
         player.write(ServerMessagePacketEncoder(message))
+        return this
+    }
+
+    fun setSkill(skill: Int, lvl: Int, xp: Int) : Client {
+        player.write(SetSkillPacketEncoder(skill, lvl, xp))
+        return this
+    }
+
+    fun setEnergy(amount: Int) : Client {
+        player.write(SetEnergyPacketEncoder(amount))
+        return this
+    }
+
+    fun setSystemUpdate(seconds: Int) : Client {
+        player.write(SystemUpdatePacketEncoder((600 / seconds) * 10))
+        return this
+    }
+
+    fun resetVarps() : Client {
+        player.write(ResetVarpPacketEncoder())
+        return this
+    }
+
+    fun npcUpdate() : Client {
+        player.write(NpcUpdatePacketEncoder())
+        return this
+    }
+
+    fun updatePlayer() : Client {
+        player.write(PlayerUpdatePacketEncoder())
         return this
     }
 

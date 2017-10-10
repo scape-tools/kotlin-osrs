@@ -10,7 +10,7 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.out.LogoutPacketEncoder
 
-class Player(val channel: PlayerChannel) : Pawn() {
+class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     var initialized = false
 
@@ -20,7 +20,6 @@ class Player(val channel: PlayerChannel) : Pawn() {
 
     lateinit var username: String
     lateinit var password: String
-    lateinit var context: GameContext
 
     override fun init() {
         regionChanged = true
@@ -60,8 +59,6 @@ class Player(val channel: PlayerChannel) : Pawn() {
 
         builder.switchToByteAccess()
 
-        //writePacket(IPLookupPacketEncoder())
-
         client.sendRegionUpdate(builder)
                 .setInterfaceText(378, 13, "You last logged in <col=ff0000>earlier today<col=000000>.")
                 .setInterfaceText(378, 14, "Never tell anyone your password, even if they claim to work for Jagex!")
@@ -91,8 +88,17 @@ class Player(val channel: PlayerChannel) : Pawn() {
                 .setInterface(165, 24, 160, true)
                 .setInterface(165, 28, 50, false)
                 .setInterface(165, 29, 378, false)
+                .setInterfaceText(593, 1, "Unarmed")
+                .setInterfaceText(593, 2, "Combat Lvl: 126")
                 .sendMessage("Welcome to BattleRune #155!")
-                //.playSong(1)
+                .setEnergy(100)
+
+                 for (i in 0..24) {
+                    client.setSkill(i, 99, 14_000_000)
+                }
+
+            // packet seems to be right though it doesn't play properly??
+            //client.playSong(1)
 
     }
 

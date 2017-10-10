@@ -21,11 +21,11 @@ class ServerPipelineInitializer(private val gameContext: GameContext) : ChannelI
     }
 
     override fun initChannel(ch: SocketChannel) {
-        ch.attr(NetworkConstants.SESSION_KEY).setIfAbsent(PlayerChannel(ch))
+        ch.attr(NetworkConstants.SESSION_KEY).setIfAbsent(PlayerChannel(ch, gameContext))
         ch.pipeline()
                 .addLast(UpstreamFilteredChannelHandler::class.simpleName, FILTER)
                 .addLast(HandshakeDecoder::class.simpleName, HandshakeDecoder())
-                .addLast(HandshakeEncoder::class.simpleName, HandshakeEncoder(gameContext))
+                .addLast(HandshakeEncoder::class.simpleName, HandshakeEncoder())
                 .addLast(IdleStateHandler(NetworkConstants.CONNECTION_TIMEOUT, 0, 0))
                 .addLast(UpstreamChannelHandler::class.simpleName, HANDLER)
                 .addLast(ExceptionChannelHandler::class.simpleName, ExceptionChannelHandler())
