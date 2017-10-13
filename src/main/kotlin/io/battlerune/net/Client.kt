@@ -41,6 +41,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun removeInterface(interfaceId: Int) : Client {
+        player.write(RemoveInterfacePacketEncoder(interfaceId))
+        return this
+    }
+
     fun setWeight(amount: Int) : Client {
         player.write(SetWeightPacketEncoder(amount))
         return this

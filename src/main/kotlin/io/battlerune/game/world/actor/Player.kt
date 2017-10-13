@@ -17,6 +17,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     val viewport = Viewport(this)
 
     var initialized = false
+    var xpOverlay = false
 
     var displayType = DisplayType.FIXED
 

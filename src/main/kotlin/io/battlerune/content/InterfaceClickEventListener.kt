@@ -18,6 +18,15 @@ class InterfaceClickEventListener {
             160 -> {
 
                 if (button == 1) {
+                    player.xpOverlay = !player.xpOverlay
+
+                    if (player.xpOverlay) {
+                        player.client.setInterface(548, 16, 122, true)
+                        .setVarp(1055, 131072)
+                    } else {
+                        player.client.setVarp(1055, 0)
+                                .removeInterface(35913744)
+                    }
 
                 }
 
