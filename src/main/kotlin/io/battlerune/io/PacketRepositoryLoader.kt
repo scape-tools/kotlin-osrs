@@ -22,7 +22,7 @@ class PacketRepositoryLoader : GsonParser("./data/packet_repository.json") {
 
         if (data.has("decoder")) {
 
-            val decoder = Class.forName(data.get("decoder").asString).newInstance()
+            val decoder = Class.forName("io.battlerune.net.packet.in." + data.get("decoder").asString).newInstance()
 
             if (decoder is PacketDecoder<Event>) {
                 PacketRepository.decoders[opcode] = decoder

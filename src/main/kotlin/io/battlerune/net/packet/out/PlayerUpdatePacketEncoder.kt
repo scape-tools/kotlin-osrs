@@ -245,8 +245,6 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
                 .writeShort(0) // skill level
                 .writeByte(0) // hidden
 
-        println("writer index: " + (prop.buffer.writerIndex() and 0xFF))
-
         buffer.writeByte(prop.buffer.writerIndex() and 0xFF, ByteModification.ADD)
         buffer.writeBytes(prop.buffer, ByteModification.ADD)
     }
