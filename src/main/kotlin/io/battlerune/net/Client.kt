@@ -76,6 +76,11 @@ class Client(val player: Player) {
         return this
     }
 
+    fun playSound(id: Int, type: Int, delay: Int) : Client {
+        player.write(PlaySoundEffectPacketEncoder(id, type, delay))
+        return this
+    }
+
     fun sendMessage(message: String) : Client {
         player.write(ServerMessagePacketEncoder(message))
         return this
