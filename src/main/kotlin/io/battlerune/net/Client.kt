@@ -1,5 +1,6 @@
 package io.battlerune.net
 
+import com.sun.xml.internal.fastinfoset.util.StringArray
 import io.battlerune.game.world.actor.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.out.*
@@ -33,6 +34,21 @@ class Client(val player: Player) {
 
     fun setVarp(id: Int, state: Int) : Client {
         player.write(VarpPacketEncoder(id, state))
+        return this
+    }
+
+    fun setCamera(value1: Int, value2: Int) : Client {
+        player.write(SetCameraPacketEncoder(value1, value2))
+        return this
+    }
+
+    fun sendCS2Script(id: Int, params: Array<Any>) : Client {
+        player.write(CS2ScriptPacketEncoder(id, params))
+        return this
+    }
+
+    fun lookupDNS(hostAddress: String) : Client {
+        player.write(DNSLookupPacketEncoder(hostAddress))
         return this
     }
 

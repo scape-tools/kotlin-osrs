@@ -28,11 +28,23 @@ class InterfaceClickEventListener {
                                 .removeInterface(35913744)
                     }
 
+                } else if (button == 29) {
+                    // minimap interface
+                    player.client.setInterface(548, 21, 595, true)
                 }
 
             }
 
+            162 -> { if (event.button == 26) player.client.setInterface(548, 20, 553, false)}
+
             182 -> { if (event.button == 6) player.logout() }
+
+            595 -> {
+                if (event.button == 34) {
+                    // click to remove minimap
+                    player.client.removeInterface(35913749)
+                }
+            }
 
         }
 
