@@ -59,7 +59,25 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
                 .setInterface(165, 23, 163, true)
                 .setInterface(165, 24, 160, true)
                 .setInterface(165, 29, 378, false)
-                .setInterface(165, 28, 50, false)
+                /**
+                 * Login themes
+                 *
+                 * 16 toxic bomb
+                 * 17 question marks
+                 * 18 jester
+                 * 19 vaults with red asterisks
+                 * 20 vault with green asterisks
+                 * 21 people trading
+                 * 22 vaults with no marks
+                 * 23 christmas themed
+                 * 50 blank scroll
+                 * 405 construction
+                 *
+                 */
+
+                val loginTheme = 50
+
+                client.setInterface(165, 28, loginTheme, false)
                 .setInterfaceText(50, 3, "Once you've had a <col=cfcfcf>graceful set</col> repainted <col=2f2fff>blue</col> in <col=4f2f1f>Brimhaven</col>,<br>you can get <col=003600>individual pieces</col> repainted.<br>Next week, <col=9f005f>Halloween</col>!")
                 .sendCS2Script(233, arrayOf(3276804, 7085, 0, 0, 434, 1912, 0, 400, -1))
                 .sendCS2Script(233, arrayOf(3276805, 32817, 0, 100, 93, 179, 0, 800, 820))
