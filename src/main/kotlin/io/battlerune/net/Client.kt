@@ -36,8 +36,8 @@ class Client(val player: Player) {
         return this
     }
 
-    fun sendRegionUpdate(buffer: RSByteBufWriter) : Client {
-        player.write(StaticRegionUpdatePacketEncoder(buffer))
+    fun sendRegionUpdate(buffer: RSByteBufWriter, flushPacket: Boolean) : Client {
+        player.write(StaticRegionUpdatePacketEncoder(buffer), flushPacket)
         return this
     }
 
@@ -87,6 +87,9 @@ class Client(val player: Player) {
     }
 
     fun updatePlayer() : Client {
+        if (!player.viewport.initialized) {
+            return this
+        }
         player.write(PlayerUpdatePacketEncoder())
         return this
     }

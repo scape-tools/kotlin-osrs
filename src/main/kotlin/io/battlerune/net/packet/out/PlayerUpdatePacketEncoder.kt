@@ -20,10 +20,10 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
 
     var playersAdded = 0
     var skip = 0
-    var flagUpdates = 0
 
     override fun encode(player: Player): Packet {
         this.player = player
+
         val packetBuffer = RSByteBufWriter.alloc()
         val maskBuffer = RSByteBufWriter.alloc()
         processPlayersInViewport(packetBuffer, maskBuffer, true)
@@ -100,7 +100,6 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
 
         // TODO support for walking type 1, running type 2 and teleporting type 3
         buffer.writeBits(2, 0)
-
     }
 
     private fun skipPlayers(buffer: RSByteBufWriter, currentIndex: Int, evenIndex: Boolean) {
@@ -211,13 +210,23 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
 
     private fun appendAppearanceMask(p: Player, buffer: RSByteBufWriter) {
         val prop = RSByteBufWriter.alloc()
-        prop.writeByte(0) // gender
+        prop.writeByte(p.appearance.gender.code) // gender
         prop.writeByte(-1) // skulled
         prop.writeByte(-1) // head icon
 
-        for (i in 0 until 12) {
+        // slots
+        for (i in 0 until 4) {
             prop.writeByte(0)
         }
+
+        prop.writeByte(0)
+        prop.writeShort(0x100 + p.appearance.style[2]) // chest
+        prop.writeShort(0x100 + p.appearance.style[3]) // shield
+        prop.writeShort(0x100 + p.appearance.style[5]) // full body
+        prop.writeShort(0x100 + p.appearance.style[0]) // legs
+        prop.writeShort(0x100 + p.appearance.style[4]) // hat
+        prop.writeShort(0x100 + p.appearance.style[6]) // feet
+        prop.writeShort(0x100 + p.appearance.style[1]) // full mask
 
         // colors
         for (i in 0 until 5) {

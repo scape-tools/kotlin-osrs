@@ -12,6 +12,8 @@ import io.battlerune.net.packet.out.LogoutPacketEncoder
 
 class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
+    var appearance = Appearance.DEFAULT
+
     val viewport = Viewport(this)
 
     var initialized = false
@@ -33,15 +35,15 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         context.world.eventBus.post(event)
     }
 
-
-
     fun onLogin() {
         updateFlags.add(UpdateFlag.APPEARANCE)
         region = context.regionManager.lookup(position.regionID)
-        val buffer = RSByteBufWriter.alloc()
-        viewport.initGPI(buffer)
-        client.sendRegionUpdate(buffer)
-                .setInterfaceText(378, 13, "You last logged in <col=ff0000>earlier today<col=000000>.")
+
+        val gpiBuffer = RSByteBufWriter.alloc()
+        viewport.initGPI(gpiBuffer)
+        client.sendRegionUpdate(gpiBuffer, true)
+
+                client.setInterfaceText(378, 13, "You last logged in <col=ff0000>earlier today<col=000000>.")
                 .setInterfaceText(378, 14, "Never tell anyone your password, even if they claim to work for Jagex!")
                 .setInterfaceText(378, 15, "You have <col=00ff00>0 unread messages <col=ffff00>in your message centre.")
                 .setInterfaceText(378, 16, "You do not have a Bank PIN. Please visit a bank if you would like one.")
@@ -108,8 +110,8 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         write(LogoutPacketEncoder())
     }
 
-    fun write(encoder: PacketEncoder) : Player {
-        channel.handleDownstreamPacket(encoder)
+    fun write(encoder: PacketEncoder, flushPacket: Boolean = true) : Player {
+        channel.handleDownstreamPacket(encoder, flushPacket)
         return this
     }
 

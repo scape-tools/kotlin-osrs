@@ -89,11 +89,15 @@ class PlayerChannel(val channel: Channel, val context: GameContext) {
 
     }
 
-    fun handleDownstreamPacket(encoder: PacketEncoder) {
+    fun handleDownstreamPacket(encoder: PacketEncoder, flushPacket: Boolean = false) {
         try {
             val packet = encoder.encode(player)
 
-            channel.writeAndFlush(packet)
+            if (flushPacket) {
+                channel.writeAndFlush(packet)
+            } else {
+                channel.write(packet)
+            }
         } catch (ex: Throwable) {
             logger.warn("An exception was caught writing a packet.", ex)
         }

@@ -47,6 +47,8 @@ class Viewport(val player: Player) {
      */
     val skipFlags = ByteArray(World.MAX_PLAYER_COUNT)
 
+    var initialized = false
+
     /**
      * Initializes
      */
@@ -66,6 +68,7 @@ class Viewport(val player: Player) {
             }
         }
         buffer.switchToByteAccess()
+        initialized = true
     }
 
 }
