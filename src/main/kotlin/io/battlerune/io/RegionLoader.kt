@@ -3,7 +3,7 @@ package io.battlerune.io
 import com.google.common.primitives.Ints
 import io.battlerune.game.GameContext
 import io.battlerune.game.task.StartupTask
-import net.openrs.cache.region.Region
+import io.battlerune.game.world.Region
 import java.io.File
 import java.nio.file.Files
 
@@ -35,8 +35,8 @@ class RegionLoader(val gameContext: GameContext) : StartupTask<RegionLoader>(Reg
 
             val region = Region(regionId)
 
-            region.loadTerrain(gameContext.cache.read(5, map).data)
-            region.loadLocations(gameContext.cache.read(5, land, Ints.toArray(keys)).data)
+            region.decodeTerrain(gameContext.cache.read(5, map).data)
+            region.decodeStaticObjects(gameContext.cache.read(5, land, Ints.toArray(keys)).data)
 
             gameContext.regionManager.set(regionId, region)
             keys.forEach { gameContext.regionManager.keys.put(regionId, it) }

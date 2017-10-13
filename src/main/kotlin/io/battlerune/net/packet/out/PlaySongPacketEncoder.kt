@@ -12,6 +12,7 @@ class PlaySongPacketEncoder(val songId: Int) : PacketEncoder {
     override fun encode(player: Player): Packet {
         val writer = RSByteBufWriter.alloc()
         writer.writeShort(songId, ByteModification.ADD)
+        writer.write24IntLE(0) // dummy value
         return writer.toPacket(90, PacketType.FIXED)
     }
 

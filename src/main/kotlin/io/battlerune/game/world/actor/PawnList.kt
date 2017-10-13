@@ -48,6 +48,12 @@ class PawnList<T : Pawn>(private val capacity: Int) {
         assert(size == (size - 1) && (size - 1) >= 0)
     }
 
+    fun get(index: Int) : T? {
+        assert(index > 0 && index < list.size)
+
+        return list[index]
+    }
+
     fun contains(t: T) : Boolean {
         return t == list[t.index]
     }

@@ -39,6 +39,14 @@ class World(val gameContext: GameContext) {
         logouts.add(player)
     }
 
+    fun updatePlayers() {
+        for (player in players.list) {
+            player?.preUpdate()
+            player?.update()
+            player?.postUpdate()
+        }
+    }
+
     fun processLogins() {
         if (logins.isEmpty()) {
             return
@@ -80,6 +88,7 @@ class World(val gameContext: GameContext) {
         if (pawn is Player) {
             players.add(pawn)
             pawn.initialized = true
+            pawn.teleported = true
             pawn.init()
             pawn.onLogin()
         }

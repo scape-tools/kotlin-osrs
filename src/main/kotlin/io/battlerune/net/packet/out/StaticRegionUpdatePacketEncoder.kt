@@ -7,12 +7,11 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.PacketType
-import io.netty.buffer.ByteBuf
 
-class StaticRegionUpdatePacketEncoder(val gpiBuf: ByteBuf) : PacketEncoder {
+class StaticRegionUpdatePacketEncoder(val buffer: RSByteBufWriter) : PacketEncoder {
 
     override fun encode(player: Player): Packet {
-            val writer = RSByteBufWriter.wrap(gpiBuf)
+            val writer = RSByteBufWriter.wrap(buffer.buffer)
 
             val chunkX = player.position.chunkX
             val chunkY = player.position.chunkY

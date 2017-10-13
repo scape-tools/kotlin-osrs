@@ -12,9 +12,13 @@ import io.battlerune.net.packet.out.LogoutPacketEncoder
 
 class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
+    val viewport = Viewport(this)
+
     var initialized = false
 
     var displayType = DisplayType.FIXED
+
+    var teleported = false
 
     val client = Client(this)
 
@@ -29,37 +33,14 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         context.world.eventBus.post(event)
     }
 
+
+
     fun onLogin() {
-        val builder = RSByteBufWriter.alloc()
-
-        builder.switchToBitAccess()
-        builder.writeBits(30, position.toPositionPacked())
-
-        try {
-
-            for (i in 1 until World.MAX_PLAYER_COUNT) {
-
-                if (i == this.index) {
-                    continue
-                }
-
-                val player = context.world.players.list[i]
-
-                if (player == null) {
-                    builder.writeBits(18, 0)
-                } else {
-                    builder.writeBits(18, player.position.toRegionPacked())
-                }
-
-            }
-
-        } catch (ex: Exception) {
-            println(ex.message)
-        }
-
-        builder.switchToByteAccess()
-
-        client.sendRegionUpdate(builder)
+        updateFlags.add(UpdateFlag.APPEARANCE)
+        region = context.regionManager.lookup(position.regionID)
+        val buffer = RSByteBufWriter.alloc()
+        viewport.initGPI(buffer)
+        client.sendRegionUpdate(buffer)
                 .setInterfaceText(378, 13, "You last logged in <col=ff0000>earlier today<col=000000>.")
                 .setInterfaceText(378, 14, "Never tell anyone your password, even if they claim to work for Jagex!")
                 .setInterfaceText(378, 15, "You have <col=00ff00>0 unread messages <col=ffff00>in your message centre.")
@@ -97,9 +78,22 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
                     client.setSkill(i, 99, 14_000_000)
                 }
 
-            // packet seems to be right though it doesn't play properly??
-            //client.playSong(1)
+            client.playSong(1)
 
+    }
+
+    override fun preUpdate() {
+        updateFlags.add(UpdateFlag.APPEARANCE)
+    }
+
+    override fun update() {
+        client.updatePlayer()
+    }
+
+    override fun postUpdate() {
+        updateFlags.clear()
+        teleported = false
+        regionChanged = false
     }
 
     fun onLogout() {
