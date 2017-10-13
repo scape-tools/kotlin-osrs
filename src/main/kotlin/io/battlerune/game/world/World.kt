@@ -6,9 +6,9 @@ import io.battlerune.content.ClientDimensionChangeEventListener
 import io.battlerune.content.CommandEventListener
 import io.battlerune.content.InterfaceClickEventListener
 import io.battlerune.game.GameContext
-import io.battlerune.game.world.actor.Pawn
-import io.battlerune.game.world.actor.PawnList
-import io.battlerune.game.world.actor.Player
+import io.battlerune.game.world.actor.pawn.Pawn
+import io.battlerune.game.world.actor.pawn.PawnList
+import io.battlerune.game.world.actor.pawn.Player
 import io.battlerune.net.NetworkConstants
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

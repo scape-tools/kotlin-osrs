@@ -8,6 +8,16 @@ class CommandEventListener {
     @Subscribe
     fun onEvent(event: CommandEvent) {
 
+        when(event.command) {
+
+            "test" -> println("This works!")
+
+            "anim" -> {
+
+            }
+
+        }
+
         println("command event: ${event.command}")
 
     }

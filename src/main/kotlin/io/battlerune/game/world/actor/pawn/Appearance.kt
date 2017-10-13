@@ -1,4 +1,4 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 class Appearance(val gender: Gender = Gender.MALE, val style: IntArray = intArrayOf(0, 10, 18, 26, 33, 36, 42), val colors: IntArray = intArrayOf(0, 0, 0, 0, 0)) {
 

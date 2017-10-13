@@ -1,4 +1,4 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 enum class UpdateFlag(val mask: Int) {
     APPEARANCE(0x2),

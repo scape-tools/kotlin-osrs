@@ -1,7 +1,6 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 import java.util.*
-import java.util.stream.IntStream
 
 class PawnList<T : Pawn>(private val capacity: Int) {
 

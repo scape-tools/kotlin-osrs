@@ -1,4 +1,4 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 import io.battlerune.game.world.World
 import io.battlerune.net.codec.game.RSByteBufWriter

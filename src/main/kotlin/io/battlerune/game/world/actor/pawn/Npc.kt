@@ -1,4 +1,4 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 class Npc : Pawn() {
 

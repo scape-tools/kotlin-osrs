@@ -30,7 +30,9 @@ class InterfaceClickEventListener {
 
                 } else if (button == 29) {
                     // minimap interface
+                    //player.client.sendCS2Script(1749, arrayOf(50973940))
                     player.client.setInterface(548, 21, 595, true)
+                            //.setInterfaceSettings(595, 17, 0, 4, 2)
                 }
 
             }
@@ -38,6 +40,13 @@ class InterfaceClickEventListener {
             162 -> { if (event.button == 26) player.client.setInterface(548, 20, 553, false)}
 
             182 -> { if (event.button == 6) player.logout() }
+
+            261 -> {
+                if (event.button == 21) {
+                    //player.client.sendCS2Script(917, arrayOf(-1, -1))
+                            //player.client.setInterface(161, 13, 60, false)
+                }
+            }
 
             595 -> {
                 if (event.button == 34) {

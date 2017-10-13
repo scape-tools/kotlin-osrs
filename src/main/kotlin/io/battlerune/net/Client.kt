@@ -1,7 +1,6 @@
 package io.battlerune.net
 
-import com.sun.xml.internal.fastinfoset.util.StringArray
-import io.battlerune.game.world.actor.Player
+import io.battlerune.game.world.actor.pawn.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.out.*
 

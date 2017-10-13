@@ -1,9 +1,8 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 import io.battlerune.game.GameContext
 import io.battlerune.game.event.Event
 import io.battlerune.game.widget.DisplayType
-import io.battlerune.game.world.World
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
