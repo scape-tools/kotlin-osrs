@@ -12,34 +12,37 @@ class CommandEventListener {
         when(parser.cmd) {
 
             "anim" -> {
+
+                // e.g player.playAnim(866, 0) // dance emote
+
                 if (parser.hasNext(2)) {
                     val id = parser.nextInt()
                     val delay = parser.nextInt()
 
-                    player.startAnim(id, delay)
+                    player.playAnim(id, delay)
                 } else if (parser.hasNext()) {
                     val id = parser.nextInt()
-                    player.startAnim(id)
+                    player.playAnim(id)
                 }
             }
 
             "gfx" -> {
 
-                // example gfx player.startGfx(90, 92, 0) (wind strike)
+                // example gfx player.playGfx(90, 92, 0) // wind strike
 
                 if (parser.hasNext(3)) {
                     val id = parser.nextInt()
                     val height = parser.nextInt()
                     val delay = parser.nextInt()
-                    player.startGfx(id, height, delay)
+                    player.playGfx(id, height, delay)
                 }
                 if (parser.hasNext(2)) {
                     val id = parser.nextInt()
                     val height = parser.nextInt()
-                    player.startGfx(id, height)
+                    player.playGfx(id, height)
                 } else if (parser.hasNext()) {
                     val id = parser.nextInt()
-                    player.startGfx(id)
+                    player.playGfx(id)
                 }
             }
 
