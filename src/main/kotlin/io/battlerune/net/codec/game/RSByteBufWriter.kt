@@ -53,14 +53,36 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun writeFlag(flag: Boolean) : RSByteBufWriter {
+        checkBitAccess()
+        writeBits(1, if (flag) 1 else 0)
+        return this
+    }
+
+    fun writeBit(value: Int) : RSByteBufWriter {
+        checkBitAccess()
+        writeBits(1, value)
+        return this
+    }
+
+    private fun checkBitAccess() {
+        if (accessType != AccessType.BIT) {
+            throw IllegalStateException("Buffer must be in bit access!")
+        }
+    }
+
+    private fun checkByteAccess() {
+        if (accessType != AccessType.BYTE) {
+            throw IllegalStateException("Buffer must be in byte access!")
+        }
+    }
+
     fun writeBits(amount:Int, value: Int): RSByteBufWriter {
         if (amount <= 0 || amount > 32) {
             throw IllegalArgumentException("Number of bits must be between 1 and 31 inclusive")
         }
 
-        if (accessType != AccessType.BIT) {
-            throw IllegalStateException("Must have bit access")
-        }
+        checkBitAccess()
 
         var numBits = amount
 
@@ -98,6 +120,7 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeByte(value: Int, modification: ByteModification = NONE) : RSByteBufWriter {
+        checkByteAccess()
         var temp = value
         when(modification) {
             ADD -> { temp += 128 }
@@ -110,21 +133,45 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeBytes(buf: ByteBuf) : RSByteBufWriter {
+        checkByteAccess()
         buffer.writeBytes(buf)
         return this
     }
 
+    fun writeBytes(writer: RSByteBufWriter) : RSByteBufWriter {
+        checkByteAccess()
+        buffer.writeBytes(writer.buffer)
+        return this
+    }
+
     fun writeBytes(bytes: ByteArray) : RSByteBufWriter {
+        checkByteAccess()
         buffer.writeBytes(bytes)
         return this
     }
 
+    fun writeBytes(buf: ByteBuf, mod: ByteModification) : RSByteBufWriter {
+        for (i in 0 until buf.readableBytes()) {
+            writeByte(buf.readByte().toInt(), mod)
+        }
+        return this
+    }
+
+    fun writeBytesReverse(data: ByteArray): RSByteBufWriter {
+        for (i in data.indices.reversed()) {
+            writeByte(data[i].toInt())
+        }
+        return this
+    }
+
     fun writeShort(value: Int, order: ByteOrder) : RSByteBufWriter {
+        checkByteAccess()
          writeShort(value, NONE, order)
         return this
     }
 
     fun writeShort(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
+        checkByteAccess()
         when(order) {
             BE -> {
                 writeByte(value shr 8)
@@ -141,11 +188,13 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeInt(value: Int, order: ByteOrder = BE) : RSByteBufWriter {
+        checkByteAccess()
         writeInt(value, NONE, order)
         return this
     }
 
     fun writeInt(value: Int, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
+        checkByteAccess()
         when(order) {
             BE -> {
                 writeByte(value shr 24)
@@ -179,6 +228,7 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeLong(value: Long, modification: ByteModification = NONE, order: ByteOrder = BE) : RSByteBufWriter {
+        checkByteAccess()
         when(order) {
             BE -> {
                 writeByte((value shr 56).toInt())
@@ -208,6 +258,7 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeString(string: String) : RSByteBufWriter {
+        checkByteAccess()
         val array = string.toCharArray()
         for (ch in array) {
             buffer.writeByte(ch.toInt())
@@ -216,7 +267,20 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun write24Int(value: Int) : RSByteBufWriter {
+        checkByteAccess()
+        buffer.writeMedium(value)
+        return this
+    }
+
+    fun write24IntLE(value: Int) : RSByteBufWriter {
+        checkByteAccess()
+        buffer.writeMediumLE(value)
+        return this
+    }
+
     fun writeSmart(value: Int) : RSByteBufWriter {
+        checkByteAccess()
         if (value < Byte.MAX_VALUE) {
             buffer.writeByte(value)
         } else {
@@ -226,10 +290,7 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun toPacket(opcode : Int, packetType: PacketType = PacketType.FIXED) : Packet {
-        if (accessType == AccessType.BIT) {
-            throw IllegalStateException("Cannot be in bit access.")
-        }
-
+        checkByteAccess()
         return Packet(opcode, packetType, buffer)
     }
 

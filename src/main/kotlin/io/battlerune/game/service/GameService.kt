@@ -17,7 +17,7 @@ class GameService(val context: GameContext) : AbstractScheduledService() {
 
         world.processLogins()
 
-        world.processIncomingPackets()
+        world.updatePlayers()
 
         // run tasks
 

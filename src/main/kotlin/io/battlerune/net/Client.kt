@@ -1,6 +1,6 @@
 package io.battlerune.net
 
-import io.battlerune.game.world.actor.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.out.*
 
@@ -36,8 +36,28 @@ class Client(val player: Player) {
         return this
     }
 
-    fun sendRegionUpdate(gpi: RSByteBufWriter = RSByteBufWriter.alloc()) : Client {
-        player.write(StaticRegionUpdatePacketEncoder(gpi.buffer))
+    fun setCamera(value1: Int, value2: Int) : Client {
+        player.write(SetCameraPacketEncoder(value1, value2))
+        return this
+    }
+
+    fun sendCS2Script(id: Int, params: Array<Any>) : Client {
+        player.write(CS2ScriptPacketEncoder(id, params))
+        return this
+    }
+
+    fun lookupDNS(hostAddress: String) : Client {
+        player.write(DNSLookupPacketEncoder(hostAddress))
+        return this
+    }
+
+    fun sendRegionUpdate(buffer: RSByteBufWriter, flushPacket: Boolean) : Client {
+        player.write(StaticRegionUpdatePacketEncoder(buffer), flushPacket)
+        return this
+    }
+
+    fun removeInterface(interfaceId: Int) : Client {
+        player.write(RemoveInterfacePacketEncoder(interfaceId))
         return this
     }
 
@@ -53,6 +73,11 @@ class Client(val player: Player) {
 
     fun playSong(songId: Int) : Client {
         player.write(PlaySongPacketEncoder(songId))
+        return this
+    }
+
+    fun playSound(id: Int, type: Int, delay: Int) : Client {
+        player.write(PlaySoundEffectPacketEncoder(id, type, delay))
         return this
     }
 
@@ -87,6 +112,9 @@ class Client(val player: Player) {
     }
 
     fun updatePlayer() : Client {
+        if (!player.viewport.initialized) {
+            return this
+        }
         player.write(PlayerUpdatePacketEncoder())
         return this
     }

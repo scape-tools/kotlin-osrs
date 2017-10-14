@@ -1,14 +1,11 @@
 package io.battlerune.game.world
 
 import com.google.common.eventbus.EventBus
-import io.battlerune.content.ButtonClickEventListener
-import io.battlerune.content.ClientDimensionChangeEventListener
-import io.battlerune.content.CommandEventListener
-import io.battlerune.content.InterfaceClickEventListener
+import io.battlerune.content.*
 import io.battlerune.game.GameContext
-import io.battlerune.game.world.actor.Pawn
-import io.battlerune.game.world.actor.PawnList
-import io.battlerune.game.world.actor.Player
+import io.battlerune.game.world.actor.pawn.Pawn
+import io.battlerune.game.world.actor.pawn.PawnList
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.NetworkConstants
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -39,6 +36,14 @@ class World(val gameContext: GameContext) {
         logouts.add(player)
     }
 
+    fun updatePlayers() {
+        for (player in players.list) {
+            player?.preUpdate()
+            player?.update()
+            player?.postUpdate()
+        }
+    }
+
     fun processLogins() {
         if (logins.isEmpty()) {
             return
@@ -63,24 +68,11 @@ class World(val gameContext: GameContext) {
         }
     }
 
-    fun processIncomingPackets() {
-        if (players.isEmpty()) {
-            return
-        }
-
-        for (player in players.list) {
-
-            player ?: continue
-
-            player.channel.handleQueuedPackets()
-        }
-    }
-
     private fun register(pawn: Pawn) {
         if (pawn is Player) {
             players.add(pawn)
             pawn.initialized = true
-            pawn.init()
+            pawn.teleported = true
             pawn.onLogin()
         }
     }
@@ -101,6 +93,8 @@ class World(val gameContext: GameContext) {
         eventBus.register(ClientDimensionChangeEventListener())
         eventBus.register(InterfaceClickEventListener())
         eventBus.register(CommandEventListener())
+        eventBus.register(RegionChangeEventListener())
+        eventBus.register(MovementEventListener())
         logger.info("Registered event listeners")
      }
 

@@ -2,8 +2,7 @@ package io.battlerune.net.channel
 
 import io.battlerune.game.GameContext
 import io.battlerune.net.packet.PacketRepository
-import io.battlerune.game.world.actor.Player
-import io.battlerune.game.world.actor.PlayerContext
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.NetworkConstants
 import io.battlerune.net.codec.game.RSByteBufReader
 import io.battlerune.net.codec.login.LoginRequest
@@ -53,26 +52,31 @@ class PlayerChannel(val channel: Channel, val context: GameContext) {
 
         val decoder = PacketRepository.decoders[packet.opcode] ?: return
 
-        val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
+        val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload)) ?: return
 
         player.post(event)
     }
 
     fun handleQueuedPackets() {
-        for (i in 0 until NetworkConstants.PACKET_LIMIT) {
-            handlePrioritizedPackets()
+        try {
+            for (i in 0 until NetworkConstants.PACKET_LIMIT) {
+                handlePrioritizedPackets()
 
-            if (incomingPackets.isEmpty()) {
-                break
+                if (incomingPackets.isEmpty()) {
+                    break
+                }
+
+                val packet = incomingPackets.poll() ?: break
+
+                val decoder = PacketRepository.decoders[packet.opcode] ?: continue
+
+                val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload)) ?: continue
+
+                player.post(event)
+
             }
-
-            val packet = incomingPackets.poll() ?: break
-
-            val decoder = PacketRepository.decoders[packet.opcode] ?: continue
-
-            val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
-
-            player.post(event)
+        } catch(ex: Throwable) {
+            logger.error("An exception was caught while handling an incoming packet for player=${player.username}.", ex)
         }
     }
 
@@ -89,11 +93,15 @@ class PlayerChannel(val channel: Channel, val context: GameContext) {
 
     }
 
-    fun handleDownstreamPacket(encoder: PacketEncoder) {
+    fun handleDownstreamPacket(encoder: PacketEncoder, flushPacket: Boolean = false) {
         try {
             val packet = encoder.encode(player)
 
-            channel.writeAndFlush(packet)
+            if (flushPacket) {
+                channel.writeAndFlush(packet)
+            } else {
+                channel.write(packet)
+            }
         } catch (ex: Throwable) {
             logger.warn("An exception was caught writing a packet.", ex)
         }

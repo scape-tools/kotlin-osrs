@@ -21,6 +21,7 @@ class ButtonClickEventListener {
 
             378 -> {
                 if (event.buttonId == 6) {
+                    player.inGame = true
                     player.client
                             .setRootInterface(player.displayType.root)
                             .setInterfaceSets(165, 1, 548, 23)

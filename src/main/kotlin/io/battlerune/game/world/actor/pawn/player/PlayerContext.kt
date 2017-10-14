@@ -1,4 +1,4 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn.player
 
 import io.battlerune.game.GameContext
 import io.battlerune.net.channel.PlayerChannel

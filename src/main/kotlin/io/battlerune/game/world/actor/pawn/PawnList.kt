@@ -1,7 +1,6 @@
-package io.battlerune.game.world.actor
+package io.battlerune.game.world.actor.pawn
 
 import java.util.*
-import java.util.stream.IntStream
 
 class PawnList<T : Pawn>(private val capacity: Int) {
 
@@ -46,6 +45,12 @@ class PawnList<T : Pawn>(private val capacity: Int) {
         slots.push(t.index)
 
         assert(size == (size - 1) && (size - 1) >= 0)
+    }
+
+    fun get(index: Int) : T? {
+        assert(index > 0 && index < list.size)
+
+        return list[index]
     }
 
     fun contains(t: T) : Boolean {
