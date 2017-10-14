@@ -1,5 +1,9 @@
 package io.battlerune.game.world
 
+import org.lwjgl.opengl.Display.getHeight
+
+
+
 /**
  * Copyright (c) Kyle Fricilone
  *
@@ -94,6 +98,12 @@ class Position constructor(val x: Int, val y: Int, val z: Int = 0, val mapSize: 
         val deltaY = other.y - y
 
         return Math.abs(deltaX) <= distance && Math.abs(deltaY) <= distance
+    }
+
+    fun transform(x: Int, y: Int, z: Int) {
+        this.x + x
+        this.y + y
+        this.z + z
     }
 
     override fun toString(): String {

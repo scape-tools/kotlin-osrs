@@ -1,10 +1,7 @@
 package io.battlerune.game.world
 
 import com.google.common.eventbus.EventBus
-import io.battlerune.content.ButtonClickEventListener
-import io.battlerune.content.ClientDimensionChangeEventListener
-import io.battlerune.content.CommandEventListener
-import io.battlerune.content.InterfaceClickEventListener
+import io.battlerune.content.*
 import io.battlerune.game.GameContext
 import io.battlerune.game.world.actor.pawn.Pawn
 import io.battlerune.game.world.actor.pawn.PawnList
@@ -89,7 +86,6 @@ class World(val gameContext: GameContext) {
             players.add(pawn)
             pawn.initialized = true
             pawn.teleported = true
-            pawn.init()
             pawn.onLogin()
         }
     }
@@ -110,6 +106,7 @@ class World(val gameContext: GameContext) {
         eventBus.register(ClientDimensionChangeEventListener())
         eventBus.register(InterfaceClickEventListener())
         eventBus.register(CommandEventListener())
+        eventBus.register(RegionChangeEventListener())
         logger.info("Registered event listeners")
      }
 

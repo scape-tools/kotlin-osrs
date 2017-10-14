@@ -29,10 +29,6 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     lateinit var username: String
     lateinit var password: String
 
-    override fun init() {
-        regionChanged = true
-    }
-
     fun post(event: Event) {
         context.world.eventBus.post(event)
     }
@@ -174,6 +170,10 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         updateFlags.clear()
         teleported = false
         regionChanged = false
+    }
+
+    override fun onMovement() {
+
     }
 
     fun onLogout() {

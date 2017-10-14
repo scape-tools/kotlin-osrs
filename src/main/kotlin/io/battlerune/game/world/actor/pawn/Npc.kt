@@ -14,7 +14,7 @@ class Npc : Pawn() {
 
     }
 
-    override fun init() {
+    override fun onMovement() {
 
     }
 

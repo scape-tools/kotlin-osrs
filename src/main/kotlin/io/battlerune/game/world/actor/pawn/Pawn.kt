@@ -18,10 +18,17 @@ abstract class Pawn : Actor() {
 
     var regionChanged = false
 
+    var walkingDirection = -1
+    var runningDirection = -1
+
     abstract fun preUpdate()
     abstract fun update()
     abstract fun postUpdate()
 
-    abstract fun init()
+    fun handleMovement() {
+        onMovement()
+    }
+
+    abstract fun onMovement()
 
 }
