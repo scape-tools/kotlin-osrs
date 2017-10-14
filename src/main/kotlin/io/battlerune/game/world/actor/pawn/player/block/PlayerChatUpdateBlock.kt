@@ -14,7 +14,7 @@ class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
         buffer.writeShort((pawn.chatMessage.effect shl 8) or pawn.chatMessage.color, ByteOrder.LE)
                 .writeByte(0, ByteModification.ADD)
                 .writeByte(pawn.chatMessage.msg.length - 1, ByteModification.NEG)
-                .writeBytes(pawn.chatMessage.msg.toByteArray())
+                .writeBytesReverse(pawn.chatMessage.msg.toByteArray())
     }
 
 }

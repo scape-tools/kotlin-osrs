@@ -57,6 +57,8 @@ class CommandEventListener {
             "chat" -> {
                 if (parser.hasNext()) {
                     player.chat(parser.nextLine())
+                } else {
+                    player.chat("Testing!!!")
                 }
             }
 

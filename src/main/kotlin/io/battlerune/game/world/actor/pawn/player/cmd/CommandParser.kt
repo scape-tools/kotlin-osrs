@@ -2,7 +2,7 @@ package io.battlerune.game.world.actor.pawn.player.cmd
 
 class CommandParser(val input: String) {
 
-    val args: List<String> = if(input.indexOf(" ") != -1) input.trim().split(" ") else throw IllegalStateException("Command $input has no arguments.")
+    val args: List<String> = input.trim().split(" ")
 
     val cmd: String = args[0]
 
