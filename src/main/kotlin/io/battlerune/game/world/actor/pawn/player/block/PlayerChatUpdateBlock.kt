@@ -10,11 +10,12 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
-
+        val bytes = pawn.chatMessage.msg.toByteArray()
         buffer.writeShort((pawn.chatMessage.effect shl 8) or pawn.chatMessage.color, ByteOrder.LE)
+                .writeByte(pawn.rights.code)
                 .writeByte(0, ByteModification.ADD)
-                .writeByte(pawn.chatMessage.msg.length - 1, ByteModification.NEG)
-                .writeBytesReverse(pawn.chatMessage.msg.toByteArray())
+                .writeByte(bytes.size, ByteModification.NEG)
+                .writeBytes(bytes)
     }
 
 }

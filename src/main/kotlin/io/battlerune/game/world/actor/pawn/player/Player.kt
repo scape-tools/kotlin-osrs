@@ -21,6 +21,8 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     var chatMessage = ChatMessage("")
 
+    var rights = Rights.PLAYER
+
     var initialized = false
     var xpOverlay = false
 
