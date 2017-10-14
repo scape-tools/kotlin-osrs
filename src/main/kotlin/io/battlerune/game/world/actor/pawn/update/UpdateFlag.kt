@@ -7,7 +7,7 @@ enum class UpdateFlag(val mask: Int) {
     FORCED_CHAT(0x1),
     HIT(0x0),
     FACE_COORDINATE(0x0),
-    CHAT(0x0),
+    CHAT(0x10),
     GFX(0x800),
     FORCE_MOVEMENT(0x200),
     MOVEMENT_TYPE(0x0),

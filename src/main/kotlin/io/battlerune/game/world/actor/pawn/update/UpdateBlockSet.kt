@@ -2,9 +2,7 @@ package io.battlerune.game.world.actor.pawn.update
 
 import io.battlerune.game.world.actor.pawn.Pawn
 import io.battlerune.game.world.actor.pawn.player.Player
-import io.battlerune.game.world.actor.pawn.player.block.PlayerAnimationUpdateBlock
-import io.battlerune.game.world.actor.pawn.player.block.PlayerAppearanceUpdateBlock
-import io.battlerune.game.world.actor.pawn.player.block.PlayerGraphicUpdateBlock
+import io.battlerune.game.world.actor.pawn.player.block.*
 import io.battlerune.net.codec.game.RSByteBufWriter
 
 class UpdateBlockSet<P: Pawn> {
@@ -16,6 +14,8 @@ class UpdateBlockSet<P: Pawn> {
             PLAYER_BLOCK_SET.add(PlayerAppearanceUpdateBlock())
             PLAYER_BLOCK_SET.add(PlayerGraphicUpdateBlock())
             PLAYER_BLOCK_SET.add(PlayerAnimationUpdateBlock())
+            PLAYER_BLOCK_SET.add(PlayerForceChatUpdateBlock())
+            PLAYER_BLOCK_SET.add(PlayerChatUpdateBlock())
         }
 
     }
