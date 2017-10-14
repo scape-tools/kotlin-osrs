@@ -157,6 +157,13 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
+    fun writeBytesReverse(data: ByteArray): RSByteBufWriter {
+        for (i in data.indices.reversed()) {
+            writeByte(data[i].toInt())
+        }
+        return this
+    }
+
     fun writeShort(value: Int, order: ByteOrder) : RSByteBufWriter {
         checkByteAccess()
          writeShort(value, NONE, order)

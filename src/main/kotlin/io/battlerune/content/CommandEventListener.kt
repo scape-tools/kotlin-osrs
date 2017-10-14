@@ -46,6 +46,20 @@ class CommandEventListener {
                 }
             }
 
+            "fc" -> { // force chat
+
+                if (parser.hasNext()) {
+                    player.forceChat(parser.nextLine())
+                }
+
+            }
+
+            "chat" -> {
+                if (parser.hasNext()) {
+                    player.chat(parser.nextLine())
+                }
+            }
+
         }
 
         println("command event: ${event.parser.cmd}")

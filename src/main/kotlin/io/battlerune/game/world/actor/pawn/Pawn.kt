@@ -17,6 +17,8 @@ abstract class Pawn : Actor() {
 
     val updateFlags = EnumSet.noneOf(UpdateFlag::class.java)
 
+    var forceChat = ""
+
     var regionChanged = false
 
     var walkingDirection = -1
@@ -54,5 +56,16 @@ abstract class Pawn : Actor() {
         animation = Animation.RESET
         updateFlags.add(UpdateFlag.ANIMATION)
     }
+
+    fun forceChat(msg: String) {
+        if (forceChat.isEmpty()) {
+            return
+        }
+
+        forceChat = msg.trim()
+        updateFlags.add(UpdateFlag.FORCED_CHAT)
+    }
+
+
 
 }
