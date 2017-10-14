@@ -90,6 +90,8 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
         val flagUpdateRequired = localPlayer.updateFlags.isNotEmpty()
         buffer.writeFlag(flagUpdateRequired)
 
+        println("update required?: $flagUpdateRequired")
+
         if (flagUpdateRequired) {
             UpdateBlockSet.PLAYER_BLOCK_SET.encode(localPlayer, maskBuffer)
         }
