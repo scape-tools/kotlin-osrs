@@ -34,7 +34,7 @@ abstract class Pawn : Actor() {
 
     abstract fun onMovement()
 
-    fun showGfx(id: Int, delay: Int = 0) {
+    fun startGfx(id: Int, delay: Int = 0) {
         graphic = Graphic(id, delay)
         updateFlags.add(UpdateFlag.GFX)
     }

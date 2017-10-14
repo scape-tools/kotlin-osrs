@@ -7,6 +7,6 @@ import io.battlerune.net.codec.game.RSByteBufReader
 @FunctionalInterface
 interface PacketDecoder<out E: Event> {
 
-    fun decode(player: Player, reader: RSByteBufReader) : E
+    fun decode(player: Player, reader: RSByteBufReader) : E?
 
 }

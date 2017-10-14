@@ -7,8 +7,9 @@ class CommandEventListener {
 
     @Subscribe
     fun onEvent(event: CommandEvent) {
-
-        when(event.command) {
+        val player = event.player
+        val parser = event.parser
+        when(parser.cmd) {
 
             "test" -> println("This works!")
 
@@ -16,9 +17,19 @@ class CommandEventListener {
 
             }
 
+            "gfx" -> {
+
+                if (parser.hasNext(2)) {
+                    val id = parser.nextInt()
+                    val delay = parser.nextInt()
+                    player.startGfx(id, delay)
+                }
+
+            }
+
         }
 
-        println("command event: ${event.command}")
+        println("command event: ${event.parser.cmd}")
 
     }
 

@@ -52,26 +52,31 @@ class PlayerChannel(val channel: Channel, val context: GameContext) {
 
         val decoder = PacketRepository.decoders[packet.opcode] ?: return
 
-        val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
+        val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload)) ?: return
 
         player.post(event)
     }
 
     fun handleQueuedPackets() {
-        for (i in 0 until NetworkConstants.PACKET_LIMIT) {
-            handlePrioritizedPackets()
+        try {
+            for (i in 0 until NetworkConstants.PACKET_LIMIT) {
+                handlePrioritizedPackets()
 
-            if (incomingPackets.isEmpty()) {
-                break
+                if (incomingPackets.isEmpty()) {
+                    break
+                }
+
+                val packet = incomingPackets.poll() ?: break
+
+                val decoder = PacketRepository.decoders[packet.opcode] ?: continue
+
+                val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload)) ?: continue
+
+                player.post(event)
+
             }
-
-            val packet = incomingPackets.poll() ?: break
-
-            val decoder = PacketRepository.decoders[packet.opcode] ?: continue
-
-            val event = decoder.decode(player, RSByteBufReader.wrap(packet.payload))
-
-            player.post(event)
+        } catch(ex: Throwable) {
+            logger.error("An exception was caught while handling an incoming packet for player=${player.username}.", ex)
         }
     }
 
