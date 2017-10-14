@@ -11,20 +11,27 @@ class CommandEventListener {
         val parser = event.parser
         when(parser.cmd) {
 
-            "test" -> println("This works!")
-
             "anim" -> {
+                if (parser.hasNext(2)) {
+                    val id = parser.nextInt()
+                    val delay = parser.nextInt()
 
+                    player.startAnim(id, delay)
+                } else if (parser.hasNext()) {
+                    val id = parser.nextInt()
+                    player.startAnim(id)
+                }
             }
 
             "gfx" -> {
-
                 if (parser.hasNext(2)) {
                     val id = parser.nextInt()
                     val delay = parser.nextInt()
                     player.startGfx(id, delay)
+                } else if (parser.hasNext()) {
+                    val id = parser.nextInt()
+                    player.startGfx(id)
                 }
-
             }
 
         }

@@ -23,6 +23,7 @@ abstract class Pawn : Actor() {
     var runningDirection = -1
 
     var graphic = Graphic.RESET
+    var animation = Animation.RESET
 
     abstract fun preUpdate()
     abstract fun update()
@@ -42,6 +43,16 @@ abstract class Pawn : Actor() {
     fun resetGfx() {
         graphic = Graphic.RESET
         updateFlags.add(UpdateFlag.GFX)
+    }
+
+    fun startAnim(id: Int, delay: Int = 0) {
+        animation = Animation(id, delay)
+        updateFlags.add(UpdateFlag.ANIMATION)
+    }
+
+    fun resetAnim() {
+        animation = Animation.RESET
+        updateFlags.add(UpdateFlag.ANIMATION)
     }
 
 }
