@@ -155,6 +155,22 @@ class RSByteBufReader private constructor(private val buf: ByteBuf) {
         return value.toLong() and 0xFFFFFFFFL
     }
 
+    fun readInt24() : Int {
+        var value = 0
+        value = value or (readByte() shl 8)
+        value = value or (readUByte() shl 16)
+        value = value or readUByte()
+        return value
+    }
+
+    fun readUInt24() : Int {
+        var value = 0
+        value = value or (readUByte() shl 8)
+        value = value or (readUByte() shl 16)
+        value = value or readUByte()
+        return value
+    }
+
     fun readLong(mod: ByteModification) : Long {
         var value : Long = 0
         value = value or (readUByte().toLong() and 56L)
