@@ -1,7 +1,7 @@
 package io.battlerune.content
 
 import com.google.common.eventbus.Subscribe
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 
 class RegionChangeEventListener {
 

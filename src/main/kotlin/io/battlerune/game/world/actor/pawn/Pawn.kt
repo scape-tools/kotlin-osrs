@@ -3,6 +3,7 @@ package io.battlerune.game.world.actor.pawn
 import io.battlerune.game.world.Position
 import io.battlerune.game.world.Region
 import io.battlerune.game.world.actor.Actor
+import io.battlerune.game.world.actor.pawn.update.UpdateFlag
 import java.util.*
 
 abstract class Pawn : Actor() {
@@ -21,6 +22,8 @@ abstract class Pawn : Actor() {
     var walkingDirection = -1
     var runningDirection = -1
 
+    var graphic = Graphic.RESET
+
     abstract fun preUpdate()
     abstract fun update()
     abstract fun postUpdate()
@@ -30,5 +33,15 @@ abstract class Pawn : Actor() {
     }
 
     abstract fun onMovement()
+
+    fun showGfx(id: Int, delay: Int = 0) {
+        graphic = Graphic(id, delay)
+        updateFlags.add(UpdateFlag.GFX)
+    }
+
+    fun resetGfx() {
+        graphic = Graphic.RESET
+        updateFlags.add(UpdateFlag.GFX)
+    }
 
 }

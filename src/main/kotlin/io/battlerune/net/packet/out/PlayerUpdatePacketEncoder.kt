@@ -1,9 +1,10 @@
 package io.battlerune.net.packet.out
 
 import io.battlerune.game.world.World
-import io.battlerune.game.world.actor.pawn.Player
-import io.battlerune.game.world.actor.pawn.UpdateFlag
-import io.battlerune.game.world.actor.pawn.Viewport
+import io.battlerune.game.world.actor.pawn.player.Player
+import io.battlerune.game.world.actor.pawn.update.UpdateFlag
+import io.battlerune.game.world.actor.pawn.player.Viewport
+import io.battlerune.game.world.actor.pawn.update.UpdateBlockSet
 import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
@@ -11,11 +12,6 @@ import io.battlerune.net.packet.PacketEncoder
 import io.battlerune.net.packet.PacketType
 
 class PlayerUpdatePacketEncoder : PacketEncoder {
-
-    companion object {
-        val PLAYER_ADD_THRESHOLD = 15
-    }
-
     lateinit var player: Player
 
     var playersAdded = 0
@@ -95,7 +91,7 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
         buffer.writeFlag(flagUpdateRequired)
 
         if (flagUpdateRequired) {
-            appendUpdateBlock(localPlayer, maskBuffer, false)
+            UpdateBlockSet.PLAYER_BLOCK_SET.encode(localPlayer, maskBuffer)
         }
 
         // TODO support for walking type 1, running type 2 and teleporting type 3
@@ -183,70 +179,6 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
     private fun updatePlayerOutsideViewport(buffer: RSByteBufWriter, globalPlayer: Player) : Boolean {
 
         return false
-    }
-
-    private fun appendUpdateBlock(p: Player, maskBuf: RSByteBufWriter, added: Boolean) {
-        var mask = 0
-        val flags = p.updateFlags
-
-        UpdateFlag.values()
-                .asSequence()
-                .filter { flags.contains(it) }
-                .forEach { mask = mask or it.mask }
-
-        if (mask >= 0x100) {
-            mask = mask or 0x4
-            maskBuf.writeByte(mask and 0xFF)
-            maskBuf.writeByte(mask shr 8)
-        } else {
-            maskBuf.writeByte(mask and 0xFF)
-        }
-
-        if (flags.contains(UpdateFlag.APPEARANCE)) {
-            appendAppearanceMask(p, maskBuf)
-        }
-
-    }
-
-    private fun appendAppearanceMask(p: Player, buffer: RSByteBufWriter) {
-        val prop = RSByteBufWriter.alloc()
-        prop.writeByte(p.appearance.gender.code) // gender
-        prop.writeByte(-1) // skulled
-        prop.writeByte(-1) // head icon
-
-        // slots
-        for (i in 0 until 4) {
-            prop.writeByte(0)
-        }
-
-        prop.writeByte(0)
-        prop.writeShort(0x100 + p.appearance.style[2]) // chest
-        prop.writeShort(0x100 + p.appearance.style[3]) // shield
-        prop.writeShort(0x100 + p.appearance.style[5]) // full body
-        prop.writeShort(0x100 + p.appearance.style[0]) // legs
-        prop.writeShort(0x100 + p.appearance.style[4]) // hat
-        prop.writeShort(0x100 + p.appearance.style[6]) // feet
-        prop.writeShort(0x100 + p.appearance.style[1]) // full mask
-
-        // colors
-        for (i in 0 until 5) {
-            prop.writeByte(0)
-        }
-
-        prop.writeShort(808) // stand anim
-                .writeShort(823) // stand turn
-                .writeShort(819) // walk anim
-                .writeShort(820) // turn 180
-                .writeShort(821) // turn 90 cw
-                .writeShort(822) // turn 90 ccw
-                .writeShort(824) // run anima
-                .writeString(p.username) // username
-                .writeByte(126) // combat level
-                .writeShort(0) // skill level
-                .writeByte(0) // hidden
-
-        buffer.writeByte(prop.buffer.writerIndex() and 0xFF, ByteModification.ADD)
-        buffer.writeBytes(prop.buffer, ByteModification.ADD)
     }
 
     private fun writeSkip(buffer: RSByteBufWriter, skipCount: Int) {

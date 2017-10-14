@@ -1,6 +1,6 @@
 package io.battlerune.net.packet
 
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 
 @FunctionalInterface
 interface PacketEncoder {

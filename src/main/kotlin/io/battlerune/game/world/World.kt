@@ -5,7 +5,7 @@ import io.battlerune.content.*
 import io.battlerune.game.GameContext
 import io.battlerune.game.world.actor.pawn.Pawn
 import io.battlerune.game.world.actor.pawn.PawnList
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.NetworkConstants
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger

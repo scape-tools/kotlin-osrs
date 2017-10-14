@@ -2,7 +2,7 @@ package io.battlerune.net.packet.`in`
 
 import io.battlerune.game.event.impl.MovementEvent
 import io.battlerune.game.world.Position
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.RSByteBufReader
 import io.battlerune.net.packet.PacketDecoder

@@ -1,6 +1,6 @@
 package io.battlerune.net
 
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.out.*
 

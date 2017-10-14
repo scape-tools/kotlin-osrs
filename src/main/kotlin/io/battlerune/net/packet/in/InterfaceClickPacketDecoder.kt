@@ -1,7 +1,7 @@
 package io.battlerune.net.packet.`in`
 
 import io.battlerune.game.event.impl.InterfaceClickEvent
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.codec.game.RSByteBufReader
 import io.battlerune.net.packet.PacketDecoder
 

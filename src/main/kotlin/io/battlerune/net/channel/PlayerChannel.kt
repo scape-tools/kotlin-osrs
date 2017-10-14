@@ -2,7 +2,7 @@ package io.battlerune.net.channel
 
 import io.battlerune.game.GameContext
 import io.battlerune.net.packet.PacketRepository
-import io.battlerune.game.world.actor.pawn.Player
+import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.NetworkConstants
 import io.battlerune.net.codec.game.RSByteBufReader
 import io.battlerune.net.codec.login.LoginRequest
