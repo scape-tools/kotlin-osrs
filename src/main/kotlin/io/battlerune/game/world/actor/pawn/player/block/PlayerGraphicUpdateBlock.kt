@@ -11,7 +11,7 @@ class PlayerGraphicUpdateBlock : PlayerUpdateBlock(UpdateFlag.GFX) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
         buffer.writeShort(pawn.graphic.id, ByteModification.ADD, ByteOrder.LE)
-                .writeInt(pawn.graphic.delay, ByteOrder.ME)
+                .writeInt((pawn.graphic.height shl 16) or pawn.graphic.delay, ByteOrder.ME)
     }
 
 }

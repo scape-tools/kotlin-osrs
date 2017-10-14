@@ -24,10 +24,19 @@ class CommandEventListener {
             }
 
             "gfx" -> {
+
+                // example gfx player.startGfx(90, 92, 0) (wind strike)
+
+                if (parser.hasNext(3)) {
+                    val id = parser.nextInt()
+                    val height = parser.nextInt()
+                    val delay = parser.nextInt()
+                    player.startGfx(id, height, delay)
+                }
                 if (parser.hasNext(2)) {
                     val id = parser.nextInt()
-                    val delay = parser.nextInt()
-                    player.startGfx(id, delay)
+                    val height = parser.nextInt()
+                    player.startGfx(id, height)
                 } else if (parser.hasNext()) {
                     val id = parser.nextInt()
                     player.startGfx(id)
