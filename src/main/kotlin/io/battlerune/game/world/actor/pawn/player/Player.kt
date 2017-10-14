@@ -176,9 +176,6 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     override fun postUpdate() {
         updateFlags.clear()
-
-        println("called ${updateFlags.size}")
-
         teleported = false
         regionChanged = false
     }
