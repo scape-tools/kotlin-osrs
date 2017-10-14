@@ -107,6 +107,7 @@ class World(val gameContext: GameContext) {
         eventBus.register(InterfaceClickEventListener())
         eventBus.register(CommandEventListener())
         eventBus.register(RegionChangeEventListener())
+        eventBus.register(MovementEventListener())
         logger.info("Registered event listeners")
      }
 

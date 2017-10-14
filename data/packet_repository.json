@@ -398,7 +398,8 @@
   },
   {
     "opcode": 99,
-    "size": 6
+    "size": 6,
+	"decoder": "ClickToWalkPacketDecoder"
   },
   {
     "opcode": 100,
