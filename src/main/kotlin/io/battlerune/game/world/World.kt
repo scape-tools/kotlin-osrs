@@ -68,19 +68,6 @@ class World(val gameContext: GameContext) {
         }
     }
 
-    fun processIncomingPackets() {
-        if (players.isEmpty()) {
-            return
-        }
-
-        for (player in players.list) {
-
-            player ?: continue
-
-            player.channel.handleQueuedPackets()
-        }
-    }
-
     private fun register(pawn: Pawn) {
         if (pawn is Player) {
             players.add(pawn)
