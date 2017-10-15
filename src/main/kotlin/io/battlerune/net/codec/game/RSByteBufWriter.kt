@@ -144,9 +144,9 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun writeBytes(bytes: ByteArray) : RSByteBufWriter {
+    fun writeBytes(bytes: ByteArray, srcIndex: Int = 0, length: Int = bytes.size) : RSByteBufWriter {
         checkByteAccess()
-        buffer.writeBytes(bytes)
+        buffer.writeBytes(bytes, srcIndex, length)
         return this
     }
 
@@ -280,11 +280,10 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeSmart(value: Int) : RSByteBufWriter {
-        checkByteAccess()
-        if (value < Byte.MAX_VALUE) {
-            buffer.writeByte(value)
+        if (value >= 0x80) {
+            buffer.writeShort(value + 0x8000)
         } else {
-            buffer.writeShort(value)
+            buffer.writeByte(value)
         }
         return this
     }
