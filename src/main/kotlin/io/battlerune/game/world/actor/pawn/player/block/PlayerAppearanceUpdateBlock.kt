@@ -11,7 +11,7 @@ class PlayerAppearanceUpdateBlock : PlayerUpdateBlock(UpdateFlag.APPEARANCE) {
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
         val prop = RSByteBufWriter.alloc(64)
         prop.writeByte(pawn.appearance.gender.code) // gender
-        prop.writeByte(-1) // skulled
+        prop.writeByte(if (pawn.skulled) 1 else -1) // skulled
         prop.writeByte(-1) // head icon
 
         // slots
@@ -19,14 +19,14 @@ class PlayerAppearanceUpdateBlock : PlayerUpdateBlock(UpdateFlag.APPEARANCE) {
             prop.writeByte(0)
         }
 
-        prop.writeByte(0)
         prop.writeShort(0x100 + pawn.appearance.style[2]) // chest
-        prop.writeShort(0x100 + pawn.appearance.style[3]) // shield
-        prop.writeShort(0x100 + pawn.appearance.style[5]) // full body
-        prop.writeShort(0x100 + pawn.appearance.style[0]) // legs
-        prop.writeShort(0x100 + pawn.appearance.style[4]) // hat
+        prop.writeByte(0) // shield
+        prop.writeShort(0x100 + pawn.appearance.style[3]) // full body
+        prop.writeShort(0x100 + pawn.appearance.style[5]) // legs
+        prop.writeShort(0x100 + pawn.appearance.style[0]) // hat
+        prop.writeShort(0x100 + pawn.appearance.style[4]) // hands
         prop.writeShort(0x100 + pawn.appearance.style[6]) // feet
-        prop.writeShort(0x100 + pawn.appearance.style[1]) // full mask
+        prop.writeShort(0x100 + pawn.appearance.style[1])
 
         // colors
         for (i in 0 until 5) {

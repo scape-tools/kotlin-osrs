@@ -22,6 +22,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     var chatMessage = ChatMessage()
 
     var rights = Rights.PLAYER
+    var skulled = false
 
     var initialized = false
     var xpOverlay = false
@@ -43,6 +44,11 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
         chatMessage = ChatMessage(msg.trim(), color, effect)
         updateFlags.add(UpdateFlag.CHAT)
+    }
+
+    fun skull() {
+        skulled = !skulled
+        updateFlags.add(UpdateFlag.APPEARANCE)
     }
 
     fun post(event: Event) {
