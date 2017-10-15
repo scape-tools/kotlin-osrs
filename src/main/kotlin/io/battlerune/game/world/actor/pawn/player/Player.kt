@@ -41,7 +41,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         if (msg.isEmpty() || msg.length > ChatMessage.MAX_CHARACTERS)
             return
 
-        chatMessage = ChatMessage(msg, color, effect)
+        chatMessage = ChatMessage(msg.trim(), color, effect)
         updateFlags.add(UpdateFlag.CHAT)
     }
 
