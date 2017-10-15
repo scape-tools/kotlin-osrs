@@ -11,6 +11,11 @@ class CommandEventListener {
         val parser = event.parser
         when(parser.cmd) {
 
+            "test" -> {
+                player.playGfx(90, 92, 0)
+                player.playAnim(711, 0)
+            }
+
             "anim" -> {
 
                 // e.g player.playAnim(866, 0) // dance emote
