@@ -2,10 +2,8 @@ package io.battlerune.net.packet.out
 
 import io.battlerune.game.world.World
 import io.battlerune.game.world.actor.pawn.player.Player
-import io.battlerune.game.world.actor.pawn.update.UpdateFlag
 import io.battlerune.game.world.actor.pawn.player.Viewport
-import io.battlerune.game.world.actor.pawn.update.UpdateBlockSet
-import io.battlerune.net.codec.game.ByteModification
+import io.battlerune.game.world.actor.pawn.update.CachedUpdateBlock
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketEncoder
@@ -91,7 +89,7 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
         buffer.writeFlag(flagUpdateRequired)
 
         if (flagUpdateRequired) {
-            UpdateBlockSet.PLAYER_BLOCK_SET.encode(localPlayer, maskBuffer)
+            CachedUpdateBlock.PLAYER_BLOCK_SET.encode(localPlayer, maskBuffer)
         }
 
         // TODO support for walking type 1, running type 2 and teleporting type 3

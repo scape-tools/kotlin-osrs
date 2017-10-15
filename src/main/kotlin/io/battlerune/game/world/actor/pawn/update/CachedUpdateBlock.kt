@@ -5,10 +5,10 @@ import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.game.world.actor.pawn.player.block.*
 import io.battlerune.net.codec.game.RSByteBufWriter
 
-class UpdateBlockSet<P: Pawn> {
+class CachedUpdateBlock<P: Pawn> {
 
     companion object {
-        val PLAYER_BLOCK_SET = UpdateBlockSet<Player>()
+        val PLAYER_BLOCK_SET = CachedUpdateBlock<Player>()
 
         init {
             PLAYER_BLOCK_SET.add(PlayerGraphicUpdateBlock())
