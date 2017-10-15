@@ -11,12 +11,12 @@ class ChatMessagePacketDecoder : PacketDecoder<ChatMessageEvent> {
         reader.readByte() // ?
         val color = reader.readByte()
         val effect = reader.readByte()
-        val compressedLength = reader.readUSmart() // length
+        val len = reader.readUSmart()
         val compressed = reader.readBytes(reader.size())
-        val decompressed = ByteArray(512)
+        val decompressed = ByteArray(256)
         val huffman = player.context.huffman
-        huffman.decompress(compressed, decompressed, compressedLength)
-        val msg = String(decompressed)
+        huffman.decompress(compressed, decompressed, len)
+        val msg = String(decompressed, 0, len)
         return ChatMessageEvent(player, msg, color, effect)
     }
 

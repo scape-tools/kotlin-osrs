@@ -8,17 +8,11 @@ class HuffmanLoader(val context: GameContext) : StartupTask<HuffmanLoader>(Huffm
 
     override fun load(): Boolean {
         val fileId = context.cache.getFileId(10, "huffman")
-
         val buffer = context.cache.read(10, fileId).data
-
         val size = buffer.remaining()
-
         val data = ByteArray(size)
-
         buffer.get(data)
-
         context.huffman = Huffman(data)
-
         return true
     }
 

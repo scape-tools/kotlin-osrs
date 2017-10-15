@@ -62,7 +62,7 @@ class CommandEventListener {
                 }
 
                 val message = "Hello world!"
-                val compressed = ByteArray(255)
+                val compressed = ByteArray(256)
                 player.context.huffman.compress(message, compressed)
                 val decompressed = ByteArray(message.length)
                 player.context.huffman.decompress(compressed, decompressed, decompressed.size)

@@ -11,16 +11,16 @@ class UpdateBlockSet<P: Pawn> {
         val PLAYER_BLOCK_SET = UpdateBlockSet<Player>()
 
         init {
-            PLAYER_BLOCK_SET.add(PlayerAppearanceUpdateBlock())
             PLAYER_BLOCK_SET.add(PlayerGraphicUpdateBlock())
+            PLAYER_BLOCK_SET.add(PlayerAppearanceUpdateBlock())
             PLAYER_BLOCK_SET.add(PlayerAnimationUpdateBlock())
-            PLAYER_BLOCK_SET.add(PlayerForceChatUpdateBlock())
             PLAYER_BLOCK_SET.add(PlayerChatUpdateBlock())
+            PLAYER_BLOCK_SET.add(PlayerForceChatUpdateBlock())
         }
 
     }
 
-    private val blocks = mutableSetOf<UpdateBlock<P>>()
+    private val blocks = linkedSetOf<UpdateBlock<P>>()
 
     fun add(block: UpdateBlock<P>) {
         blocks.add(block)

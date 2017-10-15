@@ -37,17 +37,11 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     lateinit var username: String
     lateinit var password: String
 
-    fun chat(compressed: ByteArray, color: Int = 0, effect: Int = 0) {
-        chatMessage = ChatMessage(compressed, color, effect)
-        updateFlags.add(UpdateFlag.CHAT)
-    }
-
     fun chat(msg: String, color: Int = 0, effect: Int = 0) {
         if (msg.isEmpty())
             return
-        val compressed = ByteArray(256)
-        context.huffman.compress(msg, compressed)
-        chatMessage = ChatMessage(compressed, color, effect)
+
+        chatMessage = ChatMessage(msg, color, effect)
         updateFlags.add(UpdateFlag.CHAT)
     }
 
