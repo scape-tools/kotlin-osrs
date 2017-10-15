@@ -20,7 +20,6 @@ class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
         buffer.writeByte(len + 1, ByteModification.NEG)
         buffer.writeBytesReverse(compressed, len)
         buffer.writeSmart(msg.msg.length)
-
     }
 
 }
