@@ -23,7 +23,6 @@ class CommandEventListener {
                 if (parser.hasNext(2)) {
                     val id = parser.nextInt()
                     val delay = parser.nextInt()
-
                     player.playAnim(id, delay)
                 } else if (parser.hasNext()) {
                     val id = parser.nextInt()
@@ -40,8 +39,7 @@ class CommandEventListener {
                     val height = parser.nextInt()
                     val delay = parser.nextInt()
                     player.playGfx(id, height, delay)
-                }
-                if (parser.hasNext(2)) {
+                } else if (parser.hasNext(2)) {
                     val id = parser.nextInt()
                     val height = parser.nextInt()
                     player.playGfx(id, height)

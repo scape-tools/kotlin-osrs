@@ -184,7 +184,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         // handle packets
         channel.handleQueuedPackets()
 
-        // TODO handle movement
+        movement.processMovement()
 
         // TODO other processing before update occurs
     }

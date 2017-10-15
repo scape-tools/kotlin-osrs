@@ -21,20 +21,14 @@ abstract class Pawn : Actor() {
 
     var regionChanged = false
 
-    var walkingDirection = -1
-    var runningDirection = -1
-
     var graphic = Graphic.RESET
     var animation = Animation.RESET
+
+    val movement = Movement(this)
 
     abstract fun preUpdate()
     abstract fun update()
     abstract fun postUpdate()
-
-    fun handleMovement() {
-        onMovement()
-    }
-
     abstract fun onMovement()
 
     fun playGfx(id: Int, height: Int = 92, delay: Int = 0) {
