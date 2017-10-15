@@ -19,7 +19,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     val viewport = Viewport(this)
 
-    var chatMessage = ChatMessage("")
+    var chatMessage = ChatMessage()
 
     var rights = Rights.PLAYER
 
@@ -37,8 +37,17 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     lateinit var username: String
     lateinit var password: String
 
+    fun chat(compressed: ByteArray, color: Int = 0, effect: Int = 0) {
+        chatMessage = ChatMessage(compressed, color, effect)
+        updateFlags.add(UpdateFlag.CHAT)
+    }
+
     fun chat(msg: String, color: Int = 0, effect: Int = 0) {
-        chatMessage = ChatMessage(msg, color, effect)
+        if (msg.isEmpty())
+            return
+        val compressed = ByteArray(256)
+        context.huffman.compress(msg, compressed)
+        chatMessage = ChatMessage(compressed, color, effect)
         updateFlags.add(UpdateFlag.CHAT)
     }
 
