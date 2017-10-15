@@ -2,16 +2,17 @@ package io.battlerune.content
 
 import com.google.common.eventbus.Subscribe
 import io.battlerune.game.event.impl.ChatMessageEvent
+import io.battlerune.game.world.actor.pawn.ChatMessage
 
 class ChatMessageEventListener {
 
     @Subscribe
     fun onEvent(event: ChatMessageEvent) {
-        if (event.color < 0 || event.effect < 0) {
+        if (!ChatMessage.isValid(event.msg, event.color, event.effect)) {
             return
         }
 
-        event.player.chat(event.msg, event.color, event.effect)
+        event.player.chat(event.msg, ChatMessage.ChatColor.values()[event.color], ChatMessage.ChatEffect.values()[event.effect])
     }
 
 }

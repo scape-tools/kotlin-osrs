@@ -14,7 +14,7 @@ class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
 
         val compressed = ByteArray(256)
         val len = pawn.context.huffman.compress(msg.msg, compressed)
-        buffer.writeShort((msg.color shl 8) or msg.effect, ByteOrder.LE)
+        buffer.writeShort((msg.color.code shl 8) or msg.effect.code, ByteOrder.LE)
         buffer.writeByte(pawn.rights.code)
         buffer.writeByte(0, ByteModification.ADD)
         buffer.writeByte(len + 1, ByteModification.NEG)

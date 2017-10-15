@@ -37,8 +37,8 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     lateinit var username: String
     lateinit var password: String
 
-    fun chat(msg: String, color: Int = 0, effect: Int = 0) {
-        if (msg.isEmpty())
+    fun chat(msg: String, color: ChatMessage.ChatColor = ChatMessage.ChatColor.YELLOW, effect: ChatMessage.ChatEffect = ChatMessage.ChatEffect.NONE) {
+        if (msg.isEmpty() || msg.length > ChatMessage.MAX_CHARACTERS)
             return
 
         chatMessage = ChatMessage(msg, color, effect)
