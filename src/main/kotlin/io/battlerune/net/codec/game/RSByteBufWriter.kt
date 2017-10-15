@@ -6,6 +6,7 @@ import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
+import java.util.*
 
 class RSByteBufWriter private constructor(val buffer: ByteBuf) {
 
@@ -157,8 +158,8 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun writeBytesReverse(data: ByteArray): RSByteBufWriter {
-        for (i in data.indices.reversed()) {
+    fun writeBytesReverse(data: ByteArray, length: Int = data.size): RSByteBufWriter {
+        for (i in length - 1 downTo 0) {
             writeByte(data[i].toInt())
         }
         return this

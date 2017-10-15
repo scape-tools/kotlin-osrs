@@ -18,11 +18,8 @@ class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
         buffer.writeByte(pawn.rights.code)
         buffer.writeByte(0, ByteModification.ADD)
         buffer.writeByte(len + 1, ByteModification.NEG)
+        buffer.writeBytesReverse(compressed, len)
         buffer.writeSmart(msg.msg.length)
-
-        println("length: ${msg.msg.length}")
-
-        buffer.writeBytes(compressed, 0, len)
 
     }
 
