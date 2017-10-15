@@ -56,17 +56,10 @@ class CommandEventListener {
 
             "chat" -> {
                 if (parser.hasNext()) {
-                    //player.chat(parser.nextLine())
+                    player.chat(parser.nextLine())
                 } else {
-                    //player.chat("Testing!!!")
+                    player.chat("Testing!!!")
                 }
-
-                val message = "Hello world!"
-                val compressed = ByteArray(256)
-                player.context.huffman.compress(message, compressed)
-                val decompressed = ByteArray(message.length)
-                player.context.huffman.decompress(compressed, decompressed, decompressed.size)
-                println("huffman ${String(decompressed)}")
 
             }
 
