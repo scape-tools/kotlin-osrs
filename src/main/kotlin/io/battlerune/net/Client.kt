@@ -1,5 +1,6 @@
 package io.battlerune.net
 
+import io.battlerune.game.world.Position
 import io.battlerune.game.world.actor.pawn.player.Player
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.out.*
@@ -38,6 +39,11 @@ class Client(val player: Player) {
 
     fun setCamera(value1: Int, value2: Int) : Client {
         player.write(SetCameraPacketEncoder(value1, value2))
+        return this
+    }
+
+    fun setDestination(position: Position) : Client {
+        player.write(SetDestinationPacketEncoder(position))
         return this
     }
 

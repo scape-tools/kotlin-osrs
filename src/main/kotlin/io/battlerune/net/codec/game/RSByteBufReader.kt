@@ -3,7 +3,7 @@ package io.battlerune.net.codec.game
 import io.battlerune.net.codec.game.ByteModification.*
 import io.netty.buffer.ByteBuf
 
-class RSByteBufReader private constructor(private val buf: ByteBuf) {
+class RSByteBufReader private constructor(val buf: ByteBuf) {
 
     companion object {
         fun wrap(buf: ByteBuf) : RSByteBufReader {
@@ -51,6 +51,22 @@ class RSByteBufReader private constructor(private val buf: ByteBuf) {
         return bytes
     }
 
+    fun readBytesReverse(amount: Int, mod: ByteModification = NONE): ByteArray {
+        val data = ByteArray(amount)
+        var dataPosition = 0
+        for (index in buf.readerIndex() + amount - 1 downTo buf.readerIndex()) {
+            var value = buf.getByte(index).toInt()
+            when (mod) {
+                ADD -> value -= 128
+                NEG -> value = -value
+                SUB -> value = 128 - value
+                NONE -> {}
+            }
+            data[dataPosition++] = value.toByte()
+        }
+        return data
+    }
+
     fun readShort(mod: ByteModification = NONE) : Int {
         var value = 0
         value = value or (readUByte() shl 8)
@@ -77,6 +93,16 @@ class RSByteBufReader private constructor(private val buf: ByteBuf) {
         value = value or readUByte(mod)
         value = value or (readUByte() shl 8)
         return value and 0xFFFF
+    }
+
+    fun readUSmart(): Int {
+        val peek = buf.getByte(buf.readerIndex()).toInt() and 0xFF
+        return if (peek < 128) buf.readUnsignedByte().toInt() else buf.readUnsignedShort() - 32768
+    }
+
+    fun readSmart(): Int {
+        val peek = buf.getUnsignedByte(buf.readerIndex()).toInt()
+        return if (peek < 128) buf.readUnsignedByte() - 64 else buf.readUnsignedShort() - 49152
     }
 
     fun skipBytes(length: Int) {

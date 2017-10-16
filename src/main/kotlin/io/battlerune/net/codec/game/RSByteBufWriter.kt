@@ -6,6 +6,7 @@ import io.battlerune.net.codec.game.ByteModification.*
 import io.battlerune.net.codec.game.ByteOrder.*
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketType
+import java.util.*
 
 class RSByteBufWriter private constructor(val buffer: ByteBuf) {
 
@@ -144,9 +145,9 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun writeBytes(bytes: ByteArray) : RSByteBufWriter {
+    fun writeBytes(bytes: ByteArray, srcIndex: Int = 0, length: Int = bytes.size) : RSByteBufWriter {
         checkByteAccess()
-        buffer.writeBytes(bytes)
+        buffer.writeBytes(bytes, srcIndex, length)
         return this
     }
 
@@ -157,8 +158,8 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
         return this
     }
 
-    fun writeBytesReverse(data: ByteArray): RSByteBufWriter {
-        for (i in data.indices.reversed()) {
+    fun writeBytesReverse(data: ByteArray, length: Int = data.size): RSByteBufWriter {
+        for (i in length - 1 downTo 0) {
             writeByte(data[i].toInt())
         }
         return this
@@ -280,11 +281,10 @@ class RSByteBufWriter private constructor(val buffer: ByteBuf) {
     }
 
     fun writeSmart(value: Int) : RSByteBufWriter {
-        checkByteAccess()
-        if (value < Byte.MAX_VALUE) {
-            buffer.writeByte(value)
+        if (value >= 0x80) {
+            buffer.writeShort(value + 0x8000)
         } else {
-            buffer.writeShort(value)
+            buffer.writeByte(value)
         }
         return this
     }

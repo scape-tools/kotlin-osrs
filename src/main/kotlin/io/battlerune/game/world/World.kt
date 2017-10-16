@@ -95,6 +95,7 @@ class World(val gameContext: GameContext) {
         eventBus.register(CommandEventListener())
         eventBus.register(RegionChangeEventListener())
         eventBus.register(MovementEventListener())
+        eventBus.register(ChatMessageEventListener())
         logger.info("Registered event listeners")
      }
 

@@ -5,72 +5,75 @@ import io.battlerune.game.world.Position
 import io.battlerune.game.world.actor.pawn.player.Player
 import java.util.LinkedList
 
-class Movement(val entity: Pawn) {
+class Movement(val pawn: Pawn) {
 
-    val focusPoints: Deque<MovementPoint> = LinkedList()
+    val steps: Deque<Step> = LinkedList()
+
+    var walkingDirection = -1
+    var runningDirection = -1
 
     var running = true
 
     var isRunningQueueEnabled = false
 
-    val nextPoint: MovementPoint?
+    val nextPoint: Step?
         get() {
-            val availableFocusPoint = focusPoints.poll()
+            val availableFocusPoint = steps.poll()
 
             if (availableFocusPoint == null || availableFocusPoint.direction == -1) {
                 return null
             } else {
-                entity.position.transform(DIRECTION_DELTA_X[availableFocusPoint.direction].toInt(), DIRECTION_DELTA_Y[availableFocusPoint.direction].toInt(), entity.position.z)
+                pawn.position.transform(DIRECTION_DELTA_X[availableFocusPoint.direction].toInt(), DIRECTION_DELTA_Y[availableFocusPoint.direction].toInt(), pawn.position.z)
                 return availableFocusPoint
             }
         }
 
     val isMoving: Boolean
-        get() = !focusPoints.isEmpty()
+        get() = !steps.isEmpty()
 
     val isMovementDone: Boolean
-        get() = focusPoints.isEmpty()
+        get() = steps.isEmpty()
 
     fun finish() {
-        focusPoints.removeFirst()
+        steps.removeFirst()
     }
 
     fun reset() {
         isRunningQueueEnabled = false
-        focusPoints.clear()
-        focusPoints.add(MovementPoint(entity.position.x, entity.position.y, -1))
+        steps.clear()
+        steps.add(Step(pawn.position.x, pawn.position.y, -1))
     }
 
-    fun handleEntityMovement() {
-        var walkingPoint: MovementPoint? = nextPoint
-        var runningPoint: MovementPoint? = null
+    fun processMovement() {
+        var walkingPoint: Step? = nextPoint
+        var runningPoint: Step? = null
 
         if (running) {
             runningPoint = nextPoint
         }
 
-        entity.walkingDirection = (if (walkingPoint == null) -1 else walkingPoint.direction)
+        walkingDirection = (if (walkingPoint == null) -1 else walkingPoint.direction)
 
-        entity.runningDirection = (if (runningPoint == null) -1 else runningPoint.direction)
+        runningDirection = (if (runningPoint == null) -1 else runningPoint.direction)
 
-        val deltaX = entity.position.x - entity.lastPosition.regionX * 8
-        val deltaY = entity.position.y - entity.lastPosition.regionY * 8
+        val deltaX = pawn.position.x - pawn.lastPosition.regionX * 8
+        val deltaY = pawn.position.y - pawn.lastPosition.regionY * 8
 
-        if (entity is Player) {
+        if (pawn is Player) {
             if (deltaX < 16 || deltaX >= 88 || deltaY < 16 || deltaY > 88) {
                 //entity.getPlayer().queuePacket(UpdateMapRegion())
             }
 
             if (walkingPoint != null || runningPoint != null) {
-                entity.handleMovement()
+                pawn.onMovement()
             }
         }
     }
 
     fun stop() {
         isRunningQueueEnabled = false
-        focusPoints.clear()
-        focusPoints.add(MovementPoint(entity.position.x, entity.position.y, -1))
+        steps.clear()
+        steps.add(Step(pawn.position.x, pawn.position.y, -1))
     }
 
     fun walk(location: Position) {
@@ -81,11 +84,11 @@ class Movement(val entity: Pawn) {
 
     fun addToPath(location: Position) {
 
-        if (focusPoints.isEmpty()) {
+        if (steps.isEmpty()) {
             reset()
         }
 
-        val last = focusPoints.peekLast()
+        val last = steps.peekLast()
 
         var deltaX = location.x - last.x
 
@@ -113,20 +116,20 @@ class Movement(val entity: Pawn) {
 
     private fun addStep(x: Int, y: Int) {
 
-        if (focusPoints.size >= 50) {
+        if (steps.size >= 50) {
             return
         }
 
-        val lastPosition = focusPoints.peekLast()
+        val lastPosition = steps.peekLast()
 
         val direction = parseDirection(x - lastPosition.x, y - lastPosition.y)
 
         if (direction > -1) {
-            focusPoints.add(MovementPoint(x, y, direction))
+            steps.add(Step(x, y, direction))
         }
     }
 
-    inner class MovementPoint(val x: Int, val y: Int, val direction: Int)
+    inner class Step(val x: Int, val y: Int, val direction: Int)
 
     companion object {
 

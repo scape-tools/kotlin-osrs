@@ -1,5 +1,6 @@
 package io.battlerune.game
 
+import io.battlerune.game.fs.Huffman
 import io.battlerune.game.world.RegionManager
 import io.battlerune.game.world.World
 import net.openrs.cache.Cache
@@ -11,5 +12,6 @@ class GameContext {
     lateinit var world: World
     lateinit var cache: Cache
     lateinit var checksumTable: ByteBuffer
+    lateinit var huffman: Huffman
 
 }

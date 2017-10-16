@@ -5,7 +5,7 @@ import io.battlerune.game.world.actor.pawn.Pawn
 class Npc : Pawn() {
 
     override fun preUpdate() {
-
+        movement.processMovement()
     }
 
     override fun update() {

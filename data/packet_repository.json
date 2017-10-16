@@ -330,7 +330,8 @@
   },
   {
     "opcode": 82,
-    "size": 0
+    "size": -1,
+	"decoder": "ChatMessagePacketDecoder"
   },
   {
     "opcode": 83,

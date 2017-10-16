@@ -4,9 +4,8 @@ import io.battlerune.game.GameContext
 import io.battlerune.game.event.Event
 import io.battlerune.game.widget.DisplayType
 import io.battlerune.game.world.actor.pawn.ChatMessage
-import io.battlerune.game.world.actor.pawn.Graphic
 import io.battlerune.game.world.actor.pawn.Pawn
-import io.battlerune.game.world.actor.pawn.update.UpdateFlag
+import io.battlerune.game.world.actor.pawn.update.BlockType
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
@@ -19,9 +18,10 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
 
     val viewport = Viewport(this)
 
-    var chatMessage = ChatMessage("")
+    var chatMessage = ChatMessage()
 
     var rights = Rights.PLAYER
+    var skulled = false
 
     var initialized = false
     var xpOverlay = false
@@ -37,9 +37,17 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     lateinit var username: String
     lateinit var password: String
 
-    fun chat(msg: String, color: Int = 0, effect: Int = 0) {
-        chatMessage = ChatMessage(msg, color, effect)
-        updateFlags.add(UpdateFlag.CHAT)
+    fun chat(msg: String, color: ChatMessage.ChatColor = ChatMessage.ChatColor.YELLOW, effect: ChatMessage.ChatEffect = ChatMessage.ChatEffect.NONE) {
+        if (msg.isEmpty() || msg.length > ChatMessage.MAX_CHARACTERS)
+            return
+
+        chatMessage = ChatMessage(msg.trim(), color, effect)
+        updateFlags.add(BlockType.CHAT)
+    }
+
+    fun skull() {
+        skulled = !skulled
+        updateFlags.add(BlockType.APPEARANCE)
     }
 
     fun post(event: Event) {
@@ -47,7 +55,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     }
 
     fun onLogin() {
-        updateFlags.add(UpdateFlag.APPEARANCE)
+        updateFlags.add(BlockType.APPEARANCE)
         region = context.regionManager.lookup(position.regionID)
 
         val gpiBuffer = RSByteBufWriter.alloc()
@@ -175,7 +183,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
         // handle packets
         channel.handleQueuedPackets()
 
-        // TODO handle movement
+        movement.processMovement()
 
         // TODO other processing before update occurs
     }
