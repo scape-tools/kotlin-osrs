@@ -39,7 +39,7 @@ object MapDecoder {
                         }
 
                         if (realPlane >= 0) {
-                            region.collsionMatrix.addFloor(realPlane, localX, localY, true)
+                            region.collisionMaps[realPlane].addFloor(localX, localY, true)
                         }
 
                     }
