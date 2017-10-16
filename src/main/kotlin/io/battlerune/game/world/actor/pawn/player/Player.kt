@@ -4,9 +4,8 @@ import io.battlerune.game.GameContext
 import io.battlerune.game.event.Event
 import io.battlerune.game.widget.DisplayType
 import io.battlerune.game.world.actor.pawn.ChatMessage
-import io.battlerune.game.world.actor.pawn.Graphic
 import io.battlerune.game.world.actor.pawn.Pawn
-import io.battlerune.game.world.actor.pawn.update.UpdateFlag
+import io.battlerune.game.world.actor.pawn.update.BlockType
 import io.battlerune.net.Client
 import io.battlerune.net.channel.PlayerChannel
 import io.battlerune.net.codec.game.RSByteBufWriter
@@ -43,12 +42,12 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
             return
 
         chatMessage = ChatMessage(msg.trim(), color, effect)
-        updateFlags.add(UpdateFlag.CHAT)
+        updateFlags.add(BlockType.CHAT)
     }
 
     fun skull() {
         skulled = !skulled
-        updateFlags.add(UpdateFlag.APPEARANCE)
+        updateFlags.add(BlockType.APPEARANCE)
     }
 
     fun post(event: Event) {
@@ -56,7 +55,7 @@ class Player(val channel: PlayerChannel, val context: GameContext) : Pawn() {
     }
 
     fun onLogin() {
-        updateFlags.add(UpdateFlag.APPEARANCE)
+        updateFlags.add(BlockType.APPEARANCE)
         region = context.regionManager.lookup(position.regionID)
 
         val gpiBuffer = RSByteBufWriter.alloc()

@@ -12,7 +12,7 @@ open class CachedUpdateBlock<in P: Pawn>(private val BLOCKS: ImmutableSet<Update
         var mask = 0
 
         BLOCKS.forEach { BLOCK ->
-            if (pawn.updateFlags.contains(BLOCK.flag)) {
+            if (pawn.updateFlags.contains(BLOCK.type)) {
                 mask = mask or BLOCK.mask
             }
         }
@@ -26,7 +26,7 @@ open class CachedUpdateBlock<in P: Pawn>(private val BLOCKS: ImmutableSet<Update
         }
 
         BLOCKS.forEach { block ->
-            if (pawn.updateFlags.contains(block.flag)) {
+            if (pawn.updateFlags.contains(block.type)) {
                 block.encode(pawn, maskBuf)
             }
         }

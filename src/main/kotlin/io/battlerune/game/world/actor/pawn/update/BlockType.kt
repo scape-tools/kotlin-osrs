@@ -1,6 +1,6 @@
 package io.battlerune.game.world.actor.pawn.update
 
-enum class UpdateFlag {
+enum class BlockType {
     APPEARANCE,
     ANIMATION,
     FACE_PAWN,
