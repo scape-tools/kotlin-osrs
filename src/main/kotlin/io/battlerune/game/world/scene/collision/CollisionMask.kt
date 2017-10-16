@@ -1,4 +1,4 @@
-package io.battlerune.game.world.collision
+package io.battlerune.game.world.scene.collision
 
 object CollisionMask {
     val FLOOR_BLOCKSWALK = 0x200000
