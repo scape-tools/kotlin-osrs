@@ -89,7 +89,7 @@ class PlayerUpdatePacketEncoder : PacketEncoder {
         buffer.writeFlag(flagUpdateRequired)
 
         if (flagUpdateRequired) {
-            CachedUpdateBlock.PLAYER_BLOCK_SET.encode(localPlayer, maskBuffer)
+            CachedUpdateBlock.PLAYER_CACHED_BLOCKS.encode(localPlayer, maskBuffer)
         }
 
         // TODO support for walking type 1, running type 2 and teleporting type 3

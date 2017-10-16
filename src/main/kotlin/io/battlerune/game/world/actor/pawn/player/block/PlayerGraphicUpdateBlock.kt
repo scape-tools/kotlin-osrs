@@ -7,7 +7,7 @@ import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.ByteOrder
 import io.battlerune.net.codec.game.RSByteBufWriter
 
-class PlayerGraphicUpdateBlock : PlayerUpdateBlock(UpdateFlag.GFX) {
+class PlayerGraphicUpdateBlock : PlayerUpdateBlock(0x800, UpdateFlag.GFX) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
         buffer.writeShort(pawn.graphic.id, ByteModification.ADD, ByteOrder.LE)

@@ -6,7 +6,7 @@ import io.battlerune.game.world.actor.pawn.update.UpdateFlag
 import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.RSByteBufWriter
 
-class PlayerAppearanceUpdateBlock : PlayerUpdateBlock(UpdateFlag.APPEARANCE) {
+class PlayerAppearanceUpdateBlock : PlayerUpdateBlock(0x2, UpdateFlag.APPEARANCE) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
         val prop = RSByteBufWriter.alloc(64)

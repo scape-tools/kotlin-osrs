@@ -5,10 +5,10 @@ import io.battlerune.game.world.actor.pawn.update.PlayerUpdateBlock
 import io.battlerune.game.world.actor.pawn.update.UpdateFlag
 import io.battlerune.net.codec.game.RSByteBufWriter
 
-class PlayerForceChatUpdateBlock : PlayerUpdateBlock(0x1, UpdateFlag.FORCED_CHAT) {
+class PlayerCacheMovementTypeUpdateBlock : PlayerUpdateBlock(0x400, UpdateFlag.CACHE_MOVEMENT_TYPE) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
-        buffer.writeString(pawn.forceChat)
+        // TODO
     }
 
 }

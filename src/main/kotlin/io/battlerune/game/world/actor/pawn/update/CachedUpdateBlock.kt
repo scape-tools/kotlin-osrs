@@ -8,14 +8,21 @@ import io.battlerune.net.codec.game.RSByteBufWriter
 class CachedUpdateBlock<P: Pawn> {
 
     companion object {
-        val PLAYER_BLOCK_SET = CachedUpdateBlock<Player>()
+        val PLAYER_CACHED_BLOCKS = CachedUpdateBlock<Player>()
 
         init {
-            PLAYER_BLOCK_SET.add(PlayerGraphicUpdateBlock())
-            PLAYER_BLOCK_SET.add(PlayerAppearanceUpdateBlock())
-            PLAYER_BLOCK_SET.add(PlayerAnimationUpdateBlock())
-            PLAYER_BLOCK_SET.add(PlayerChatUpdateBlock())
-            PLAYER_BLOCK_SET.add(PlayerForceChatUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerFacePawnUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerGraphicUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerAppearanceUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerTemporaryMovementUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerCacheMovementTypeUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerContextMenuUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerForceMovementUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerHitUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerAnimationUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerChatUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerFaceCoordinateUpdateBlock())
+            PLAYER_CACHED_BLOCKS.add(PlayerForceChatUpdateBlock())
         }
 
     }
@@ -31,7 +38,7 @@ class CachedUpdateBlock<P: Pawn> {
 
         blocks.forEach { block ->
             if (pawn.updateFlags.contains(block.flag)) {
-                mask = mask or block.flag.mask
+                mask = mask or block.mask
             }
         }
 

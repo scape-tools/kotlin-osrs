@@ -7,7 +7,7 @@ import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.ByteOrder
 import io.battlerune.net.codec.game.RSByteBufWriter
 
-class PlayerChatUpdateBlock : PlayerUpdateBlock(UpdateFlag.CHAT) {
+class PlayerChatUpdateBlock : PlayerUpdateBlock(0x10, UpdateFlag.CHAT) {
 
     override fun encode(pawn: Player, buffer: RSByteBufWriter) {
         val msg = pawn.chatMessage
