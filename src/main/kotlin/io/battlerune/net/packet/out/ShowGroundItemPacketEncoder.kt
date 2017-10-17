@@ -1,7 +1,7 @@
 package io.battlerune.net.packet.out
 
 import io.battlerune.game.world.actor.pawn.player.Player
-import io.battlerune.net.codec.game.ByteOrder
+import io.battlerune.net.codec.game.ByteModification
 import io.battlerune.net.codec.game.RSByteBufWriter
 import io.battlerune.net.packet.Packet
 import io.battlerune.net.packet.PacketEncoder
@@ -11,10 +11,10 @@ class ShowGroundItemPacketEncoder(val item: Int, val amount: Int) : PacketEncode
 
     override fun encode(player: Player): Packet {
     val writer = RSByteBufWriter.alloc()
-        writer.writeInt(item, ByteOrder.LE)
-                .writeInt(amount, ByteOrder.LE)
-                .writeInt(0, ByteOrder.LE)
-        return writer.toPacket(20, PacketType.FIXED)
+        writer.writeShort(item, ByteModification.ADD)
+                .writeShort(amount)
+                .writeByte(0, ByteModification.ADD) // offset
+        return writer.toPacket(187, PacketType.FIXED)
     }
 
 }

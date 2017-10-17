@@ -2,6 +2,7 @@ package io.battlerune.content
 
 import com.google.common.eventbus.Subscribe
 import io.battlerune.game.event.impl.CommandEvent
+import io.battlerune.game.world.Position
 
 class CommandEventListener {
 
@@ -14,6 +15,10 @@ class CommandEventListener {
             "test" -> {
                 player.playGfx(90, 92, 0)
                 player.playAnim(711, 0)
+            }
+
+            "gi" -> {
+                player.client.showGroundItem(4151, 1, Position(player.position.x + 1, player.position.y))
             }
 
             "anim" -> {

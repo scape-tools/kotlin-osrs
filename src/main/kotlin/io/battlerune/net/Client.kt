@@ -27,6 +27,17 @@ class Client(val player: Player) {
         return this
     }
 
+    fun setRegionCoordinate(position: Position) : Client {
+        player.write(SetRegionCoordintePacketEncoder(position))
+        return this
+    }
+
+    fun showGroundItem(id: Int, amount: Int, position: Position) : Client {
+        setRegionCoordinate(position)
+        player.write(ShowGroundItemPacketEncoder(id, amount))
+        return this
+    }
+
     fun setInterfaceSettings(root: Int, component: Int, fromSlot: Int, toSlot: Int, setting: Int) : Client {
         player.write(InterfaceSettingPacketEncoder(root, component, fromSlot, toSlot, setting))
         return this
@@ -69,11 +80,6 @@ class Client(val player: Player) {
 
     fun setWeight(amount: Int) : Client {
         player.write(SetWeightPacketEncoder(amount))
-        return this
-    }
-
-    fun showGroundItem(item: Int, amount: Int) : Client {
-        player.write(ShowGroundItemPacketEncoder(item, amount))
         return this
     }
 
