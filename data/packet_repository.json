@@ -1008,7 +1008,8 @@
   },
   {
     "opcode": 250,
-    "size": 0
+    "size": 6,
+    "decoder": "DialogueContinuePacketDecoder"
   },
   {
     "opcode": 251,
