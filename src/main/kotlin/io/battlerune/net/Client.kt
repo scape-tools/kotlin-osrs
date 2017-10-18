@@ -7,6 +7,16 @@ import io.battlerune.net.packet.out.*
 
 class Client(val player: Player) {
 
+    fun itemChatbox(message: String, item: Int, zoom: Int = 1) {
+        setInterface(162, 546, 193, false)
+        setInterfaceText(193, 1, message)
+        setInterfaceText(193, 2, "Click here to continue")
+        player.write(ItemOnInterfacePacketEncoder(193, 0, item, zoom))
+        setInterfaceSettings(193, 2, -1, -1, 1)
+        setInterfaceSettings(193, 3, -1, -1, 0)
+        setInterfaceSettings(193, 4, -1, -1, 0)
+    }
+
     fun setRootInterface(interfaceId: Int) : Client {
         player.write(RootInterfacePacketEncoder(interfaceId))
         return this
